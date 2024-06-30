@@ -13,7 +13,7 @@ public class SaleLead {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private Customer customer;
+    private ContactInformation customer;
     private Employee employee;
 
     private String message;

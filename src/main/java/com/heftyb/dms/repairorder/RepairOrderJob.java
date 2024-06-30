@@ -26,7 +26,7 @@ public class RepairOrderJob {
     private float labor;
 
     @OneToMany
-    private ArrayList<MiscellaneousItems> miscitems;
+    private ArrayList<MiscellaneousItem> miscitems;
 
     public RepairOrderJob() {
     }
