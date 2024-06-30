@@ -5,37 +5,37 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+import java.util.ArrayList;
+
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    private String vin;
+
     private int modelYear;
 
-    @ManyToOne()
     private Manufacturer make;
     private Model model;
     private String trim;
     private String engine;
     private String color;
 
-    /**
-     * purchase price
-     * msrp
-     * last sold price
-     * initial sale price
-     * sales
-     * repair orders
-     * part invoices
-     * expenses / purchase orders
-     * add on packages
-     * lien holder
-     * apr / apy
-     * loan balance
-     * principal amount
-     * interest
-     * down payment
-     */
+//    private String stock;
+//    private double msrp;
+//    private VehicleSale lastSalePrice;
+//    private VehicleSale initialSalePrice;
+//    private ArrayList<VehicleSale> sales;
+//
+//    private LienHolder lienHolder;
+//    private double apr;
+//    private AutoLoan autoLoan; /* rate, balance, principal, interest, down payment */
+//    private ArrayList<PurchaseOrder> purchaseOrders;
+//
+//    private ArrayList<RepairOrder> repairOrders;
+
+
 
 
     public Vehicle() {
