@@ -2,6 +2,8 @@ package com.heftyb.dms.account.models.tax;
 
 import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.account.models.fee.FeeType;
+import com.heftyb.dms.account.models.po.PurchaseOrder;
+import com.heftyb.dms.repairorder.BasicRepairOrder;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,8 +16,13 @@ public class TaxCharge extends Auditable {
     private FeeType type = FeeType.PERCENTAGE;
 
     @OneToOne
-    @JoinColumn(name = "chargeId", referencedColumnName = "id")
-    private Charge charge;
+    @JoinColumn(name = "repairOrder", referencedColumnName = "id")
+    private BasicRepairOrder repairOrder;
+
+    @OneToOne
+    @JoinColumn(name = "purchaseOrder", referencedColumnName = "id")
+    private PurchaseOrder purchaseOrder;
+//    private VehicleSale vehicleSale;
 
     @ManyToOne
     @JoinColumn(name = "federalTaxes", referencedColumnName = "id")
@@ -35,19 +42,18 @@ public class TaxCharge extends Auditable {
     public TaxCharge() {
     }
 
-    public TaxCharge(Charge charge, FederalTax federal, StateTax state, LocalTax local) {
-        this.charge = charge;
+    public TaxCharge(BasicRepairOrder repairOrder, FederalTax federal, StateTax state, LocalTax local) {
+        this.repairOrder = repairOrder;
         this.federal = federal;
         this.state = state;
         this.local = local;
     }
 
-    public TaxCharge(Charge charge, FederalTax federal, StateTax state, LocalTax local, double totalTax) {
-        this.charge = charge;
+    public TaxCharge(PurchaseOrder purchaseOrder, FederalTax federal, StateTax state, LocalTax local) {
+        this.purchaseOrder = purchaseOrder;
         this.federal = federal;
         this.state = state;
         this.local = local;
-        this.totalTax = totalTax;
     }
 
     public long getId() {
@@ -66,12 +72,20 @@ public class TaxCharge extends Auditable {
         this.type = type;
     }
 
-    public Charge getCharge() {
-        return charge;
+    public BasicRepairOrder getRepairOrder() {
+        return repairOrder;
     }
 
-    public void setCharge(Charge charge) {
-        this.charge = charge;
+    public void setRepairOrder(BasicRepairOrder repairOrder) {
+        this.repairOrder = repairOrder;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 
     public FederalTax getFederal() {

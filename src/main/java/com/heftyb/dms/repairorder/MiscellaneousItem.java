@@ -1,5 +1,6 @@
 package com.heftyb.dms.repairorder;
 
+import com.heftyb.dms.account.models.po.PurchaseOrder;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 
