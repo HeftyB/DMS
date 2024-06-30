@@ -3,7 +3,7 @@ package com.heftyb.dms.account.models.tax;
 import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.account.models.fee.FeeType;
 import com.heftyb.dms.account.models.po.PurchaseOrder;
-import com.heftyb.dms.repairorder.BasicRepairOrder;
+import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,7 +17,7 @@ public class TaxCharge extends Auditable {
 
     @OneToOne
     @JoinColumn(name = "repairOrder", referencedColumnName = "id")
-    private BasicRepairOrder repairOrder;
+    private RepairOrder repairOrder;
 
     @OneToOne
     @JoinColumn(name = "purchaseOrder", referencedColumnName = "id")
@@ -42,7 +42,7 @@ public class TaxCharge extends Auditable {
     public TaxCharge() {
     }
 
-    public TaxCharge(BasicRepairOrder repairOrder, FederalTax federal, StateTax state, LocalTax local) {
+    public TaxCharge(RepairOrder repairOrder, FederalTax federal, StateTax state, LocalTax local) {
         this.repairOrder = repairOrder;
         this.federal = federal;
         this.state = state;
@@ -72,11 +72,11 @@ public class TaxCharge extends Auditable {
         this.type = type;
     }
 
-    public BasicRepairOrder getRepairOrder() {
+    public RepairOrder getRepairOrder() {
         return repairOrder;
     }
 
-    public void setRepairOrder(BasicRepairOrder repairOrder) {
+    public void setRepairOrder(RepairOrder repairOrder) {
         this.repairOrder = repairOrder;
     }
 

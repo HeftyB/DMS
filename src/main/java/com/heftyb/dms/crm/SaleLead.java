@@ -13,7 +13,7 @@ public class SaleLead {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private ContactInformation customer;
+    private ContactInformation contactInfo;
     private Employee employee;
 
     private String message;
@@ -24,8 +24,8 @@ public class SaleLead {
     public SaleLead() {
     }
 
-    public SaleLead(Customer customer, Employee employee, String message, ZonedDateTime date) {
-        this.customer = customer;
+    public SaleLead(ContactInformation contactInfo, Employee employee, String message, ZonedDateTime date) {
+        this.contactInfo = contactInfo;
         this.employee = employee;
         this.message = message;
         this.date = date;
@@ -40,12 +40,12 @@ public class SaleLead {
         this.id = id;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public ContactInformation getContactInfo() {
+        return contactInfo;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setContactInfo(ContactInformation contactInfo) {
+        this.contactInfo = contactInfo;
     }
 
     public Employee getEmployee() {

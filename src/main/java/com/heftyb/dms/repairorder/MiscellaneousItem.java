@@ -15,7 +15,7 @@ public class MiscellaneousItem {
     private String Description;
     private double cost;
 
-    private BasicRepairOrder repairOrder;
+    private RepairOrder repairOrder;
     private PurchaseOrder purchaseOrder;
     private Vehicle vehicle;
 }

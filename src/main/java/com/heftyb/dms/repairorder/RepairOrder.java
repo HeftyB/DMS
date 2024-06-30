@@ -1,16 +1,18 @@
 package com.heftyb.dms.repairorder;
 
 import com.heftyb.dms.account.models.fee.Fee;
+import com.heftyb.dms.account.models.fee.FeeCharge;
 import com.heftyb.dms.account.models.tax.TaxCharge;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.inventory.Part;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
-public class BasicRepairOrder {
+public class RepairOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,13 +21,6 @@ public class BasicRepairOrder {
     private ZonedDateTime openDate;
     private ZonedDateTime closedDate;
 
-    /* VEHICLE */
-
-//    private String vin;
-//    private String make;
-//    private String model;
-//    private String trim;
-//    private String engine;
 
     private Customer customer;
 
@@ -39,13 +34,18 @@ public class BasicRepairOrder {
 
     private boolean isCompleted;
 
+    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
     private ArrayList<RepairOrderJob> jobs;
+
+    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
+    private ArrayList<Part> parts;
 
     private float subtotal;
 
-    @OneToMany
-    private ArrayList<Fee> fees;
+    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
+    private ArrayList<FeeCharge> fees;
 
+    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
     private ArrayList<MiscellaneousItem> miscItems;
 
     @OneToOne
@@ -54,10 +54,10 @@ public class BasicRepairOrder {
 
     private double totalAmount;
 
-    public BasicRepairOrder() {
+    public RepairOrder() {
     }
 
-    public BasicRepairOrder(ZonedDateTime openDate, ZonedDateTime closedDate, Customer customer, Vehicle vehicle, int mileageIn, int mileageOut, String serviceTag, Employee openedBy, ArrayList<RepairOrderJob> jobs) {
+    public RepairOrder(ZonedDateTime openDate, ZonedDateTime closedDate, Customer customer, Vehicle vehicle, int mileageIn, int mileageOut, String serviceTag, Employee openedBy, ArrayList<RepairOrderJob> jobs) {
         this.openDate = openDate;
         this.closedDate = closedDate;
         this.customer = customer;

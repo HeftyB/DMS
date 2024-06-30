@@ -1,5 +1,8 @@
 package com.heftyb.dms.inventory;
 
+import com.heftyb.dms.account.models.po.PurchaseOrder;
+import com.heftyb.dms.repairorder.RepairOrder;
+import com.heftyb.dms.repairorder.RepairOrderJob;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,8 +14,8 @@ public class Part {
     private long id;
 
     private String source;
-    private String partnumber;
-    private String oempartnumber;
+    private String partNumber;
+    private String OEMPartNumber;
 
     private String description;
 
@@ -21,18 +24,42 @@ public class Part {
 
     private float markup;
 
+    @ManyToOne
+    @JoinColumn(name = "roJobId", referencedColumnName = "id")
+    private RepairOrderJob repairOrderJob;
+
+
+    @ManyToOne
+    @JoinColumn(name = "purchaseOrderId", referencedColumnName = "id")
+    private PurchaseOrder purchaseOrder;
+
+//    private CounterTicket counterTicket;
+
     public Part() {
 
     }
 
-    public Part(String source, String partnumber, String oempartnumber, String description, float cost, float price, float markup) {
+
+    public Part(String source, String partNumber, String OEMPartNumber, String description, float cost, float price, float markup, RepairOrderJob repairOrderJob) {
         this.source = source;
-        this.partnumber = partnumber;
-        this.oempartnumber = oempartnumber;
+        this.partNumber = partNumber;
+        this.OEMPartNumber = OEMPartNumber;
         this.description = description;
         this.cost = cost;
         this.price = price;
         this.markup = markup;
+        this.repairOrderJob = repairOrderJob;
+    }
+
+    public Part(String source, String partNumber, String OEMPartNumber, String description, float cost, float price, float markup, PurchaseOrder purchaseOrder) {
+        this.source = source;
+        this.partNumber = partNumber;
+        this.OEMPartNumber = OEMPartNumber;
+        this.description = description;
+        this.cost = cost;
+        this.price = price;
+        this.markup = markup;
+        this.purchaseOrder = purchaseOrder;
     }
 
     public long getId() {
@@ -51,20 +78,20 @@ public class Part {
         this.source = source;
     }
 
-    public String getPartnumber() {
-        return partnumber;
+    public String getPartNumber() {
+        return partNumber;
     }
 
-    public void setPartnumber(String partnumber) {
-        this.partnumber = partnumber;
+    public void setPartNumber(String partnumber) {
+        this.partNumber = partnumber;
     }
 
-    public String getOempartnumber() {
-        return oempartnumber;
+    public String getOEMPartNumber() {
+        return OEMPartNumber;
     }
 
-    public void setOempartnumber(String oempartnumber) {
-        this.oempartnumber = oempartnumber;
+    public void setOEMPartNumber(String oempartnumber) {
+        this.OEMPartNumber = oempartnumber;
     }
 
     public String getDescription() {
@@ -99,17 +126,23 @@ public class Part {
         this.markup = markup;
     }
 
-    @Override
-    public String toString() {
-        return "Part{" +
-                "id=" + id +
-                ", source='" + source + '\'' +
-                ", partnumber='" + partnumber + '\'' +
-                ", oempartnumber='" + oempartnumber + '\'' +
-                ", description='" + description + '\'' +
-                ", cost=" + cost +
-                ", price=" + price +
-                ", markup=" + markup +
-                '}';
+    public RepairOrderJob getRepairOrderJob() {
+        return repairOrderJob;
+    }
+
+    public void setRepairOrderJob(RepairOrderJob repairOrderJob) {
+        this.repairOrderJob = repairOrderJob;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+
+    public RepairOrder getRepairOrder() {
+        return repairOrderJob.getRepairOrder();
     }
 }

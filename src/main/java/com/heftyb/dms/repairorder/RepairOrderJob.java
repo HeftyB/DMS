@@ -1,15 +1,23 @@
 package com.heftyb.dms.repairorder;
 
+import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.inventory.Part;
+import com.heftyb.dms.timekeeping.TimePunch;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 
 @Entity
-public class RepairOrderJob {
+@Table(name = "repairOrderJobs")
+public class RepairOrderJob extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @ManyToOne
+    @JoinColumn(name = "repairOrderId", referencedColumnName = "id")
+    private RepairOrder repairOrder;
 
     private String concern;
 
@@ -17,22 +25,36 @@ public class RepairOrderJob {
 
     private String correction;
 
-    @OneToMany
+    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
     private ArrayList<Part> parts;
 
-    @OneToMany
+    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
     private ArrayList<TimePunch> timePunches;
 
     private float labor;
 
-    @OneToMany
-    private ArrayList<MiscellaneousItem> miscitems;
+    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
+    private ArrayList<MiscellaneousItem> miscItems;
 
     public RepairOrderJob() {
     }
 
-    public RepairOrderJob(String concern) {
+    public RepairOrderJob(RepairOrder repairOrder ,String concern) {
+        this.repairOrder = repairOrder;
         this.concern = concern;
+        this.cause = "";
+        this.correction = "";
+        this.parts = new ArrayList<>();
+        this.timePunches = new ArrayList<>();
+    }
+
+    public RepairOrderJob(RepairOrder repairOrder ,String concern, String cause, String correction) {
+        this.repairOrder = repairOrder;
+        this.concern = concern;
+        this.cause = cause;
+        this.correction = correction;
+        this.parts = new ArrayList<>();
+        this.timePunches = new ArrayList<>();
     }
 
     public long getId() {
@@ -41,6 +63,22 @@ public class RepairOrderJob {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public RepairOrder getRepairOrder() {
+        return repairOrder;
+    }
+
+    public void setRepairOrder(RepairOrder repairOrder) {
+        this.repairOrder = repairOrder;
+    }
+
+    public ArrayList<MiscellaneousItem> getMiscItems() {
+        return miscItems;
+    }
+
+    public void setMiscItems(ArrayList<MiscellaneousItem> miscItems) {
+        this.miscItems = miscItems;
     }
 
     public String getConcern() {
