@@ -1,5 +1,6 @@
 package com.heftyb.dms.inventory;
 
+import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.account.models.po.PurchaseOrder;
 import com.heftyb.dms.repairorder.RepairOrder;
 import com.heftyb.dms.repairorder.RepairOrderJob;
@@ -7,7 +8,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "parts")
-public class Part {
+public class Part extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

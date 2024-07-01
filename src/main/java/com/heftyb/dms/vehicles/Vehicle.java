@@ -1,9 +1,8 @@
 package com.heftyb.dms.vehicles;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.heftyb.dms.account.models.po.PurchaseOrder;
+import com.heftyb.dms.repairorder.RepairOrder;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 
@@ -33,7 +32,8 @@ public class Vehicle {
 //    private AutoLoan autoLoan; /* rate, balance, principal, interest, down payment */
 //    private ArrayList<PurchaseOrder> purchaseOrders;
 //
-//    private ArrayList<RepairOrder> repairOrders;
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
+    private ArrayList<RepairOrder> repairOrders;
 
 
 

@@ -128,4 +128,12 @@ public class RepairOrderJob extends Auditable {
     public void setTimePunches(ArrayList<TimePunch> timePunches) {
         this.timePunches = timePunches;
     }
+
+    public double getTotalPartsCost() {
+        return parts.stream().mapToDouble(Part::getPrice).sum();
+    }
+
+    public double getTotalLaborCost() {
+        return labor * Double.parseDouble(System.getenv("LABOR_RATE"));
+    }
 }

@@ -1,5 +1,6 @@
 package com.heftyb.dms.repairorder;
 
+import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.account.models.fee.Fee;
 import com.heftyb.dms.account.models.fee.FeeCharge;
 import com.heftyb.dms.account.models.tax.TaxCharge;
@@ -12,7 +13,9 @@ import jakarta.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
-public class RepairOrder {
+@Entity
+@Table(name = "repairOrders")
+public class RepairOrder extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,14 +24,19 @@ public class RepairOrder {
     private ZonedDateTime openDate;
     private ZonedDateTime closedDate;
 
-
+    @ManyToOne
     private Customer customer;
 
+    @ManyToOne()
+    @JoinColumn(referencedColumnName = "repairOrders")
     private Vehicle vehicle;
+
     private int mileageIn;
     private int mileageOut;
     private String serviceTag;
 
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "")
     private Employee openedBy;
     private Employee technician;
 
