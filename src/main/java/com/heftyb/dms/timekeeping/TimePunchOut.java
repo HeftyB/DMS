@@ -1,5 +1,6 @@
 package com.heftyb.dms.timekeeping;
 
+import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -17,12 +18,12 @@ public class TimePunchOut {
 
     private ZonedDateTime time;
 
-    private com.heftyb.heftyrepairorder.models.TimePunchCode code;
+    private TimePunchCode code;
 
     public TimePunchOut() {
     }
 
-    public TimePunchOut(Employee employee, ZonedDateTime time, com.heftyb.heftyrepairorder.models.TimePunchCode code) {
+    public TimePunchOut(Employee employee, ZonedDateTime time, TimePunchCode code) {
         this.employee = employee;
         this.time = time;
         this.code = code;
@@ -44,11 +45,11 @@ public class TimePunchOut {
         this.time = time;
     }
 
-    public com.heftyb.heftyrepairorder.models.TimePunchCode getCode() {
+    public TimePunchCode getCode() {
         return code;
     }
 
-    public void setCode(com.heftyb.heftyrepairorder.models.TimePunchCode code) {
+    public void setCode(TimePunchCode code) {
         this.code = code;
     }
 }

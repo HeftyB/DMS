@@ -1,5 +1,6 @@
 package com.heftyb.dms.account.models;
 
+import com.heftyb.dms.crm.Customer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 

@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 
+@Entity
+@Table(name = "vehicles")
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,8 +17,13 @@ public class Vehicle {
 
     private int modelYear;
 
+    @ManyToOne
     private Manufacturer make;
+
+    @ManyToOne
     private Model model;
+
+
     private String trim;
     private String engine;
     private String color;
@@ -32,6 +39,7 @@ public class Vehicle {
 //    private AutoLoan autoLoan; /* rate, balance, principal, interest, down payment */
 //    private ArrayList<PurchaseOrder> purchaseOrders;
 //
+
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private ArrayList<RepairOrder> repairOrders;
 

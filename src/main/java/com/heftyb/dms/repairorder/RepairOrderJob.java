@@ -16,7 +16,7 @@ public class RepairOrderJob extends Auditable {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "repairOrderId", referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id")
     private RepairOrder repairOrder;
 
     private String concern;
@@ -31,7 +31,8 @@ public class RepairOrderJob extends Auditable {
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
     private ArrayList<TimePunch> timePunches;
 
-    private float labor;
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+    private ArrayList<TechnicianFlatRateHour> labor;
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
     private ArrayList<MiscellaneousItem> miscItems;
@@ -46,6 +47,7 @@ public class RepairOrderJob extends Auditable {
         this.correction = "";
         this.parts = new ArrayList<>();
         this.timePunches = new ArrayList<>();
+        this.labor = new ArrayList<>();
     }
 
     public RepairOrderJob(RepairOrder repairOrder ,String concern, String cause, String correction) {
@@ -55,6 +57,7 @@ public class RepairOrderJob extends Auditable {
         this.correction = correction;
         this.parts = new ArrayList<>();
         this.timePunches = new ArrayList<>();
+        this.labor = new ArrayList<>();
     }
 
     public long getId() {
@@ -71,14 +74,6 @@ public class RepairOrderJob extends Auditable {
 
     public void setRepairOrder(RepairOrder repairOrder) {
         this.repairOrder = repairOrder;
-    }
-
-    public ArrayList<MiscellaneousItem> getMiscItems() {
-        return miscItems;
-    }
-
-    public void setMiscItems(ArrayList<MiscellaneousItem> miscItems) {
-        this.miscItems = miscItems;
     }
 
     public String getConcern() {
@@ -113,14 +108,6 @@ public class RepairOrderJob extends Auditable {
         this.parts = parts;
     }
 
-    public float getLabor() {
-        return labor;
-    }
-
-    public void setLabor(float labor) {
-        this.labor = labor;
-    }
-
     public ArrayList<TimePunch> getTimePunches() {
         return timePunches;
     }
@@ -129,11 +116,27 @@ public class RepairOrderJob extends Auditable {
         this.timePunches = timePunches;
     }
 
+    public ArrayList<TechnicianFlatRateHour> getLabor() {
+        return labor;
+    }
+
+    public void setLabor(ArrayList<TechnicianFlatRateHour> labor) {
+        this.labor = labor;
+    }
+
+    public ArrayList<MiscellaneousItem> getMiscItems() {
+        return miscItems;
+    }
+
+    public void setMiscItems(ArrayList<MiscellaneousItem> miscItems) {
+        this.miscItems = miscItems;
+    }
+
     public double getTotalPartsCost() {
         return parts.stream().mapToDouble(Part::getPrice).sum();
     }
 
     public double getTotalLaborCost() {
-        return labor * Double.parseDouble(System.getenv("LABOR_RATE"));
+        return labor.stream().mapToDouble(TechnicianFlatRateHour::getFlatRateHours).sum() * Double.parseDouble(System.getenv("LABOR_RATE"));
     }
 }

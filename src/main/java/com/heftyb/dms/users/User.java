@@ -1,6 +1,7 @@
 package com.heftyb.dms.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.heftyb.dms.crm.Customer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 

@@ -1,9 +1,9 @@
 package com.heftyb.dms.vehicles;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "vehicleModels")
 public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -11,5 +11,38 @@ public class Model {
 
     private String name;
 
+    @ManyToOne
     private Manufacturer manufacturer;
+
+    public Model() {
+    }
+
+    public Model(String name, Manufacturer manufacturer) {
+        this.name = name;
+        this.manufacturer = manufacturer;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+    }
 }
