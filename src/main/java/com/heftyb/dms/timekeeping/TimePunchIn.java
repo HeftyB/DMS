@@ -1,5 +1,6 @@
 package com.heftyb.dms.timekeeping;
 
+import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -13,6 +14,7 @@ public class TimePunchIn {
     private long id;
 
     @ManyToOne
+    @JoinColumn(referencedColumnName = "id")
     private Employee employee;
 
     private ZonedDateTime time;

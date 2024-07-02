@@ -1,5 +1,8 @@
 package com.heftyb.dms.crm;
 
+import com.heftyb.dms.repairorder.RepairOrder;
+import com.heftyb.dms.repairorder.RepairOrderJob;
+import com.heftyb.dms.repairorder.TechnicianFlatRateHour;
 import com.heftyb.dms.timekeeping.TimePunch;
 import com.heftyb.dms.timekeeping.TimeSheet;
 import jakarta.persistence.*;
@@ -25,19 +28,30 @@ public class Employee {
 
     private String taxId;
 
-    @OneToMany
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private ArrayList<TimePunch> timePunches;
 
     private boolean clockedIn;
     private boolean jobInProgress;
 
     private JobTitle jobTitle;
-    private Employee manager;
 
-    private ArrayList<TimeSheet> timeSheets;
+
+//    private Employee manager;
+
+//    private ArrayList<TimeSheet> timeSheets;
 //    private ArrayList<PayCheck> payChecks;
 
 //    private ArrayList<SaleLead> leads;
+
+//    private ArrayList<CounterTicket> counterTickets;
+//    private ArrayList<VehicleSale> vehicleSales;
+
+    @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL)
+    private ArrayList<RepairOrder> repairOrders;
+
+    @OneToMany(mappedBy = "technician", cascade = CascadeType.ALL)
+    private ArrayList<TechnicianFlatRateHour> flatRateHours;
 
 
     public Employee() {
@@ -53,10 +67,12 @@ public class Employee {
         this.zipcode = zipcode;
         this.taxId = taxId;
         this.jobTitle = jobTitle;
-        this.manager = manager;
+//        this.manager = manager;
         this.timePunches = new ArrayList<>();
-        this.timeSheets = new ArrayList<>();
+//        this.timeSheets = new ArrayList<>();
 //        this.payChecks = new ArrayList<>();
+//        this.repairOrderJobs = new ArrayList<>();
+        this.flatRateHours = new ArrayList<>();
     }
 
     public long getId() {
@@ -163,19 +179,35 @@ public class Employee {
         this.jobTitle = jobTitle;
     }
 
-    public Employee getManager() {
-        return manager;
+    public ArrayList<RepairOrder> getRepairOrders() {
+        return repairOrders;
     }
 
-    public void setManager(Employee manager) {
-        this.manager = manager;
+    public void setRepairOrders(ArrayList<RepairOrder> repairOrders) {
+        this.repairOrders = repairOrders;
     }
 
-    public ArrayList<TimeSheet> getTimeSheets() {
-        return timeSheets;
+    public ArrayList<TechnicianFlatRateHour> getFlatRateHours() {
+        return flatRateHours;
     }
 
-    public void setTimeSheets(ArrayList<TimeSheet> timeSheets) {
-        this.timeSheets = timeSheets;
+    public void setFlatRateHours(ArrayList<TechnicianFlatRateHour> flatRateHours) {
+        this.flatRateHours = flatRateHours;
     }
+
+    //    public Employee getManager() {
+//        return manager;
+//    }
+//
+//    public void setManager(Employee manager) {
+//        this.manager = manager;
+//    }
+//
+//    public ArrayList<TimeSheet> getTimeSheets() {
+//        return timeSheets;
+//    }
+//
+//    public void setTimeSheets(ArrayList<TimeSheet> timeSheets) {
+//        this.timeSheets = timeSheets;
+//    }
 }

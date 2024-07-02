@@ -15,7 +15,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-abstract class Auditable
+abstract public class Auditable
 {
     /**
      * String field containing the username of who created this row

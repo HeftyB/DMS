@@ -1,5 +1,6 @@
 package com.heftyb.dms.timekeeping;
 
+import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -20,8 +21,14 @@ public class TimePunch {
     @OneToOne
     private TimePunchOut out;
 
+    @ManyToOne()
+    @JoinColumn(name = "employee", referencedColumnName = "id")
+    private Employee employee;
+
     public TimePunch() {
     }
+
+
 
     public TimePunch(TimePunchIn timein) {
         this.in = timein;
