@@ -1,10 +1,11 @@
 package com.heftyb.dms.vehicles;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.heftyb.dms.account.models.Auditable;
+import jakarta.persistence.*;
 
-public class WMI {
+@Entity
+@Table(name = "worldManufacturerIdentifiers")
+public class WMI extends Auditable {
 
     @Id
     @GeneratedValue

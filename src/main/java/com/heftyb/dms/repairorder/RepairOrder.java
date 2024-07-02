@@ -44,9 +44,6 @@ public class RepairOrder extends Auditable {
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
     private ArrayList<RepairOrderJob> jobs;
 
-    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private ArrayList<Part> parts;
-
     private float subtotal;
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
@@ -56,7 +53,7 @@ public class RepairOrder extends Auditable {
     private ArrayList<MiscellaneousItem> miscItems;
 
     @OneToOne
-    @JoinColumn(name = "taxChargeId", referencedColumnName = "id")
+    @JoinColumn(name = "taxChargeId")
     private TaxCharge taxes;
 
     private double totalAmount;
@@ -162,14 +159,6 @@ public class RepairOrder extends Auditable {
 
     public void setJobs(ArrayList<RepairOrderJob> jobs) {
         this.jobs = jobs;
-    }
-
-    public ArrayList<Part> getParts() {
-        return parts;
-    }
-
-    public void setParts(ArrayList<Part> parts) {
-        this.parts = parts;
     }
 
     public float getSubtotal() {

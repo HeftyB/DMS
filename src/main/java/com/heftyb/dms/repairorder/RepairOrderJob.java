@@ -2,7 +2,9 @@ package com.heftyb.dms.repairorder;
 
 import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.inventory.Part;
-import com.heftyb.dms.timekeeping.TimePunch;
+import com.heftyb.dms.inventory.RepairOrderJobPart;
+import com.heftyb.dms.timekeeping.JobTimePunchSet;
+import com.heftyb.dms.timekeeping.TimeClockPunchSet;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -25,11 +27,11 @@ public class RepairOrderJob extends Auditable {
 
     private String correction;
 
-    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private ArrayList<Part> parts;
+    @OneToMany(mappedBy = "repairOrderJob", cascade = CascadeType.ALL)
+    private ArrayList<RepairOrderJobPart> parts;
 
-    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private ArrayList<TimePunch> timePunches;
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+    private ArrayList<JobTimePunchSet> timeClockPunchSets;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private ArrayList<TechnicianFlatRateHour> labor;
@@ -46,7 +48,7 @@ public class RepairOrderJob extends Auditable {
         this.cause = "";
         this.correction = "";
         this.parts = new ArrayList<>();
-        this.timePunches = new ArrayList<>();
+        this.timeClockPunchSets = new ArrayList<>();
         this.labor = new ArrayList<>();
     }
 
@@ -56,7 +58,7 @@ public class RepairOrderJob extends Auditable {
         this.cause = cause;
         this.correction = correction;
         this.parts = new ArrayList<>();
-        this.timePunches = new ArrayList<>();
+        this.timeClockPunchSets = new ArrayList<>();
         this.labor = new ArrayList<>();
     }
 
@@ -100,20 +102,20 @@ public class RepairOrderJob extends Auditable {
         this.correction = correction;
     }
 
-    public ArrayList<Part> getParts() {
+    public ArrayList<RepairOrderJobPart> getParts() {
         return parts;
     }
 
-    public void setParts(ArrayList<Part> parts) {
+    public void setParts(ArrayList<RepairOrderJobPart> parts) {
         this.parts = parts;
     }
 
-    public ArrayList<TimePunch> getTimePunches() {
-        return timePunches;
+    public ArrayList<JobTimePunchSet> getTimeClockPunchSets() {
+        return timeClockPunchSets;
     }
 
-    public void setTimePunches(ArrayList<TimePunch> timePunches) {
-        this.timePunches = timePunches;
+    public void setTimeClockPunchSets(ArrayList<JobTimePunchSet> timeClockPunchSets) {
+        this.timeClockPunchSets = timeClockPunchSets;
     }
 
     public ArrayList<TechnicianFlatRateHour> getLabor() {
@@ -133,7 +135,7 @@ public class RepairOrderJob extends Auditable {
     }
 
     public double getTotalPartsCost() {
-        return parts.stream().mapToDouble(Part::getPrice).sum();
+        return parts.stream().mapToDouble(RepairOrderJobPart::getUnitPrice).sum();
     }
 
     public double getTotalLaborCost() {

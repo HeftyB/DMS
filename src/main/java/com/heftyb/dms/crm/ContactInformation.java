@@ -1,10 +1,23 @@
 package com.heftyb.dms.crm;
 
-public class ContactInformation {
+import com.heftyb.dms.account.models.Auditable;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "contactsInformation")
+public class ContactInformation extends Auditable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
     private String name;
     private String phone;
     private String email;
     private String notes;
+
+    public ContactInformation() {
+    }
 
     public ContactInformation(String name, String phone, String email) {
         this.name = name;

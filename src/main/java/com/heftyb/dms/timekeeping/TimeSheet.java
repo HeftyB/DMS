@@ -16,7 +16,7 @@ public class TimeSheet {
     private ZonedDateTime payPeriodStart;
     private ZonedDateTime payPeriodEnd;
 
-    private ArrayList<TimePunch> timePunches;
+    private ArrayList<TimeClockPunchSet> timeClockPunchSets;
     private ArrayList<PTO> pto;
 
     private double totalHours;

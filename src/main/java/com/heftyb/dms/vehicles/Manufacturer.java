@@ -1,12 +1,13 @@
 package com.heftyb.dms.vehicles;
 
+import com.heftyb.dms.account.models.Auditable;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 
 @Entity
 @Table(name = "manufacturers")
-public class Manufacturer {
+public class Manufacturer extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

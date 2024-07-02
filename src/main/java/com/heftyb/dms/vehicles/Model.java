@@ -1,10 +1,11 @@
 package com.heftyb.dms.vehicles;
 
+import com.heftyb.dms.account.models.Auditable;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "vehicleModels")
-public class Model {
+public class Model extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
