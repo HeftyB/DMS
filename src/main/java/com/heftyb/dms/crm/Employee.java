@@ -1,5 +1,6 @@
 package com.heftyb.dms.crm;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.repairorder.RepairOrder;
 import com.heftyb.dms.repairorder.TechnicianFlatRateHour;
@@ -52,9 +53,11 @@ public class Employee extends Auditable {
 //    private ArrayList<VehicleSale> vehicleSales;
 
     @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL)
+    @JsonIgnore
     private ArrayList<RepairOrder> repairOrders;
 
     @OneToMany(mappedBy = "technician", cascade = CascadeType.ALL)
+    @JsonIgnore
     private ArrayList<TechnicianFlatRateHour> flatRateHours;
 
 

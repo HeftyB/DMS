@@ -24,6 +24,8 @@ public class Note {
 
     private String note;
 
+    @ManyToOne
+    @JoinColumn
     private SaleLead lead;
 
     public Note() {

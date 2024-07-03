@@ -1,7 +1,7 @@
 package com.heftyb.dms.account.models.po;
 
 import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.PaymentMethod;
+import com.heftyb.dms.account.models.tax.TaxCharge;
 import com.heftyb.dms.crm.ContactInformation;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.crm.Vendor;
@@ -44,7 +44,10 @@ public class PurchaseOrder extends Auditable {
     private String notes;
 
     private double subTotal;
-    private double salesTax;
+
+    @OneToOne(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
+    private TaxCharge taxes;
+
     private double shipping;
     private double other;
     private double totalCost;
@@ -56,7 +59,7 @@ public class PurchaseOrder extends Auditable {
     public PurchaseOrder() {
     }
 
-    public PurchaseOrder(long id, Vendor from, Vendor to, ContactInformation fromContact, ContactInformation toContact, String shippingMethod, String paymentTerms, String requiredByDate, ArrayList<POItem> items, String notes, double subTotal, double salesTax, double shipping, double other, double totalCost, Employee approvedBy) {
+    public PurchaseOrder(long id, Vendor from, Vendor to, ContactInformation fromContact, ContactInformation toContact, String shippingMethod, String paymentTerms, String requiredByDate, ArrayList<POItem> items, String notes, double subTotal, TaxCharge taxes, double shipping, double other, double totalCost, Employee approvedBy) {
         this.id = id;
         this.from = from;
         this.to = to;
@@ -68,7 +71,7 @@ public class PurchaseOrder extends Auditable {
         this.items = items;
         this.notes = notes;
         this.subTotal = subTotal;
-        this.salesTax = salesTax;
+        this.taxes = taxes;
         this.shipping = shipping;
         this.other = other;
         this.totalCost = totalCost;
@@ -163,12 +166,12 @@ public class PurchaseOrder extends Auditable {
         this.subTotal = subTotal;
     }
 
-    public double getSalesTax() {
-        return salesTax;
+    public TaxCharge getTaxes() {
+        return taxes;
     }
 
-    public void setSalesTax(double salesTax) {
-        this.salesTax = salesTax;
+    public void setTaxes(TaxCharge salesTax) {
+        this.taxes = salesTax;
     }
 
     public double getShipping() {

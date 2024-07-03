@@ -1,5 +1,6 @@
 package com.heftyb.dms.vehicles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.account.models.po.PurchaseOrder;
 import com.heftyb.dms.crm.Customer;
@@ -43,6 +44,7 @@ public class Vehicle extends Auditable {
 //
 
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
+    @JsonIgnore
     private ArrayList<RepairOrder> repairOrders;
 
     @ManyToOne

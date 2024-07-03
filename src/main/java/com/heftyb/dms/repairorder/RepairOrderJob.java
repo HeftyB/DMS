@@ -1,5 +1,6 @@
 package com.heftyb.dms.repairorder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.inventory.Part;
 import com.heftyb.dms.inventory.RepairOrderJobPart;
@@ -19,6 +20,7 @@ public class RepairOrderJob extends Auditable {
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
+    @JsonIgnore
     private RepairOrder repairOrder;
 
     private String concern;
@@ -36,7 +38,7 @@ public class RepairOrderJob extends Auditable {
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private ArrayList<TechnicianFlatRateHour> labor;
 
-    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private ArrayList<MiscellaneousItem> miscItems;
 
     public RepairOrderJob() {

@@ -1,5 +1,6 @@
 package com.heftyb.dms.crm;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
@@ -31,6 +32,7 @@ public class Customer extends Auditable {
     private String email;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private ArrayList<Vehicle> vehicles;
 
 //    private ArrayList<SaleLead> leads;

@@ -1,5 +1,6 @@
 package com.heftyb.dms.account.models.tax;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.account.models.fee.FeeType;
 import com.heftyb.dms.account.models.po.PurchaseOrder;
@@ -17,10 +18,12 @@ public class TaxCharge extends Auditable {
 
     @OneToOne
     @JoinColumn(name = "repairOrder", referencedColumnName = "id")
+    @JsonIgnore
     private RepairOrder repairOrder;
 
     @OneToOne
     @JoinColumn(name = "purchaseOrder", referencedColumnName = "id")
+    @JsonIgnore
     private PurchaseOrder purchaseOrder;
 //    private VehicleSale vehicleSale;
 
