@@ -1,5 +1,6 @@
 package com.heftyb.dms.account.models.tax;
 
+import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.account.models.fee.FeeType;
 import jakarta.persistence.*;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "federalTaxes")
-public class FederalTax {
+public class FederalTax extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

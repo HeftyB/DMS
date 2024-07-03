@@ -13,11 +13,19 @@ public class Note {
     private long id;
 
     private ZonedDateTime date;
+
+    @ManyToOne
+    @JoinColumn
     private Employee employee;
+
+    @ManyToOne
+    @JoinColumn
     private Customer customer;
 
     private String note;
 
+    @ManyToOne
+    @JoinColumn
     private SaleLead lead;
 
     public Note() {

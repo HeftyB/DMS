@@ -6,6 +6,8 @@ import com.heftyb.dms.repairorder.RepairOrder;
 import com.heftyb.dms.repairorder.RepairOrderJob;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+
 @Entity
 @Table(name = "parts")
 public class Part extends Auditable {
@@ -19,6 +21,13 @@ public class Part extends Auditable {
     private String OEMPartNumber;
 
     private String description;
+
+    private String bin;
+    private boolean inStock;
+    private int qty;
+
+    @OneToMany(mappedBy = "part", cascade = CascadeType.ALL)
+    private ArrayList<StockedPart> receivedStock;
 
     private float cost;
     private float price;

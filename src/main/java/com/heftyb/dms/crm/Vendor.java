@@ -1,10 +1,14 @@
 package com.heftyb.dms.crm;
 
+import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.models.po.PurchaseOrder;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "vendors")
-public class Vendor {
+public class Vendor extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -15,20 +19,26 @@ public class Vendor {
     private String phone;
     private String email;
 
-    private String taxid;
-    private String paymentmethod;
+    private String taxId;
+    private String paymentMethod;
+
+    @OneToMany(mappedBy = "from", cascade = CascadeType.ALL)
+    private ArrayList<PurchaseOrder> sentPurchaseOrders;
+
+    @OneToMany(mappedBy = "to", cascade = CascadeType.ALL)
+    private ArrayList<PurchaseOrder> receivedPurchaseOrders;
 
     public Vendor() {
     }
 
-    public Vendor(String address, String city, String zipcode, String phone, String email, String taxid, String paymentmethod) {
+    public Vendor(String address, String city, String zipcode, String phone, String email, String taxId, String paymentMethod) {
         this.address = address;
         this.city = city;
         this.zipcode = zipcode;
         this.phone = phone;
         this.email = email;
-        this.taxid = taxid;
-        this.paymentmethod = paymentmethod;
+        this.taxId = taxId;
+        this.paymentMethod = paymentMethod;
     }
 
     public long getId() {
@@ -79,19 +89,35 @@ public class Vendor {
         this.email = email;
     }
 
-    public String getTaxid() {
-        return taxid;
+    public String getTaxId() {
+        return taxId;
     }
 
-    public void setTaxid(String taxid) {
-        this.taxid = taxid;
+    public void setTaxId(String taxid) {
+        this.taxId = taxid;
     }
 
-    public String getPaymentmethod() {
-        return paymentmethod;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPaymentmethod(String paymentmethod) {
-        this.paymentmethod = paymentmethod;
+    public void setPaymentMethod(String paymentmethod) {
+        this.paymentMethod = paymentmethod;
+    }
+
+    public ArrayList<PurchaseOrder> getSentPurchaseOrders() {
+        return sentPurchaseOrders;
+    }
+
+    public void setSentPurchaseOrders(ArrayList<PurchaseOrder> sentPurchaseOrders) {
+        this.sentPurchaseOrders = sentPurchaseOrders;
+    }
+
+    public ArrayList<PurchaseOrder> getReceivedPurchaseOrders() {
+        return receivedPurchaseOrders;
+    }
+
+    public void setReceivedPurchaseOrders(ArrayList<PurchaseOrder> receivedPurchaseOrders) {
+        this.receivedPurchaseOrders = receivedPurchaseOrders;
     }
 }

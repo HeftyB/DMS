@@ -1,13 +1,15 @@
 package com.heftyb.dms.timekeeping;
 
+import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.repairorder.RepairOrderJob;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "timepunches")
-public class TimePunch {
+@Table(name = "jobTimePunchSets")
+public class JobTimePunchSet extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,22 +18,22 @@ public class TimePunch {
     private Date date;
 
     @OneToOne
+    @JoinColumn()
     private TimePunchIn in;
 
     @OneToOne
+    @JoinColumn()
     private TimePunchOut out;
 
     @ManyToOne()
-    @JoinColumn(name = "employee", referencedColumnName = "id")
+    @JoinColumn()
     private Employee employee;
 
-    public TimePunch() {
-    }
+    @ManyToOne()
+    @JoinColumn()
+    private RepairOrderJob job;
 
-
-
-    public TimePunch(TimePunchIn timein) {
-        this.in = timein;
+    public JobTimePunchSet() {
     }
 
     public long getId() {
@@ -64,5 +66,21 @@ public class TimePunch {
 
     public void setOut(TimePunchOut out) {
         this.out = out;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public RepairOrderJob getJob() {
+        return job;
+    }
+
+    public void setJob(RepairOrderJob job) {
+        this.job = job;
     }
 }

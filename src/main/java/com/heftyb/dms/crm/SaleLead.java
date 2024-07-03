@@ -13,12 +13,18 @@ public class SaleLead {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @ManyToOne
+    @JoinColumn
     private ContactInformation contactInfo;
+
+    @ManyToOne
+    @JoinColumn
     private Employee employee;
 
     private String message;
     private ZonedDateTime date;
 
+    @OneToMany(mappedBy = "lead", cascade = CascadeType.ALL)
     private ArrayList<Note> notes;
 
     public SaleLead() {

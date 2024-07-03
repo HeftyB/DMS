@@ -1,5 +1,6 @@
 package com.heftyb.dms.account.models.fee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.repairorder.RepairOrder;
@@ -16,13 +17,13 @@ public class RepairOrderFee extends Auditable implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name = "feeId")
-    @JsonIgnoreProperties(value = "charges", allowSetters = true)
     private Fee fee;
 
     @NotNull
     @Id
     @ManyToOne
     @JoinColumn()
+    @JsonIgnore
     private RepairOrder repairOrder;
 
     public RepairOrderFee() {

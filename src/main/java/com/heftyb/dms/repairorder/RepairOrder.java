@@ -1,12 +1,12 @@
 package com.heftyb.dms.repairorder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.fee.Fee;
 import com.heftyb.dms.account.models.fee.RepairOrderFee;
 import com.heftyb.dms.account.models.tax.TaxCharge;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Employee;
-import com.heftyb.dms.inventory.Part;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 
@@ -39,13 +39,11 @@ public class RepairOrder extends Auditable {
     @JoinColumn()
     private Employee advisor;
 
-    private boolean isCompleted;
+    @JsonIgnore
+    private boolean isActive;
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
     private ArrayList<RepairOrderJob> jobs;
-
-    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private ArrayList<Part> parts;
 
     private float subtotal;
 
@@ -56,7 +54,7 @@ public class RepairOrder extends Auditable {
     private ArrayList<MiscellaneousItem> miscItems;
 
     @OneToOne
-    @JoinColumn(name = "taxChargeId", referencedColumnName = "id")
+    @JoinColumn(name = "taxChargeId")
     private TaxCharge taxes;
 
     private double totalAmount;
@@ -148,12 +146,12 @@ public class RepairOrder extends Auditable {
         this.advisor = advisor;
     }
 
-    public boolean isCompleted() {
-        return isCompleted;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setCompleted(boolean completed) {
-        isCompleted = completed;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public ArrayList<RepairOrderJob> getJobs() {
@@ -162,14 +160,6 @@ public class RepairOrder extends Auditable {
 
     public void setJobs(ArrayList<RepairOrderJob> jobs) {
         this.jobs = jobs;
-    }
-
-    public ArrayList<Part> getParts() {
-        return parts;
-    }
-
-    public void setParts(ArrayList<Part> parts) {
-        this.parts = parts;
     }
 
     public float getSubtotal() {

@@ -1,12 +1,13 @@
 package com.heftyb.dms.vehicles;
 
+import com.heftyb.dms.account.models.Auditable;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 
 @Entity
 @Table(name = "manufacturers")
-public class Manufacturer {
+public class Manufacturer extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,5 +21,46 @@ public class Manufacturer {
     @OneToMany(mappedBy = "manufacturer")
     private ArrayList<Model> models;
 
+    public Manufacturer() {
+    }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<WMI> getWmis() {
+        return wmis;
+    }
+
+    public void setWmis(ArrayList<WMI> wmis) {
+        this.wmis = wmis;
+    }
+
+    public ArrayList<Model> getModels() {
+        return models;
+    }
+
+    public void setModels(ArrayList<Model> models) {
+        this.models = models;
+    }
+
+    public boolean addWmi(WMI wmi) {
+        return wmis.add(wmi);
+    }
+
+    public boolean addModel(Model model) {
+        return models.add(model);
+    }
 }

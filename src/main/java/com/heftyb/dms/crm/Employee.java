@@ -1,17 +1,18 @@
 package com.heftyb.dms.crm;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.repairorder.RepairOrder;
-import com.heftyb.dms.repairorder.RepairOrderJob;
 import com.heftyb.dms.repairorder.TechnicianFlatRateHour;
-import com.heftyb.dms.timekeeping.TimePunch;
-import com.heftyb.dms.timekeeping.TimeSheet;
+import com.heftyb.dms.timekeeping.JobTimePunchSet;
+import com.heftyb.dms.timekeeping.TimeClockPunchSet;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class Employee extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,7 +30,10 @@ public class Employee {
     private String taxId;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    private ArrayList<TimePunch> timePunches;
+    private ArrayList<TimeClockPunchSet> timeClockPunchSets;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private ArrayList<JobTimePunchSet> jobTimePunchSets;
 
     private boolean clockedIn;
     private boolean jobInProgress;
@@ -42,15 +46,18 @@ public class Employee {
 //    private ArrayList<TimeSheet> timeSheets;
 //    private ArrayList<PayCheck> payChecks;
 
-//    private ArrayList<SaleLead> leads;
+    @OneToMany(mappedBy = "employee")
+    private ArrayList<SaleLead> leads;
 
 //    private ArrayList<CounterTicket> counterTickets;
 //    private ArrayList<VehicleSale> vehicleSales;
 
     @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL)
+    @JsonIgnore
     private ArrayList<RepairOrder> repairOrders;
 
     @OneToMany(mappedBy = "technician", cascade = CascadeType.ALL)
+    @JsonIgnore
     private ArrayList<TechnicianFlatRateHour> flatRateHours;
 
 
@@ -68,7 +75,7 @@ public class Employee {
         this.taxId = taxId;
         this.jobTitle = jobTitle;
 //        this.manager = manager;
-        this.timePunches = new ArrayList<>();
+        this.timeClockPunchSets = new ArrayList<>();
 //        this.timeSheets = new ArrayList<>();
 //        this.payChecks = new ArrayList<>();
 //        this.repairOrderJobs = new ArrayList<>();
@@ -147,12 +154,12 @@ public class Employee {
         this.taxId = taxId;
     }
 
-    public ArrayList<TimePunch> getTimePunches() {
-        return timePunches;
+    public ArrayList<TimeClockPunchSet> getTimePunches() {
+        return timeClockPunchSets;
     }
 
-    public void setTimePunches(ArrayList<TimePunch> timePunches) {
-        this.timePunches = timePunches;
+    public void setTimePunches(ArrayList<TimeClockPunchSet> timeClockPunchSets) {
+        this.timeClockPunchSets = timeClockPunchSets;
     }
 
     public boolean isClockedIn() {

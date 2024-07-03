@@ -1,6 +1,9 @@
 package com.heftyb.dms.vehicles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.heftyb.dms.account.models.Auditable;
 import com.heftyb.dms.account.models.po.PurchaseOrder;
+import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;
 
@@ -8,7 +11,7 @@ import java.util.ArrayList;
 
 @Entity
 @Table(name = "vehicles")
-public class Vehicle {
+public class Vehicle extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -41,9 +44,12 @@ public class Vehicle {
 //
 
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
+    @JsonIgnore
     private ArrayList<RepairOrder> repairOrders;
 
-
+    @ManyToOne
+    @JoinColumn
+    private Customer customer;
 
 
     public Vehicle() {
@@ -119,6 +125,30 @@ public class Vehicle {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public ArrayList<RepairOrder> getRepairOrders() {
+        return repairOrders;
+    }
+
+    public void setRepairOrders(ArrayList<RepairOrder> repairOrders) {
+        this.repairOrders = repairOrders;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override

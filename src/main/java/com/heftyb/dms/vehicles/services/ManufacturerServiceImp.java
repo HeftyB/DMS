@@ -1,0 +1,101 @@
+package com.heftyb.dms.vehicles.services;
+
+import com.heftyb.dms.vehicles.Manufacturer;
+import com.heftyb.dms.vehicles.Model;
+import com.heftyb.dms.vehicles.Vehicle;
+import com.heftyb.dms.vehicles.WMI;
+import com.heftyb.dms.vehicles.repositories.ManufacturerRepository;
+import com.heftyb.dms.vehicles.repositories.ModelRepository;
+import com.heftyb.dms.vehicles.repositories.WMIRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Transactional
+@Service(value = "userService")
+public class ManufacturerServiceImp implements ManufacturerService {
+
+    private final ManufacturerRepository manRepo;
+    private final WMIRepository wmiRepo;
+    private final ModelRepository modelRepo;
+
+
+    public ManufacturerServiceImp(final ManufacturerRepository manRepo,
+                                  final WMIRepository wmiRepo,
+                                  final ModelRepository modelRepo) {
+        this.manRepo = manRepo;
+        this.wmiRepo = wmiRepo;
+        this.modelRepo = modelRepo;
+    }
+
+    @Override
+    public List<Manufacturer> findAll() {
+        ArrayList<Manufacturer> manufacturers = new ArrayList<>();
+        manRepo.findAll().iterator().forEachRemaining(manufacturers::add);
+        return manufacturers;
+    }
+
+    @Override
+    public Manufacturer findById(long id) {
+        return manRepo.findById(id).orElseThrow(() -> new RuntimeException("ManufacturerService Error: Could not find Manufacturer id " + id + "\n"));
+    }
+
+    @Override
+    public Manufacturer findByName(String name) {
+        Manufacturer m = manRepo.findByName(name);
+        if (m == null) {
+            throw new RuntimeException("ManufacturerService Error: could not find manufacturer " + name +"\n");
+        }
+        return m;
+    }
+
+    @Override
+    public List<Manufacturer> findByNameContaining(String name) {
+
+        return manRepo.findByNameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public void delete(long id) {
+        manRepo.findById(id).orElseThrow(() -> new RuntimeException("ManufacturerService Error: Could not find Manufacturer id " + id + "\n"));
+        manRepo.deleteById(id);
+    }
+
+    @Override
+    public Manufacturer save(Manufacturer manufacturer) {
+        Manufacturer newManufacturer = new Manufacturer();
+
+        newManufacturer.setName(manufacturer.getName());
+
+        for (WMI w: manufacturer.getWmis()) {
+
+            Optional<WMI > ww = wmiRepo.findById(w.getId());
+
+            if(ww.isEmpty()) {
+                ww = Optional.of(wmiRepo.save(new WMI(w.getName(), w.getWmi(), w.getManufacturer())));
+            }
+
+            newManufacturer.addWmi(ww.get());
+        }
+
+        for (Model m: manufacturer.getModels()) {
+            Optional<Model> mm = modelRepo.findById(m.getId());
+
+            if(!mm.isPresent()) {
+                mm = Optional.of(modelRepo.save(new Model(m.getName(), m.getManufacturer())));
+            }
+
+            newManufacturer.addModel(mm.get());
+        }
+
+        return manRepo.save(newManufacturer);
+    }
+
+    @Override
+    public Manufacturer update(long id, Manufacturer manufacturer) {
+        return null;
+    }
+}
