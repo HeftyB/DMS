@@ -1,5 +1,6 @@
 package com.heftyb.dms.vehicles.services;
 
+import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.vehicles.Manufacturer;
 import com.heftyb.dms.vehicles.Model;
 import com.heftyb.dms.vehicles.Vehicle;
@@ -40,14 +41,14 @@ public class ManufacturerServiceImp implements ManufacturerService {
 
     @Override
     public Manufacturer findById(long id) {
-        return manRepo.findById(id).orElseThrow(() -> new RuntimeException("ManufacturerService Error: Could not find Manufacturer id " + id + "\n"));
+        return manRepo.findById(id).orElseThrow(() -> new DataNotFoundException("ManufacturerService Error: Could not find Manufacturer id " + id + "\n"));
     }
 
     @Override
     public Manufacturer findByName(String name) {
         Manufacturer m = manRepo.findByName(name);
         if (m == null) {
-            throw new RuntimeException("ManufacturerService Error: could not find manufacturer " + name +"\n");
+            throw new DataNotFoundException("ManufacturerService Error: could not find manufacturer " + name +"\n");
         }
         return m;
     }
