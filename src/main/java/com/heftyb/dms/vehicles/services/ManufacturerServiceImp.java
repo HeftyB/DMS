@@ -56,12 +56,14 @@ public class ManufacturerServiceImp implements ManufacturerService {
         return manRepo.findByNameContainingIgnoreCase(name);
     }
 
+    @Transactional
     @Override
     public void delete(long id) {
         manRepo.findById(id).orElseThrow(() -> new RuntimeException("ManufacturerService Error: Could not find Manufacturer id " + id + "\n"));
         manRepo.deleteById(id);
     }
 
+    @Transactional
     @Override
     public Manufacturer save(Manufacturer manufacturer) {
         Manufacturer newManufacturer = new Manufacturer();
@@ -92,6 +94,7 @@ public class ManufacturerServiceImp implements ManufacturerService {
         return manRepo.save(newManufacturer);
     }
 
+    @Transactional
     @Override
     public Manufacturer update(long id, Manufacturer manufacturer) {
         return null;
