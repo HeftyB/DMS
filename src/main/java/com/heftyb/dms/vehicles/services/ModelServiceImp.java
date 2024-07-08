@@ -1,5 +1,6 @@
 package com.heftyb.dms.vehicles.services;
 
+import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.vehicles.Model;
 import com.heftyb.dms.vehicles.repositories.ModelRepository;
 import org.springframework.stereotype.Service;
@@ -28,13 +29,16 @@ public class ModelServiceImp implements ModelService{
 
     @Override
     public List<Model> findByManufacturer(String name) {
-        modelRepo.findByManufacturer_Name(name)
-        return null;
+        return modelRepo.findByManufacturer_NameContaining(name);
     }
 
     @Override
     public Model findByName(String name) {
-        return null;
+        Model m = modelRepo.findByName(name).orElseThrow(
+                () -> new DataNotFoundException(String.format("ModelService Error: could not find model %s", name))
+        );
+
+        return m;
     }
 
     @Override

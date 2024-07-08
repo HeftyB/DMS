@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
-@Service(value = "userService")
+@Service(value = "manufacturerService")
 public class ManufacturerServiceImp implements ManufacturerService {
 
     private final ManufacturerRepository manRepo;
@@ -46,10 +46,7 @@ public class ManufacturerServiceImp implements ManufacturerService {
 
     @Override
     public Manufacturer findByName(String name) {
-        Manufacturer m = manRepo.findByName(name);
-        if (m == null) {
-            throw new DataNotFoundException("ManufacturerService Error: could not find manufacturer " + name +"\n");
-        }
+        Manufacturer m = manRepo.findByName(name).orElseThrow(() -> new DataNotFoundException(String.format("ManufacturerService Error: could not find Manufacturer name %s", name)));
         return m;
     }
 
