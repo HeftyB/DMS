@@ -25,9 +25,9 @@ public class Customer extends Auditable {
     private String state;
     private String zipcode;
 
-    private String phone;
-    private String phone1;
-    private String phone2;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private ArrayList<PhoneNumber> phoneNumbers;
+
 
     private String email;
 
@@ -40,7 +40,7 @@ public class Customer extends Auditable {
 
     public Customer() {}
 
-    public Customer(String firstName, String lastName, String preferredName, String addressLine1, String addressLine2, String city, String state, String zipcode, String phone, String phone1, String phone2, String email) {
+    public Customer(String firstName, String lastName, String preferredName, String addressLine1, String addressLine2, String city, String state, String zipcode, ArrayList<PhoneNumber> phoneNumbers, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.preferredName = preferredName;
@@ -49,18 +49,30 @@ public class Customer extends Auditable {
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
-        this.phone = phone;
-        this.phone1 = phone1;
-        this.phone2 = phone2;
+        this.phoneNumbers = phoneNumbers;
         this.email = email;
-        this.vehicles = new ArrayList<>();
     }
 
-    public Customer(String firstName, String lastName, String phone) {
+    public Customer(String firstName, String lastName, String preferredName, String addressLine1, String addressLine2, String city, String state, String zipcode, ArrayList<PhoneNumber> phoneNumbers, String email, ArrayList<Vehicle> vehicles) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phone = phone;
-        this.vehicles = new ArrayList<>();
+        this.preferredName = preferredName;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.phoneNumbers = phoneNumbers;
+        this.email = email;
+        this.vehicles = vehicles;
+    }
+
+    public Customer(String firstName, String lastName, String preferredName, ArrayList<PhoneNumber> phoneNumbers, ArrayList<Vehicle> vehicles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.preferredName = preferredName;
+        this.phoneNumbers = phoneNumbers;
+        this.vehicles = vehicles;
     }
 
     public long getId() {
@@ -135,28 +147,12 @@ public class Customer extends Auditable {
         this.zipcode = zipcode;
     }
 
-    public String getPhone() {
-        return phone;
+    public ArrayList<PhoneNumber> getPhoneNumbers() {
+        return phoneNumbers;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getPhone1() {
-        return phone1;
-    }
-
-    public void setPhone1(String phone1) {
-        this.phone1 = phone1;
-    }
-
-    public String getPhone2() {
-        return phone2;
-    }
-
-    public void setPhone2(String phone2) {
-        this.phone2 = phone2;
+    public void setPhoneNumbers(ArrayList<PhoneNumber> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
     }
 
     public String getEmail() {

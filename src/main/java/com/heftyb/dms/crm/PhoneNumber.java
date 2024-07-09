@@ -1,5 +1,6 @@
 package com.heftyb.dms.crm;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.models.Auditable;
 import jakarta.persistence.*;
 
@@ -11,17 +12,21 @@ public class PhoneNumber extends Auditable {
     private long id;
 
     private String number;
+    private boolean isPrimary;
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Customer customer;
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Employee employee;
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private SaleLead lead;
 
     public PhoneNumber() {
@@ -65,5 +70,13 @@ public class PhoneNumber extends Auditable {
 
     public void setLead(SaleLead lead) {
         this.lead = lead;
+    }
+
+    public boolean isPrimary() {
+        return isPrimary;
+    }
+
+    public void setPrimary(boolean primary) {
+        isPrimary = primary;
     }
 }
