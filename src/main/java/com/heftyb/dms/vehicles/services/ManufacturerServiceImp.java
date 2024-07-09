@@ -70,12 +70,14 @@ public class ManufacturerServiceImp implements ManufacturerService {
 
         newManufacturer.setName(manufacturer.getName());
 
+        newManufacturer = manRepo.save(newManufacturer);
+
         for (WMI w: manufacturer.getWmis()) {
 
             Optional<WMI > ww = wmiRepo.findById(w.getId());
 
             if(ww.isEmpty()) {
-                ww = Optional.of(wmiRepo.save(new WMI(w.getName(), w.getWmi(), w.getManufacturer())));
+                ww = Optional.of(wmiRepo.save(new WMI(w.getName(), w.getWmi(), newManufacturer)));
             }
 
             newManufacturer.addWmi(ww.get());
@@ -85,18 +87,30 @@ public class ManufacturerServiceImp implements ManufacturerService {
             Optional<Model> mm = modelRepo.findById(m.getId());
 
             if(!mm.isPresent()) {
-                mm = Optional.of(modelRepo.save(new Model(m.getName(), m.getManufacturer())));
+                mm = Optional.of(modelRepo.save(new Model(m.getName(), newManufacturer)));
             }
 
             newManufacturer.addModel(mm.get());
         }
 
-        return manRepo.save(newManufacturer);
+        return newManufacturer;
     }
 
     @Transactional
     @Override
     public Manufacturer update(long id, Manufacturer manufacturer) {
         return null;
+    }
+
+    @Override
+    public WMI addWMI(WMI wmi) {
+        WMI w = new WMI();
+
+        w.setName(wmi.getName());
+
+        Manufacturer m = findById(wmi.getManufacturer().getId());
+
+        w.setManufacturer(m);
+        return wmiRepo.save(w);
     }
 }

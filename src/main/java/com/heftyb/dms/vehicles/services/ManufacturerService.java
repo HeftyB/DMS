@@ -1,6 +1,7 @@
 package com.heftyb.dms.vehicles.services;
 
 import com.heftyb.dms.vehicles.Manufacturer;
+import com.heftyb.dms.vehicles.WMI;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface ManufacturerService {
     void delete(long id);
     Manufacturer save (Manufacturer manufacturer);
     Manufacturer update (long id, Manufacturer manufacturer);
+
+    WMI addWMI(WMI wmi);
 }
