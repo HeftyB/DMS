@@ -2,8 +2,10 @@ package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.models.invoice.Invoice;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 
@@ -15,15 +17,18 @@ public class Customer extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
     private String firstName;
+
+    @NotNull
     private String lastName;
+
+    @NotNull
     private String preferredName;
 
-    private String addressLine1;
-    private String addressLine2;
-    private String city;
-    private String state;
-    private String zipcode;
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    private MailingAddress mailingAddress;
+
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private ArrayList<PhoneNumber> phoneNumbers;
@@ -35,36 +40,35 @@ public class Customer extends Auditable {
     @JsonIgnore
     private ArrayList<Vehicle> vehicles;
 
+    @OneToMany(mappedBy = "customer")
+    @JsonIgnore
+    private ArrayList<Invoice> invoices;
+
 //    private ArrayList<SaleLead> leads;
 
 
     public Customer() {}
 
-    public Customer(String firstName, String lastName, String preferredName, String addressLine1, String addressLine2, String city, String state, String zipcode, ArrayList<PhoneNumber> phoneNumbers, String email) {
+    public Customer(String firstName, String lastName, String preferredName, MailingAddress mailingAddress, ArrayList<PhoneNumber> phoneNumbers, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.preferredName = preferredName;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
+        this.mailingAddress = mailingAddress;
         this.phoneNumbers = phoneNumbers;
         this.email = email;
+        this.vehicles = new ArrayList<>();
+        this.invoices = new ArrayList<>();
     }
 
-    public Customer(String firstName, String lastName, String preferredName, String addressLine1, String addressLine2, String city, String state, String zipcode, ArrayList<PhoneNumber> phoneNumbers, String email, ArrayList<Vehicle> vehicles) {
+    public Customer(String firstName, String lastName, String preferredName, MailingAddress mailingAddress, ArrayList<PhoneNumber> phoneNumbers, String email, ArrayList<Vehicle> vehicles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.preferredName = preferredName;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
+        this.mailingAddress = mailingAddress;
         this.phoneNumbers = phoneNumbers;
         this.email = email;
         this.vehicles = vehicles;
+        this.invoices = new ArrayList<>();
     }
 
     public Customer(String firstName, String lastName, String preferredName, ArrayList<PhoneNumber> phoneNumbers, ArrayList<Vehicle> vehicles) {
@@ -73,6 +77,7 @@ public class Customer extends Auditable {
         this.preferredName = preferredName;
         this.phoneNumbers = phoneNumbers;
         this.vehicles = vehicles;
+        this.invoices = new ArrayList<>();
     }
 
     public long getId() {
@@ -107,44 +112,12 @@ public class Customer extends Auditable {
         this.preferredName = preferredName;
     }
 
-    public String getAddressLine1() {
-        return addressLine1;
+    public MailingAddress getMailingAddress() {
+        return mailingAddress;
     }
 
-    public void setAddressLine1(String addressLine1) {
-        this.addressLine1 = addressLine1;
-    }
-
-    public String getAddressLine2() {
-        return addressLine2;
-    }
-
-    public void setAddressLine2(String addressLine2) {
-        this.addressLine2 = addressLine2;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setMailingAddress(MailingAddress mailingAddress) {
+        this.mailingAddress = mailingAddress;
     }
 
     public ArrayList<PhoneNumber> getPhoneNumbers() {
@@ -169,5 +142,13 @@ public class Customer extends Auditable {
 
     public void setVehicles(ArrayList<Vehicle> vehicles) {
         this.vehicles = vehicles;
+    }
+
+    public ArrayList<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(ArrayList<Invoice> invoices) {
+        this.invoices = invoices;
     }
 }
