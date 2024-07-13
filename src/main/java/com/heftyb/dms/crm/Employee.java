@@ -7,6 +7,7 @@ import com.heftyb.dms.repairorder.TechnicianFlatRateHour;
 import com.heftyb.dms.timekeeping.JobTimePunchSet;
 import com.heftyb.dms.timekeeping.TimeClockPunchSet;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 
@@ -18,14 +19,17 @@ public class Employee extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
     private String firstName;
+
+    @NotNull
     private String lastName;
+
+    @NotNull
     private String preferredName;
 
-    private String address;
-    private String city;
-    private String state;
-    private String zipcode;
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    private MailingAddress mailingAddress;
 
     private String taxId;
 
@@ -64,14 +68,11 @@ public class Employee extends Auditable {
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, String preferredName, String address, String city, String state, String zipcode, String taxId, JobTitle jobTitle, Employee manager) {
+    public Employee(String firstName, String lastName, String preferredName, MailingAddress mailingAddress, String taxId, JobTitle jobTitle) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.preferredName = preferredName;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
+        this.mailingAddress = mailingAddress;
         this.taxId = taxId;
         this.jobTitle = jobTitle;
 //        this.manager = manager;
@@ -114,36 +115,36 @@ public class Employee extends Auditable {
         this.preferredName = preferredName;
     }
 
-    public String getAddress() {
-        return address;
+    public MailingAddress getMailingAddress() {
+        return mailingAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setMailingAddress(MailingAddress mailingAddress) {
+        this.mailingAddress = mailingAddress;
     }
 
-    public String getCity() {
-        return city;
+    public ArrayList<TimeClockPunchSet> getTimeClockPunchSets() {
+        return timeClockPunchSets;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setTimeClockPunchSets(ArrayList<TimeClockPunchSet> timeClockPunchSets) {
+        this.timeClockPunchSets = timeClockPunchSets;
     }
 
-    public String getState() {
-        return state;
+    public ArrayList<JobTimePunchSet> getJobTimePunchSets() {
+        return jobTimePunchSets;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setJobTimePunchSets(ArrayList<JobTimePunchSet> jobTimePunchSets) {
+        this.jobTimePunchSets = jobTimePunchSets;
     }
 
-    public String getZipcode() {
-        return zipcode;
+    public ArrayList<SaleLead> getLeads() {
+        return leads;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setLeads(ArrayList<SaleLead> leads) {
+        this.leads = leads;
     }
 
     public String getTaxId() {

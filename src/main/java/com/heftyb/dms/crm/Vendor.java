@@ -1,6 +1,8 @@
 package com.heftyb.dms.crm;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.models.invoice.Invoice;
 import com.heftyb.dms.account.models.po.PurchaseOrder;
 import jakarta.persistence.*;
 
@@ -13,9 +15,12 @@ public class Vendor extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String address;
-    private String city;
-    private String zipcode;
+    private String companyName;
+    private String personOfContact;
+
+    @OneToOne(mappedBy = "vendor", cascade = CascadeType.ALL)
+    private MailingAddress address;
+
     private String phone;
     private String email;
 
@@ -23,22 +28,31 @@ public class Vendor extends Auditable {
     private String paymentMethod;
 
     @OneToMany(mappedBy = "from", cascade = CascadeType.ALL)
+    @JsonIgnore
     private ArrayList<PurchaseOrder> sentPurchaseOrders;
 
     @OneToMany(mappedBy = "to", cascade = CascadeType.ALL)
+    @JsonIgnore
     private ArrayList<PurchaseOrder> receivedPurchaseOrders;
+
+    @OneToMany(mappedBy = "vendor")
+    @JsonIgnore
+    private ArrayList<Invoice> invoices;
 
     public Vendor() {
     }
 
-    public Vendor(String address, String city, String zipcode, String phone, String email, String taxId, String paymentMethod) {
+    public Vendor(String companyName, String personOfContact, MailingAddress address, String phone, String email, String taxId, String paymentMethod) {
+        this.companyName = companyName;
+        this.personOfContact = personOfContact;
         this.address = address;
-        this.city = city;
-        this.zipcode = zipcode;
         this.phone = phone;
         this.email = email;
         this.taxId = taxId;
         this.paymentMethod = paymentMethod;
+        this.sentPurchaseOrders = new ArrayList<>();
+        this.receivedPurchaseOrders = new ArrayList<>();
+        this.invoices = new ArrayList<>();
     }
 
     public long getId() {
@@ -49,29 +63,30 @@ public class Vendor extends Auditable {
         this.id = id;
     }
 
-    public String getAddress() {
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getPersonOfContact() {
+        return personOfContact;
+    }
+
+    public void setPersonOfContact(String personOfContact) {
+        this.personOfContact = personOfContact;
+    }
+
+    public MailingAddress getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(MailingAddress address) {
         this.address = address;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
 
     public String getPhone() {
         return phone;
@@ -119,5 +134,13 @@ public class Vendor extends Auditable {
 
     public void setReceivedPurchaseOrders(ArrayList<PurchaseOrder> receivedPurchaseOrders) {
         this.receivedPurchaseOrders = receivedPurchaseOrders;
+    }
+
+    public ArrayList<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(ArrayList<Invoice> invoices) {
+        this.invoices = invoices;
     }
 }

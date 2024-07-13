@@ -1,5 +1,6 @@
 package com.heftyb.dms.vehicles.services;
 
+import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.vehicles.Manufacturer;
 import com.heftyb.dms.vehicles.Model;
 import com.heftyb.dms.vehicles.Vehicle;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
-@Service(value = "userService")
+@Service(value = "manufacturerService")
 public class ManufacturerServiceImp implements ManufacturerService {
 
     private final ManufacturerRepository manRepo;
@@ -40,15 +41,12 @@ public class ManufacturerServiceImp implements ManufacturerService {
 
     @Override
     public Manufacturer findById(long id) {
-        return manRepo.findById(id).orElseThrow(() -> new RuntimeException("ManufacturerService Error: Could not find Manufacturer id " + id + "\n"));
+        return manRepo.findById(id).orElseThrow(() -> new DataNotFoundException("ManufacturerService Error: Could not find Manufacturer id " + id + "\n"));
     }
 
     @Override
     public Manufacturer findByName(String name) {
-        Manufacturer m = manRepo.findByName(name);
-        if (m == null) {
-            throw new RuntimeException("ManufacturerService Error: could not find manufacturer " + name +"\n");
-        }
+        Manufacturer m = manRepo.findByName(name).orElseThrow(() -> new DataNotFoundException(String.format("ManufacturerService Error: could not find Manufacturer name %s", name)));
         return m;
     }
 
@@ -58,24 +56,28 @@ public class ManufacturerServiceImp implements ManufacturerService {
         return manRepo.findByNameContainingIgnoreCase(name);
     }
 
+    @Transactional
     @Override
     public void delete(long id) {
         manRepo.findById(id).orElseThrow(() -> new RuntimeException("ManufacturerService Error: Could not find Manufacturer id " + id + "\n"));
         manRepo.deleteById(id);
     }
 
+    @Transactional
     @Override
     public Manufacturer save(Manufacturer manufacturer) {
         Manufacturer newManufacturer = new Manufacturer();
 
         newManufacturer.setName(manufacturer.getName());
 
+        newManufacturer = manRepo.save(newManufacturer);
+
         for (WMI w: manufacturer.getWmis()) {
 
             Optional<WMI > ww = wmiRepo.findById(w.getId());
 
             if(ww.isEmpty()) {
-                ww = Optional.of(wmiRepo.save(new WMI(w.getName(), w.getWmi(), w.getManufacturer())));
+                ww = Optional.of(wmiRepo.save(new WMI(w.getName(), w.getWmi(), newManufacturer)));
             }
 
             newManufacturer.addWmi(ww.get());
@@ -85,17 +87,30 @@ public class ManufacturerServiceImp implements ManufacturerService {
             Optional<Model> mm = modelRepo.findById(m.getId());
 
             if(!mm.isPresent()) {
-                mm = Optional.of(modelRepo.save(new Model(m.getName(), m.getManufacturer())));
+                mm = Optional.of(modelRepo.save(new Model(m.getName(), newManufacturer)));
             }
 
             newManufacturer.addModel(mm.get());
         }
 
-        return manRepo.save(newManufacturer);
+        return newManufacturer;
     }
 
+    @Transactional
     @Override
     public Manufacturer update(long id, Manufacturer manufacturer) {
         return null;
+    }
+
+    @Override
+    public WMI addWMI(WMI wmi) {
+        WMI w = new WMI();
+
+        w.setName(wmi.getName());
+
+        Manufacturer m = findById(wmi.getManufacturer().getId());
+
+        w.setManufacturer(m);
+        return wmiRepo.save(w);
     }
 }
