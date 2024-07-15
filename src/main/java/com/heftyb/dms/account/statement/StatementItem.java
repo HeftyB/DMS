@@ -1,11 +1,13 @@
-package com.heftyb.dms.account.models.statement;
+package com.heftyb.dms.account.statement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.invoice.Invoice;
+import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.invoice.Invoice;
 import jakarta.persistence.*;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "statements")
@@ -20,7 +22,9 @@ public class StatementItem extends Auditable {
     @JsonIgnore
     private Statement statement;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private ZonedDateTime invoiceDate;
+
     private String invoiceNumber;
     private String description;
     private String poNumber;
@@ -31,10 +35,13 @@ public class StatementItem extends Auditable {
     @JsonIgnore
     private Invoice invoice;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private StatementStatus status;
 
-    private double financeFee;
+    @OneToMany(mappedBy = "statementItem")
+    private List<InterestCharge> interestCharges;
+
+//    private double financeFee;
 
     public StatementItem() {
     }
@@ -47,7 +54,7 @@ public class StatementItem extends Auditable {
         this.poNumber = invoice.getPoNumber();
         this.total = invoice.getTotal();
         this.status = status;
-        this.financeFee = calculateFinanceFee();
+//        this.financeFee = calculateFinanceFee();
     }
 
     public long getId() {
@@ -113,4 +120,29 @@ public class StatementItem extends Auditable {
     public void setStatus(StatementStatus status) {
         this.status = status;
     }
+
+    private int numberOfDaysInvoiceIsPastDue() {
+        return (int) Duration.between(invoiceDate, ZonedDateTime.now()).toDaysPart();
+    }
+
+//    private double calculateFinanceFee() {
+//
+//        int pastDue = numberOfDaysInvoiceIsPastDue();
+//
+//        StatementStatusRate statusRate = pastDue < 180 ? invoice.getTerms().getStatusRates().stream().filter(r -> r.getStatus() == StatementRateType.MONTHLY).collect(Collectors.toList()).getFirst() :
+//                invoice.getTerms().getStatusRates().stream().filter(r -> r.getStatus() == StatementRateType.ANNUAL).collect(Collectors.toList()).getFirst();
+//
+//        if ( statusRate.getStatus() == StatementRateType.MONTHLY ) {
+//            int months due
+//        } else {
+//
+//        }
+
+        /**
+         *
+         *
+         * TODO: calculate finance charge per interval
+         */
+//        return null;
+//    }
 }
