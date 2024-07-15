@@ -1,13 +1,14 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.invoice.Invoice;
+import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.invoice.Invoice;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -31,18 +32,22 @@ public class Customer extends Auditable {
 
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private ArrayList<PhoneNumber> phoneNumbers;
+    private List<PhoneNumber> phoneNumbers;
 
 
     private String email;
 
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
-    private ArrayList<Vehicle> vehicles;
+    private List<Vehicle> vehicles;
 
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
-    private ArrayList<Invoice> invoices;
+    private List<Invoice> invoices;
+
+//    @OneToMany(mappedBy = "customer")
+//    @JsonIgnore
+//    private ArrayList<Statement> statements;
 
 //    private ArrayList<SaleLead> leads;
 
@@ -120,7 +125,7 @@ public class Customer extends Auditable {
         this.mailingAddress = mailingAddress;
     }
 
-    public ArrayList<PhoneNumber> getPhoneNumbers() {
+    public List<PhoneNumber> getPhoneNumbers() {
         return phoneNumbers;
     }
 
@@ -136,7 +141,7 @@ public class Customer extends Auditable {
         this.email = email;
     }
 
-    public ArrayList<Vehicle> getVehicles() {
+    public List<Vehicle> getVehicles() {
         return vehicles;
     }
 
@@ -144,7 +149,7 @@ public class Customer extends Auditable {
         this.vehicles = vehicles;
     }
 
-    public ArrayList<Invoice> getInvoices() {
+    public List<Invoice> getInvoices() {
         return invoices;
     }
 

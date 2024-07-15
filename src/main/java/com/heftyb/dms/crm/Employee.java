@@ -1,7 +1,7 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.repairorder.RepairOrder;
 import com.heftyb.dms.repairorder.TechnicianFlatRateHour;
 import com.heftyb.dms.timekeeping.JobTimePunchSet;
@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
@@ -34,10 +35,10 @@ public class Employee extends Auditable {
     private String taxId;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    private ArrayList<TimeClockPunchSet> timeClockPunchSets;
+    private List<TimeClockPunchSet> timeClockPunchSets;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    private ArrayList<JobTimePunchSet> jobTimePunchSets;
+    private List<JobTimePunchSet> jobTimePunchSets;
 
     private boolean clockedIn;
     private boolean jobInProgress;
@@ -51,18 +52,18 @@ public class Employee extends Auditable {
 //    private ArrayList<PayCheck> payChecks;
 
     @OneToMany(mappedBy = "employee")
-    private ArrayList<SaleLead> leads;
+    private List<SaleLead> leads;
 
 //    private ArrayList<CounterTicket> counterTickets;
 //    private ArrayList<VehicleSale> vehicleSales;
 
     @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL)
     @JsonIgnore
-    private ArrayList<RepairOrder> repairOrders;
+    private List<RepairOrder> repairOrders;
 
     @OneToMany(mappedBy = "technician", cascade = CascadeType.ALL)
     @JsonIgnore
-    private ArrayList<TechnicianFlatRateHour> flatRateHours;
+    private List<TechnicianFlatRateHour> flatRateHours;
 
 
     public Employee() {
@@ -123,7 +124,7 @@ public class Employee extends Auditable {
         this.mailingAddress = mailingAddress;
     }
 
-    public ArrayList<TimeClockPunchSet> getTimeClockPunchSets() {
+    public List<TimeClockPunchSet> getTimeClockPunchSets() {
         return timeClockPunchSets;
     }
 
@@ -131,7 +132,7 @@ public class Employee extends Auditable {
         this.timeClockPunchSets = timeClockPunchSets;
     }
 
-    public ArrayList<JobTimePunchSet> getJobTimePunchSets() {
+    public List<JobTimePunchSet> getJobTimePunchSets() {
         return jobTimePunchSets;
     }
 
@@ -139,7 +140,7 @@ public class Employee extends Auditable {
         this.jobTimePunchSets = jobTimePunchSets;
     }
 
-    public ArrayList<SaleLead> getLeads() {
+    public List<SaleLead> getLeads() {
         return leads;
     }
 
@@ -155,7 +156,7 @@ public class Employee extends Auditable {
         this.taxId = taxId;
     }
 
-    public ArrayList<TimeClockPunchSet> getTimePunches() {
+    public List<TimeClockPunchSet> getTimePunches() {
         return timeClockPunchSets;
     }
 
@@ -187,7 +188,7 @@ public class Employee extends Auditable {
         this.jobTitle = jobTitle;
     }
 
-    public ArrayList<RepairOrder> getRepairOrders() {
+    public List<RepairOrder> getRepairOrders() {
         return repairOrders;
     }
 
@@ -195,7 +196,7 @@ public class Employee extends Auditable {
         this.repairOrders = repairOrders;
     }
 
-    public ArrayList<TechnicianFlatRateHour> getFlatRateHours() {
+    public List<TechnicianFlatRateHour> getFlatRateHours() {
         return flatRateHours;
     }
 

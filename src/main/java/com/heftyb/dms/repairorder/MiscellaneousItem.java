@@ -1,9 +1,8 @@
 package com.heftyb.dms.repairorder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.po.PurchaseOrder;
-import com.heftyb.dms.vehicles.Vehicle;
+import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.po.PurchaseOrder;
 import jakarta.persistence.*;
 
 @Entity

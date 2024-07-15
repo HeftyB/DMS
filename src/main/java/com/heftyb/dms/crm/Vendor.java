@@ -1,12 +1,13 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.invoice.Invoice;
-import com.heftyb.dms.account.models.po.PurchaseOrder;
+import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.invoice.Invoice;
+import com.heftyb.dms.account.po.PurchaseOrder;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vendors")
@@ -29,15 +30,15 @@ public class Vendor extends Auditable {
 
     @OneToMany(mappedBy = "from", cascade = CascadeType.ALL)
     @JsonIgnore
-    private ArrayList<PurchaseOrder> sentPurchaseOrders;
+    private List<PurchaseOrder> sentPurchaseOrders;
 
     @OneToMany(mappedBy = "to", cascade = CascadeType.ALL)
     @JsonIgnore
-    private ArrayList<PurchaseOrder> receivedPurchaseOrders;
+    private List<PurchaseOrder> receivedPurchaseOrders;
 
     @OneToMany(mappedBy = "vendor")
     @JsonIgnore
-    private ArrayList<Invoice> invoices;
+    private List<Invoice> invoices;
 
     public Vendor() {
     }
@@ -120,7 +121,7 @@ public class Vendor extends Auditable {
         this.paymentMethod = paymentmethod;
     }
 
-    public ArrayList<PurchaseOrder> getSentPurchaseOrders() {
+    public List<PurchaseOrder> getSentPurchaseOrders() {
         return sentPurchaseOrders;
     }
 
@@ -128,7 +129,7 @@ public class Vendor extends Auditable {
         this.sentPurchaseOrders = sentPurchaseOrders;
     }
 
-    public ArrayList<PurchaseOrder> getReceivedPurchaseOrders() {
+    public List<PurchaseOrder> getReceivedPurchaseOrders() {
         return receivedPurchaseOrders;
     }
 
@@ -136,7 +137,7 @@ public class Vendor extends Auditable {
         this.receivedPurchaseOrders = receivedPurchaseOrders;
     }
 
-    public ArrayList<Invoice> getInvoices() {
+    public List<Invoice> getInvoices() {
         return invoices;
     }
 

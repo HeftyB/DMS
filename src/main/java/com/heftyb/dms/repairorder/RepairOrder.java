@@ -1,10 +1,10 @@
 package com.heftyb.dms.repairorder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.fee.RepairOrderFee;
-import com.heftyb.dms.account.models.tax.TaxCharge;
+import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.fee.RepairOrderFee;
+import com.heftyb.dms.account.invoice.Invoice;
+import com.heftyb.dms.account.tax.TaxCharge;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.vehicles.Vehicle;
@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "repairOrders")
@@ -21,8 +22,20 @@ public class RepairOrder extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private ZonedDateTime openDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private ZonedDateTime finalizedDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private ZonedDateTime closedDate;
+
+    @OneToOne(mappedBy = "repairOrder")
+    @JsonIgnore
+    private Invoice invoice;
+
 
     @ManyToOne
     private Customer customer;
@@ -43,15 +56,15 @@ public class RepairOrder extends Auditable {
     private boolean isActive;
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private ArrayList<RepairOrderJob> jobs;
+    private List<RepairOrderJob> jobs;
 
     private float subtotal;
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private ArrayList<RepairOrderFee> fees;
+    private List<RepairOrderFee> fees;
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private ArrayList<MiscellaneousItem> miscItems;
+    private List<MiscellaneousItem> miscItems;
 
     @OneToOne
     @JoinColumn(name = "taxChargeId")
@@ -62,9 +75,9 @@ public class RepairOrder extends Auditable {
     public RepairOrder() {
     }
 
-    public RepairOrder(ZonedDateTime openDate, ZonedDateTime closedDate, Customer customer, Vehicle vehicle, int mileageIn, int mileageOut, String serviceTag, Employee advisor, ArrayList<RepairOrderJob> jobs) {
+    public RepairOrder(ZonedDateTime openDate, Invoice invoice, Customer customer, Vehicle vehicle, int mileageIn, int mileageOut, String serviceTag, Employee advisor, ArrayList<RepairOrderJob> jobs) {
         this.openDate = openDate;
-        this.closedDate = closedDate;
+        this.invoice = invoice;
         this.customer = customer;
         this.vehicle = vehicle;
         this.mileageIn = mileageIn;
@@ -154,7 +167,7 @@ public class RepairOrder extends Auditable {
         isActive = active;
     }
 
-    public ArrayList<RepairOrderJob> getJobs() {
+    public List<RepairOrderJob> getJobs() {
         return jobs;
     }
 
@@ -170,7 +183,7 @@ public class RepairOrder extends Auditable {
         this.subtotal = subtotal;
     }
 
-    public ArrayList<RepairOrderFee> getFees() {
+    public List<RepairOrderFee> getFees() {
         return fees;
     }
 
@@ -178,7 +191,7 @@ public class RepairOrder extends Auditable {
         this.fees = fees;
     }
 
-    public ArrayList<MiscellaneousItem> getMiscItems() {
+    public List<MiscellaneousItem> getMiscItems() {
         return miscItems;
     }
 
@@ -200,5 +213,21 @@ public class RepairOrder extends Auditable {
 
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public ZonedDateTime getFinalizedDate() {
+        return finalizedDate;
+    }
+
+    public void setFinalizedDate(ZonedDateTime finalizedDate) {
+        this.finalizedDate = finalizedDate;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 }

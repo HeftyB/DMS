@@ -1,6 +1,6 @@
 package com.heftyb.dms.vehicles;
 
-import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
 @Entity

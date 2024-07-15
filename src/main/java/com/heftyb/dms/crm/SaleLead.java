@@ -25,7 +25,7 @@ public class SaleLead {
     private ZonedDateTime date;
 
     @OneToMany(mappedBy = "lead", cascade = CascadeType.ALL)
-    private ArrayList<Note> notes;
+    private ArrayList<SaleLeadNote> saleLeadNotes;
 
     public SaleLead() {
     }
@@ -35,7 +35,7 @@ public class SaleLead {
         this.employee = employee;
         this.message = message;
         this.date = date;
-        this.notes = new ArrayList<>();
+        this.saleLeadNotes = new ArrayList<>();
     }
 
     public long getId() {
@@ -78,11 +78,11 @@ public class SaleLead {
         this.date = date;
     }
 
-    public ArrayList<Note> getNotes() {
-        return notes;
+    public ArrayList<SaleLeadNote> getNotes() {
+        return saleLeadNotes;
     }
 
-    public void setNotes(ArrayList<Note> notes) {
-        this.notes = notes;
+    public void setNotes(ArrayList<SaleLeadNote> saleLeadNotes) {
+        this.saleLeadNotes = saleLeadNotes;
     }
 }

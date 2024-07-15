@@ -1,7 +1,7 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
 @Entity

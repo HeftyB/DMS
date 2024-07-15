@@ -1,6 +1,6 @@
 package com.heftyb.dms.inventory;
 
-import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;

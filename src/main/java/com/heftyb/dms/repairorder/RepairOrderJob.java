@@ -1,14 +1,13 @@
 package com.heftyb.dms.repairorder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.inventory.Part;
+import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.inventory.RepairOrderJobPart;
 import com.heftyb.dms.timekeeping.JobTimePunchSet;
-import com.heftyb.dms.timekeeping.TimeClockPunchSet;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "repairOrderJobs")
@@ -30,16 +29,16 @@ public class RepairOrderJob extends Auditable {
     private String correction;
 
     @OneToMany(mappedBy = "repairOrderJob", cascade = CascadeType.ALL)
-    private ArrayList<RepairOrderJobPart> parts;
+    private List<RepairOrderJobPart> parts;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private ArrayList<JobTimePunchSet> timeClockPunchSets;
+    private List<JobTimePunchSet> timeClockPunchSets;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private ArrayList<TechnicianFlatRateHour> labor;
+    private List<TechnicianFlatRateHour> labor;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private ArrayList<MiscellaneousItem> miscItems;
+    private List<MiscellaneousItem> miscItems;
 
     public RepairOrderJob() {
     }
@@ -104,7 +103,7 @@ public class RepairOrderJob extends Auditable {
         this.correction = correction;
     }
 
-    public ArrayList<RepairOrderJobPart> getParts() {
+    public List<RepairOrderJobPart> getParts() {
         return parts;
     }
 
@@ -112,7 +111,7 @@ public class RepairOrderJob extends Auditable {
         this.parts = parts;
     }
 
-    public ArrayList<JobTimePunchSet> getTimeClockPunchSets() {
+    public List<JobTimePunchSet> getTimeClockPunchSets() {
         return timeClockPunchSets;
     }
 
@@ -120,7 +119,7 @@ public class RepairOrderJob extends Auditable {
         this.timeClockPunchSets = timeClockPunchSets;
     }
 
-    public ArrayList<TechnicianFlatRateHour> getLabor() {
+    public List<TechnicianFlatRateHour> getLabor() {
         return labor;
     }
 
@@ -128,7 +127,7 @@ public class RepairOrderJob extends Auditable {
         this.labor = labor;
     }
 
-    public ArrayList<MiscellaneousItem> getMiscItems() {
+    public List<MiscellaneousItem> getMiscItems() {
         return miscItems;
     }
 

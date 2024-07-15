@@ -5,7 +5,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public class TimeSheet {
 
@@ -16,8 +16,8 @@ public class TimeSheet {
     private ZonedDateTime payPeriodStart;
     private ZonedDateTime payPeriodEnd;
 
-    private ArrayList<TimeClockPunchSet> timeClockPunchSets;
-    private ArrayList<PTO> pto;
+    private List<TimeClockPunchSet> timeClockPunchSets;
+    private List<PTO> pto;
 
     private double totalHours;
 }

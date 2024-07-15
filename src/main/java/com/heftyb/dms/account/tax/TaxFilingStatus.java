@@ -1,0 +1,7 @@
+package com.heftyb.dms.account.tax;
+
+public enum TaxFilingStatus {
+    SINGLE_OR_MARRIED_FILING_SEPARATELY,
+    MARRIED_FILING_JOINTLY_OR_QUALIFYING_SURVIVING_SPOUSE,
+    HEAD_OF_HOUSEHOLD
+}

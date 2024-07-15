@@ -1,6 +1,6 @@
 package com.heftyb.dms.timekeeping;
 
-import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
 

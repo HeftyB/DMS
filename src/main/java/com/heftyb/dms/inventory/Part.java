@@ -1,12 +1,12 @@
 package com.heftyb.dms.inventory;
 
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.po.PurchaseOrder;
+import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.po.PurchaseOrder;
 import com.heftyb.dms.repairorder.RepairOrder;
 import com.heftyb.dms.repairorder.RepairOrderJob;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "parts")
@@ -27,7 +27,7 @@ public class Part extends Auditable {
     private int qty;
 
     @OneToMany(mappedBy = "part", cascade = CascadeType.ALL)
-    private ArrayList<StockedPart> receivedStock;
+    private List<StockedPart> receivedStock;
 
     private float cost;
     private float price;
