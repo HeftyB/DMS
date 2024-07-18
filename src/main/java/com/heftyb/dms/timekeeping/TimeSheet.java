@@ -1,12 +1,12 @@
 package com.heftyb.dms.timekeeping;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 
+@Entity
+@Table(name = "timeSheets")
 public class TimeSheet {
 
     @Id

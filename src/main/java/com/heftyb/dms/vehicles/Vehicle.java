@@ -56,13 +56,15 @@ public class Vehicle extends Auditable {
 
     }
 
-    public Vehicle(int modelYear, Manufacturer make, Model model) {
+    public Vehicle(String vin, int modelYear, Manufacturer make, Model model) {
+        this.vin = vin;
         this.modelYear = modelYear;
         this.make = make;
         this.model = model;
     }
 
-    public Vehicle(int modelYear, Manufacturer make, Model model, String trim, String engine, String color) {
+    public Vehicle(String vin, int modelYear, Manufacturer make, Model model, String trim, String engine, String color) {
+        this.vin = vin;
         this.modelYear = modelYear;
         this.make = make;
         this.model = model;

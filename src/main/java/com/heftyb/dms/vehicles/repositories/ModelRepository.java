@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ModelRepository extends CrudRepository<Model, Long> {
 
-    List<Model> findByManufacturer_NameContaining(String name);
-    Optional<Model> findByName(String name);
-    List<Model> findByNameContaining(String name);
+    List<Model> findByManufacturer_NameContainingIgnoreCase(String name);
+    Optional<Model> findByNameIgnoreCase(String name);
+    List<Model> findByNameContainingIgnoreCase(String name);
 }

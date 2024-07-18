@@ -14,6 +14,8 @@ public class PhoneNumber extends Auditable {
     private String number;
     private boolean isPrimary;
 
+    private PhoneNumberType type;
+
     @ManyToOne
     @JoinColumn
     @JsonIgnore
@@ -30,6 +32,13 @@ public class PhoneNumber extends Auditable {
     private SaleLead lead;
 
     public PhoneNumber() {
+    }
+
+    public PhoneNumber(String number, boolean isPrimary, PhoneNumberType type, Customer customer) {
+        this.number = number;
+        this.isPrimary = isPrimary;
+        this.type = type;
+        this.customer = customer;
     }
 
     public long getId() {
@@ -78,5 +87,13 @@ public class PhoneNumber extends Auditable {
 
     public void setPrimary(boolean primary) {
         isPrimary = primary;
+    }
+
+    public PhoneNumberType getType() {
+        return type;
+    }
+
+    public void setType(PhoneNumberType type) {
+        this.type = type;
     }
 }

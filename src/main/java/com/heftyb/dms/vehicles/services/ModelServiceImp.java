@@ -32,12 +32,12 @@ public class ModelServiceImp implements ModelService{
 
     @Override
     public List<Model> findByManufacturer(String name) {
-        return modelRepo.findByManufacturer_NameContaining(name);
+        return modelRepo.findByManufacturer_NameContainingIgnoreCase(name);
     }
 
     @Override
     public Model findByName(String name) {
-        Model m = modelRepo.findByName(name).orElseThrow(
+        Model m = modelRepo.findByNameIgnoreCase(name).orElseThrow(
                 () -> new DataNotFoundException(String.format("ModelService Error: could not find model name %s", name))
         );
 
@@ -47,7 +47,7 @@ public class ModelServiceImp implements ModelService{
     @Override
     public List<Model> findByNameContaining(String name) {
         List<Model> models = new ArrayList<>();
-        modelRepo.findByNameContaining(name).iterator().forEachRemaining(models::add);
+        modelRepo.findByNameContainingIgnoreCase(name).iterator().forEachRemaining(models::add);
         return models;
     }
 

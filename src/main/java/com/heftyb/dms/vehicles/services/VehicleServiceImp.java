@@ -39,7 +39,7 @@ public class VehicleServiceImp implements VehicleService{
 
     @Override
     public List<Vehicle> findByVin(String vin) {
-        return vehicleRepo.findByVinContaining(vin).stream().collect(Collectors.toCollection(ArrayList::new));
+        return vehicleRepo.findByVinContainingIgnoreCase(vin).stream().collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
