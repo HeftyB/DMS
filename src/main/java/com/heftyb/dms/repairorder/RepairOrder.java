@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,15 +23,15 @@ public class RepairOrder extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private ZonedDateTime openDate;
+    @Temporal(TemporalType.DATE)
+    private Date openDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private ZonedDateTime finalizedDate;
+    @Temporal(TemporalType.DATE)
+    private Date finalizedDate;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore
-    private ZonedDateTime closedDate;
+    private Date closedDate;
 
     @OneToOne(mappedBy = "repairOrder")
     @JsonIgnore
@@ -75,7 +76,7 @@ public class RepairOrder extends Auditable {
     public RepairOrder() {
     }
 
-    public RepairOrder(ZonedDateTime openDate, Invoice invoice, Customer customer, Vehicle vehicle, int mileageIn, int mileageOut, String serviceTag, Employee advisor, ArrayList<RepairOrderJob> jobs) {
+    public RepairOrder(Date openDate, Invoice invoice, Customer customer, Vehicle vehicle, int mileageIn, int mileageOut, String serviceTag, Employee advisor, ArrayList<RepairOrderJob> jobs) {
         this.openDate = openDate;
         this.invoice = invoice;
         this.customer = customer;
@@ -95,19 +96,19 @@ public class RepairOrder extends Auditable {
         this.id = id;
     }
 
-    public ZonedDateTime getOpenDate() {
+    public Date getOpenDate() {
         return openDate;
     }
 
-    public void setOpenDate(ZonedDateTime openDate) {
+    public void setOpenDate(Date openDate) {
         this.openDate = openDate;
     }
 
-    public ZonedDateTime getClosedDate() {
+    public Date getClosedDate() {
         return closedDate;
     }
 
-    public void setClosedDate(ZonedDateTime closedDate) {
+    public void setClosedDate(Date closedDate) {
         this.closedDate = closedDate;
     }
 
@@ -215,11 +216,11 @@ public class RepairOrder extends Auditable {
         this.totalAmount = totalAmount;
     }
 
-    public ZonedDateTime getFinalizedDate() {
+    public Date getFinalizedDate() {
         return finalizedDate;
     }
 
-    public void setFinalizedDate(ZonedDateTime finalizedDate) {
+    public void setFinalizedDate(Date finalizedDate) {
         this.finalizedDate = finalizedDate;
     }
 
@@ -229,5 +230,17 @@ public class RepairOrder extends Auditable {
 
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+
+    public void setJobs(List<RepairOrderJob> jobs) {
+        this.jobs = jobs;
+    }
+
+    public void setFees(List<RepairOrderFee> fees) {
+        this.fees = fees;
+    }
+
+    public void setMiscItems(List<MiscellaneousItem> miscItems) {
+        this.miscItems = miscItems;
     }
 }

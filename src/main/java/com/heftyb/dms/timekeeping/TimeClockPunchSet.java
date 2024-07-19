@@ -28,6 +28,10 @@ public class TimeClockPunchSet extends Auditable {
     @JoinColumn()
     private Employee employee;
 
+    @ManyToOne
+    @JoinColumn
+    private TimeSheet timeSheet;
+
 
 
     public TimeClockPunchSet() {
@@ -69,5 +73,21 @@ public class TimeClockPunchSet extends Auditable {
 
     public void setOut(TimePunchOut out) {
         this.out = out;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public TimeSheet getTimeSheet() {
+        return timeSheet;
+    }
+
+    public void setTimeSheet(TimeSheet timeSheet) {
+        this.timeSheet = timeSheet;
     }
 }
