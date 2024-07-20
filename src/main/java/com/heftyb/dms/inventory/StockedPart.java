@@ -3,7 +3,7 @@ package com.heftyb.dms.inventory;
 import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
-import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "stockedParts")
@@ -17,7 +17,8 @@ public class StockedPart extends Auditable {
     @JoinColumn
     private Part part;
 
-    private ZonedDateTime received;
+    @Temporal(TemporalType.DATE)
+    private Date received;
 
     private String invoice;
     private String source;
@@ -44,11 +45,11 @@ public class StockedPart extends Auditable {
         this.part = part;
     }
 
-    public ZonedDateTime getReceived() {
+    public Date getReceived() {
         return received;
     }
 
-    public void setReceived(ZonedDateTime received) {
+    public void setReceived(Date received) {
         this.received = received;
     }
 

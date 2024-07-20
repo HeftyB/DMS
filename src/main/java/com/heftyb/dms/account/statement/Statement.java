@@ -5,7 +5,7 @@ import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Vendor;
 import jakarta.persistence.*;
 
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,7 +16,9 @@ public class Statement extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private ZonedDateTime date;
+    @Temporal(TemporalType.DATE)
+    private Date date;
+
     private double amount;
 
     @ManyToOne

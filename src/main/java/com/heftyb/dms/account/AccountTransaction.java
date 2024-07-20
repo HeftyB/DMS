@@ -3,7 +3,7 @@ package com.heftyb.dms.account;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "accountTransactions")
@@ -25,8 +25,8 @@ public class AccountTransaction extends Auditable{
     @NotNull
     private AccountTransactionType type;
 
-    @NotNull
-    private LocalDateTime date;
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
     @NotNull
     private int amount;
@@ -34,7 +34,7 @@ public class AccountTransaction extends Auditable{
     public AccountTransaction() {
     }
 
-    public AccountTransaction(Account account, Transaction transaction, AccountTransactionType type, LocalDateTime date, int amount) {
+    public AccountTransaction(Account account, Transaction transaction, AccountTransactionType type, Date date, int amount) {
         this.account = account;
         this.transaction = transaction;
         this.type = type;
@@ -74,11 +74,11 @@ public class AccountTransaction extends Auditable{
         this.type = type;
     }
 
-    public LocalDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

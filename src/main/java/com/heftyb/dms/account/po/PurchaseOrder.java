@@ -7,7 +7,9 @@ import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.crm.Vendor;
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,6 +19,9 @@ public class PurchaseOrder extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
     @ManyToOne
     @JoinColumn
@@ -62,6 +67,7 @@ public class PurchaseOrder extends Auditable {
 
     public PurchaseOrder(long id, Vendor from, Vendor to, ContactInformation fromContact, ContactInformation toContact, String shippingMethod, String paymentTerms, String requiredByDate, ArrayList<POItem> items, String notes, double subTotal, TaxCharge taxes, double shipping, double other, double totalCost, Employee approvedBy) {
         this.id = id;
+        this.date = Date.from(Instant.now());
         this.from = from;
         this.to = to;
         this.fromContact = fromContact;
@@ -205,5 +211,17 @@ public class PurchaseOrder extends Auditable {
 
     public void setApprovedBy(Employee approvedBy) {
         this.approvedBy = approvedBy;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setItems(List<POItem> items) {
+        this.items = items;
     }
 }

@@ -14,8 +14,10 @@ public class TimeSheet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date payPeriodStart;
+
+    @Temporal(TemporalType.DATE)
     private Date payPeriodEnd;
 
     @OneToMany(mappedBy = "timeSheet")

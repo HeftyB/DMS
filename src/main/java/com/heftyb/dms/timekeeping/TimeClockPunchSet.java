@@ -14,6 +14,7 @@ public class TimeClockPunchSet extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     @OneToOne

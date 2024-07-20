@@ -13,6 +13,7 @@ public class Transaction extends Auditable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     private int amount;

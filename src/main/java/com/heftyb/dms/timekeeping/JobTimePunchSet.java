@@ -15,6 +15,7 @@ public class JobTimePunchSet extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     @OneToOne

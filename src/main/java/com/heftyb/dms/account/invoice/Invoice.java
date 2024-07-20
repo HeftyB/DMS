@@ -9,8 +9,8 @@ import com.heftyb.dms.crm.Vendor;
 import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,7 +26,10 @@ public class Invoice extends Auditable {
 
     private String invoiceNumber;
     private String poNumber;
-    private ZonedDateTime date;
+
+    @Temporal(TemporalType.DATE)
+    private Date date;
+
     private double total;
 
     @ManyToOne
@@ -56,7 +59,7 @@ public class Invoice extends Auditable {
     public Invoice() {
     }
 
-    public Invoice(InvoiceType type, String invoiceNumber, String poNumber, ZonedDateTime date, double total, Customer customer, Vendor vendor, PaymentTerm terms, String notes, RepairOrder repairOrder, Status status, ArrayList<InvoiceItem> items) {
+    public Invoice(InvoiceType type, String invoiceNumber, String poNumber, Date date, double total, Customer customer, Vendor vendor, PaymentTerm terms, String notes, RepairOrder repairOrder, Status status, ArrayList<InvoiceItem> items) {
         this.type = type;
         this.invoiceNumber = invoiceNumber;
         this.poNumber = poNumber;
@@ -103,11 +106,11 @@ public class Invoice extends Auditable {
         this.poNumber = poNumber;
     }
 
-    public ZonedDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

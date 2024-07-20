@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class StatementItem extends Auditable {
     private Statement statement;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private ZonedDateTime invoiceDate;
+    private Date invoiceDate;
 
     private String invoiceNumber;
     private String description;
@@ -65,11 +66,11 @@ public class StatementItem extends Auditable {
         this.id = id;
     }
 
-    public ZonedDateTime getInvoiceDate() {
+    public Date getInvoiceDate() {
         return invoiceDate;
     }
 
-    public void setInvoiceDate(ZonedDateTime invoiceDate) {
+    public void setInvoiceDate(Date invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
 
@@ -121,9 +122,9 @@ public class StatementItem extends Auditable {
         this.status = status;
     }
 
-    private int numberOfDaysInvoiceIsPastDue() {
-        return (int) Duration.between(invoiceDate, ZonedDateTime.now()).toDaysPart();
-    }
+//    private int numberOfDaysInvoiceIsPastDue() {
+//        return (int) Duration.between(Date, ZonedDateTime.now()).toDaysPart();
+//    }
 
 //    private double calculateFinanceFee() {
 //
