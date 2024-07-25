@@ -1,9 +1,9 @@
 package com.heftyb.dms.account.invoice;
 
 
+import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.account.PaymentTerm;
 import com.heftyb.dms.account.Status;
-import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Vendor;
 import com.heftyb.dms.repairorder.RepairOrder;
@@ -46,9 +46,9 @@ public class Invoice extends Auditable {
 
     private String notes;
 
-    @OneToOne
-    @JoinColumn(name = "RO", referencedColumnName = "id")
-    private RepairOrder repairOrder;
+//    @OneToOne
+//    @JoinColumn(name = "RO", referencedColumnName = "id")
+//    private RepairOrder repairOrder;
 
     @Enumerated
     private Status status = Status.OPEN;
@@ -69,7 +69,7 @@ public class Invoice extends Auditable {
         this.vendor = vendor;
         this.terms = terms;
         this.notes = notes;
-        this.repairOrder = repairOrder;
+//        this.repairOrder = repairOrder;
         this.status = status;
         this.items = items;
     }
@@ -154,13 +154,13 @@ public class Invoice extends Auditable {
         this.notes = notes;
     }
 
-    public RepairOrder getRepairOrder() {
-        return repairOrder;
-    }
-
-    public void setRepairOrder(RepairOrder repairOrder) {
-        this.repairOrder = repairOrder;
-    }
+//    public RepairOrder getRepairOrder() {
+//        return repairOrder;
+//    }
+//
+//    public void setRepairOrder(RepairOrder repairOrder) {
+//        this.repairOrder = repairOrder;
+//    }
 
     public Status getStatus() {
         return status;

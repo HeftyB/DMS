@@ -4,6 +4,7 @@ import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
 
+import java.time.Duration;
 import java.util.Date;
 
 @Entity
@@ -90,5 +91,10 @@ public class TimeClockPunchSet extends Auditable {
 
     public void setTimeSheet(TimeSheet timeSheet) {
         this.timeSheet = timeSheet;
+    }
+
+    public long hoursBetweenPunches() {
+        Duration d = Duration.between(in.getTime().toInstant(), out.getTime().toInstant());
+        return d.toMinutes() / 60;
     }
 }

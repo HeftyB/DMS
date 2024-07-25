@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @Service(value = "vehicleService")
 public class VehicleServiceImp implements VehicleService{
 
-    final VehicleRepository vehicleRepo;
-    final ManufacturerService manService;
-    final ModelService modelService;
+    private final VehicleRepository vehicleRepo;
+    private final ManufacturerService manService;
+    private final ModelService modelService;
 
     public VehicleServiceImp(
             final VehicleRepository vehicleRepo,

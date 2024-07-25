@@ -1,6 +1,5 @@
 package com.heftyb.dms.crm.repositories;
 
-import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.PhoneNumber;
 import org.springframework.data.repository.CrudRepository;
 

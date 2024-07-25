@@ -3,7 +3,6 @@ package com.heftyb.dms.inventory;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 @Embeddable
 public class RepairOrderJobPartId implements Serializable {

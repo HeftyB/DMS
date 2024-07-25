@@ -152,6 +152,38 @@ public class Part extends Auditable {
         this.purchaseOrder = purchaseOrder;
     }
 
+    public String getBin() {
+        return bin;
+    }
+
+    public void setBin(String bin) {
+        this.bin = bin;
+    }
+
+    public boolean isInStock() {
+        return inStock;
+    }
+
+    public void setInStock(boolean inStock) {
+        this.inStock = inStock;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public List<StockedPart> getReceivedStock() {
+        return receivedStock;
+    }
+
+    public void setReceivedStock(List<StockedPart> receivedStock) {
+        this.receivedStock = receivedStock;
+    }
+
     public RepairOrder getRepairOrder() {
         return repairOrderJob.getRepairOrder();
     }

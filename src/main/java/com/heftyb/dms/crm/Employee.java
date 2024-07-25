@@ -51,8 +51,8 @@ public class Employee extends Auditable {
 //    private ArrayList<TimeSheet> timeSheets;
 //    private ArrayList<PayCheck> payChecks;
 
-    @OneToMany(mappedBy = "employee")
-    private List<SaleLead> leads;
+//    @OneToMany(mappedBy = "employee")
+//    private List<SaleLead> leads;
 
 //    private ArrayList<CounterTicket> counterTickets;
 //    private ArrayList<VehicleSale> vehicleSales;
@@ -140,13 +140,13 @@ public class Employee extends Auditable {
         this.jobTimePunchSets = jobTimePunchSets;
     }
 
-    public List<SaleLead> getLeads() {
-        return leads;
-    }
-
-    public void setLeads(ArrayList<SaleLead> leads) {
-        this.leads = leads;
-    }
+//    public List<SaleLead> getLeads() {
+//        return leads;
+//    }
+//
+//    public void setLeads(ArrayList<SaleLead> leads) {
+//        this.leads = leads;
+//    }
 
     public String getTaxId() {
         return taxId;

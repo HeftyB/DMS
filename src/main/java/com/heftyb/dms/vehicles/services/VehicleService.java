@@ -9,5 +9,5 @@ public interface VehicleService {
     List<Vehicle> findByVin(String vin);
     Vehicle findById(long id);
     Vehicle save(Vehicle vehicle);
-    void  delete(long id);
+    void delete(long id);
 }

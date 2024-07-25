@@ -10,7 +10,6 @@ import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,9 +32,9 @@ public class RepairOrder extends Auditable {
     @JsonIgnore
     private Date closedDate;
 
-    @OneToOne(mappedBy = "repairOrder")
-    @JsonIgnore
-    private Invoice invoice;
+//    @OneToOne(mappedBy = "repairOrder")
+//    @JsonIgnore
+//    private Invoice invoice;
 
 
     @ManyToOne
@@ -78,7 +77,7 @@ public class RepairOrder extends Auditable {
 
     public RepairOrder(Date openDate, Invoice invoice, Customer customer, Vehicle vehicle, int mileageIn, int mileageOut, String serviceTag, Employee advisor, ArrayList<RepairOrderJob> jobs) {
         this.openDate = openDate;
-        this.invoice = invoice;
+//        this.invoice = invoice;
         this.customer = customer;
         this.vehicle = vehicle;
         this.mileageIn = mileageIn;
@@ -224,13 +223,13 @@ public class RepairOrder extends Auditable {
         this.finalizedDate = finalizedDate;
     }
 
-    public Invoice getInvoice() {
-        return invoice;
-    }
-
-    public void setInvoice(Invoice invoice) {
-        this.invoice = invoice;
-    }
+//    public Invoice getInvoice() {
+//        return invoice;
+//    }
+//
+//    public void setInvoice(Invoice invoice) {
+//        this.invoice = invoice;
+//    }
 
     public void setJobs(List<RepairOrderJob> jobs) {
         this.jobs = jobs;
