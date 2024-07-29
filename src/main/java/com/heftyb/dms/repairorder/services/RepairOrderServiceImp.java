@@ -42,7 +42,7 @@ public class RepairOrderServiceImp implements RepairOrderService{
     public RepairOrder findById(long id) {
         return roRepo.findById(id).orElseThrow(
                 ()-> new DataNotFoundException(String.format(
-                        "RepairOrderService Error: could not find repair order id %g", id
+                        "RepairOrderService Error: could not find repair order id %s", id
                 ))
         );
     }

@@ -53,7 +53,7 @@ public class Vehicle extends Auditable {
 
 
     public Vehicle() {
-
+        repairOrders = new ArrayList<>();
     }
 
     public Vehicle(String vin, int modelYear, Manufacturer make, Model model) {
@@ -61,6 +61,7 @@ public class Vehicle extends Auditable {
         this.modelYear = modelYear;
         this.make = make;
         this.model = model;
+        repairOrders = new ArrayList<>();
     }
 
     public Vehicle(String vin, int modelYear, Manufacturer make, Model model, String trim, String engine, String color) {
@@ -71,6 +72,7 @@ public class Vehicle extends Auditable {
         this.trim = trim;
         this.engine = engine;
         this.color = color;
+        repairOrders = new ArrayList<>();
     }
 
     public long getId() {

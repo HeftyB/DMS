@@ -4,8 +4,7 @@ import com.heftyb.dms.account.po.POItem;
 import com.heftyb.dms.account.po.PurchaseOrder;
 import com.heftyb.dms.account.po.repositories.POItemRepository;
 import com.heftyb.dms.account.po.repositories.PurchaseOrderRepository;
-import com.heftyb.dms.account.tax.services.TaxChargeService;
-import com.heftyb.dms.crm.services.ContactInformationService;
+import com.heftyb.dms.crm.services.ContactService;
 import com.heftyb.dms.crm.services.EmployeeService;
 import com.heftyb.dms.crm.services.VendorService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
@@ -22,18 +21,18 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService{
     private final PurchaseOrderRepository poRepo;
     private final POItemRepository itemRepo;
     private final VendorService vendorService;
-    private final ContactInformationService contactInformationService;
+    private final ContactService contactService;
     private final EmployeeService employeeService;
 
     public PurchaseOrderServiceImp(final PurchaseOrderRepository poRepo,
                                    final POItemRepository itemRepo,
                                    final VendorService vendorService,
-                                   final ContactInformationService contactInformationService,
+                                   final ContactService contactService,
                                    final EmployeeService employeeService) {
         this.poRepo = poRepo;
         this.itemRepo = itemRepo;
         this.vendorService = vendorService;
-        this.contactInformationService = contactInformationService;
+        this.contactService = contactService;
         this.employeeService = employeeService;
     }
 
@@ -57,8 +56,8 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService{
         p.setDate(purchaseOrder.getDate());
         p.setFrom(vendorService.findById(purchaseOrder.getFrom().getId()));
         p.setTo(vendorService.findById(purchaseOrder.getFrom().getId()));
-        p.setFromContact(contactInformationService.findById(purchaseOrder.getFromContact().getId()));
-        p.setToContact(contactInformationService.findById(purchaseOrder.getFromContact().getId()));
+        p.setFromContact(contactService.findContactInformationById(purchaseOrder.getFromContact().getId()));
+        p.setToContact(contactService.findContactInformationById(purchaseOrder.getFromContact().getId()));
         p.setShippingMethod(purchaseOrder.getShippingMethod());
         p.setPaymentTerms(purchaseOrder.getPaymentTerms());
         p.setRequiredByDate(purchaseOrder.getRequiredByDate());

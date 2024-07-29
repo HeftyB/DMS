@@ -31,7 +31,18 @@ public class PhoneNumber extends Auditable {
     @JsonIgnore
     private SaleLead lead;
 
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnore
+    private Vendor vendor;
+
     public PhoneNumber() {
+    }
+
+    public PhoneNumber(String number, boolean isPrimary, PhoneNumberType type) {
+        this.number = number;
+        this.isPrimary = isPrimary;
+        this.type = type;
     }
 
     public PhoneNumber(String number, boolean isPrimary, PhoneNumberType type, Customer customer) {
@@ -95,5 +106,13 @@ public class PhoneNumber extends Auditable {
 
     public void setType(PhoneNumberType type) {
         this.type = type;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
 }

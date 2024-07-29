@@ -54,10 +54,10 @@ public class RepairOrderJobServiceImp implements RepairOrderJobService{
         r.setLabor(new ArrayList<>());
         r.setMiscItems(new ArrayList<>());
 
-        for (MiscellaneousItem item : repairOrderJob.getMiscItems()) {
-            MiscellaneousItem m = miscellaneousItemsService.findById(item.getId());
-            r.getMiscItems().add(m);
-        }
+//        for (MiscellaneousItem item : repairOrderJob.getMiscItems()) {
+//            MiscellaneousItem m = miscellaneousItemsService.findById(item.getId());
+//            r.getMiscItems().add(m);
+//        }
 
         return jobRepo.save(r);
     }

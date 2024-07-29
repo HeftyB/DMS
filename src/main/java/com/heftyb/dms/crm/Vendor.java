@@ -22,7 +22,9 @@ public class Vendor extends Auditable {
     @OneToOne(mappedBy = "vendor", cascade = CascadeType.ALL)
     private MailingAddress address;
 
-    private String phone;
+    @OneToMany
+    private List<PhoneNumber> phoneNumbers;
+
     private String email;
 
     private String taxId;
@@ -41,13 +43,17 @@ public class Vendor extends Auditable {
     private List<Invoice> invoices;
 
     public Vendor() {
+        phoneNumbers = new ArrayList<>();
+        sentPurchaseOrders = new ArrayList<>();
+        receivedPurchaseOrders = new ArrayList<>();
+        invoices = new ArrayList<>();
     }
 
-    public Vendor(String companyName, String personOfContact, MailingAddress address, String phone, String email, String taxId, String paymentMethod) {
+    public Vendor(String companyName, String personOfContact, MailingAddress address, List<PhoneNumber> phoneNumbers, String email, String taxId, String paymentMethod) {
         this.companyName = companyName;
         this.personOfContact = personOfContact;
         this.address = address;
-        this.phone = phone;
+        this.phoneNumbers = phoneNumbers;
         this.email = email;
         this.taxId = taxId;
         this.paymentMethod = paymentMethod;
@@ -89,12 +95,12 @@ public class Vendor extends Auditable {
     }
 
 
-    public String getPhone() {
-        return phone;
+    public List<PhoneNumber> getPhoneNumbers() {
+        return phoneNumbers;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumbers(List<PhoneNumber> phone) {
+        this.phoneNumbers = phone;
     }
 
     public String getEmail() {

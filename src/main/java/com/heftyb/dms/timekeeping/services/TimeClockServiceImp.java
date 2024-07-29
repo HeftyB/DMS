@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Transactional
+//@Transactional
 @Service(value = "timeClockService")
 public class TimeClockServiceImp implements TimeClockService{
 
@@ -89,6 +89,8 @@ public class TimeClockServiceImp implements TimeClockService{
     private Employee findEmployeeById(long id) {
         return employeeService.findById(id);
     }
+
+
     @Transactional
     @Override
     public TimePunchOut saveTimePunchOut(TimePunchIn timePunchIn) {
@@ -128,6 +130,7 @@ public class TimeClockServiceImp implements TimeClockService{
         );
     }
 
+    @Transactional
     @Override
     public TimeClockPunchSet saveTimeClockPunchSet(TimeClockPunchSet timeClockPunchSet) {
         TimeClockPunchSet t = new TimeClockPunchSet();
@@ -139,6 +142,7 @@ public class TimeClockServiceImp implements TimeClockService{
         return timeClockPunchRepo.save(t);
     }
 
+    @Transactional
     @Override
     public void deleteTimeClockPunchSet(long id) {
         findTimeClockPunchSetById(id);
@@ -159,6 +163,7 @@ public class TimeClockServiceImp implements TimeClockService{
         );
     }
 
+    @Transactional
     @Override
     public JobTimePunchSet saveJobTimePunchSet(JobTimePunchSet jobTimePunchSet) {
         JobTimePunchSet j = new JobTimePunchSet();
@@ -171,6 +176,7 @@ public class TimeClockServiceImp implements TimeClockService{
         return jobTimeRepo.save(j);
     }
 
+    @Transactional
     @Override
     public void deleteJobTimePunchSet(long id) {
         findJobTimePunchSetById(id);
@@ -179,7 +185,7 @@ public class TimeClockServiceImp implements TimeClockService{
 
     private String errorString(String name, long id) {
         return String.format(
-                "TimeClockService Error: could not find %s id %g", name, id
+                "TimeClockService Error: could not find %s id %s", name, id
         );
     }
 }

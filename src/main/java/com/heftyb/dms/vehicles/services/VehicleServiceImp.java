@@ -1,5 +1,6 @@
 package com.heftyb.dms.vehicles.services;
 
+import com.heftyb.dms.crm.services.CustomerService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.vehicles.Manufacturer;
 import com.heftyb.dms.vehicles.Model;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Transactional
+//@Transactional
 @Service(value = "vehicleService")
 public class VehicleServiceImp implements VehicleService{
 
@@ -67,8 +68,9 @@ public class VehicleServiceImp implements VehicleService{
         v.setEngine(vehicle.getEngine());
         v.setColor(vehicle.getColor());
 
-//        set ros & customer
-        return null;
+        v.setCustomer(vehicle.getCustomer());
+
+        return vehicleRepo.save(v);
     }
 
     @Transactional

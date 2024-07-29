@@ -2,10 +2,8 @@ package com.heftyb.dms.crm.services;
 
 import com.heftyb.dms.account.invoice.repositories.InvoiceRepository;
 import com.heftyb.dms.crm.Customer;
-import com.heftyb.dms.crm.MailingAddress;
 import com.heftyb.dms.crm.PhoneNumber;
 import com.heftyb.dms.crm.repositories.CustomerRepository;
-import com.heftyb.dms.crm.repositories.MailingAddressRepository;
 import com.heftyb.dms.crm.repositories.PhoneNumberRepository;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.vehicles.Vehicle;
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Transactional
+//@Transactional
 @Service(value = "customerService")
 public class CustomerServiceImp implements CustomerService{
 
@@ -24,20 +22,20 @@ public class CustomerServiceImp implements CustomerService{
     final private PhoneNumberRepository phoneRepo;
     final private VehicleService vehicleService;
     final private InvoiceRepository invoiceRepo;
-    final private MailingAddressRepository mailRepo;
+    final private ContactService contactService;
 
     public CustomerServiceImp (
             final CustomerRepository customerRepository,
             final PhoneNumberRepository phoneNumberRepository,
             final VehicleService vehicleService,
             final InvoiceRepository invoiceRepo,
-            final MailingAddressRepository mailRepo
+            final ContactService contactService
     ) {
         custRepo = customerRepository;
         phoneRepo = phoneNumberRepository;
         this.vehicleService = vehicleService;
         this.invoiceRepo = invoiceRepo;
-        this.mailRepo = mailRepo;
+        this.contactService = contactService;
     }
 
     @Override
@@ -66,7 +64,7 @@ public class CustomerServiceImp implements CustomerService{
     @Override
     public List<Customer> findByPhone(String phoneNum) {
         List<Customer> customers = new ArrayList<>();
-        List<PhoneNumber> numbers = phoneRepo.findByNumberContainingAndAndCustomerNotNull(phoneNum);
+        List<PhoneNumber> numbers = contactService.findCustomersByPhoneNumbers(phoneNum);
         numbers.iterator().forEachRemaining(p -> {
             customers.add(p.getCustomer());
         });
@@ -81,64 +79,35 @@ public class CustomerServiceImp implements CustomerService{
         );
     }
 
+    @Transactional
     @Override
     public Customer save(Customer customer) {
-        Customer newCustomer;
-//        if (customer.getId() != 0) {
-//            newCustomer = custRepo.findById(customer.getId()).orElseThrow(
-//                    ()-> new DataNotFoundException(
-//                            String.format("CustomerService Error: customer id %g", customer.getId())
-//                    )
-//            )
-//        } else {
-            newCustomer = new Customer();
-//        }
+        Customer newCustomer = new Customer();
 
         newCustomer.setFirstName(customer.getFirstName());
         newCustomer.setLastName(customer.getLastName());
         newCustomer.setEmail(customer.getEmail());
-        MailingAddress m = mailRepo.save(new MailingAddress(
-                customer.getMailingAddress().getAddressLine1(),
-                customer.getMailingAddress().getAddressLine2(),
-                customer.getMailingAddress().getCity(),
-                customer.getMailingAddress().getState(),
-                customer.getMailingAddress().getZip(),
-                newCustomer
-        ));
-        newCustomer.setMailingAddress(m);
 
-        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        newCustomer = custRepo.save(newCustomer);
+        customer.getMailingAddress().setCustomer(newCustomer);
+        newCustomer.setMailingAddress(contactService.saveNewMailingAddress(customer.getMailingAddress()));
 
-        customer.getPhoneNumbers().iterator().forEachRemaining(phoneNumber -> {
-            newCustomer.addPhone(
-                    phoneRepo.save(new PhoneNumber(
-                    phoneNumber.getNumber(),
-                    phoneNumber.isPrimary(),
-                    phoneNumber.getType(),
-                    newCustomer
-            ))
-            );
-        });
 
-        customer.getVehicles().iterator().forEachRemaining(v -> {
-            newCustomer.getVehicles().add(vehicleService.save(
-                    new Vehicle(
-                            v.getVin(),
-                            v.getModelYear(),
-                            v.getMake(),
-                            v.getModel(),
-                            v.getTrim(),
-                            v.getEngine(),
-                            v.getColor()
+        for(PhoneNumber pn : customer.getPhoneNumbers()) {
+            pn.setCustomer(newCustomer);
+            newCustomer.getPhoneNumbers().add(contactService.saveNewPhoneNumber(pn));
+        }
 
-                    )
-            ));
-        });
+        for (Vehicle vehicle : customer.getVehicles()) {
+            vehicle.setCustomer(newCustomer);
+            newCustomer.getVehicles().add(vehicleService.save(vehicle));
+        }
+
         return custRepo.save(newCustomer);
     }
 
 
-
+    @Transactional
     @Override
     public void delete(long id) {
         findById(id);

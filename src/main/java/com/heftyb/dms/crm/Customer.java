@@ -38,9 +38,9 @@ public class Customer extends Auditable {
     @JsonIgnore
     private List<Vehicle> vehicles;
 
-    @OneToMany(mappedBy = "customer")
-    @JsonIgnore
-    private List<Invoice> invoices;
+//    @OneToMany(mappedBy = "customer")
+//    @JsonIgnore
+//    private List<Invoice> invoices;
 
 //    @OneToMany(mappedBy = "customer")
 //    @JsonIgnore
@@ -49,12 +49,19 @@ public class Customer extends Auditable {
 //    private ArrayList<SaleLead> leads;
 
 
-    public Customer() {}
+    public Customer() {
+        phoneNumbers = new ArrayList<>();
+        vehicles = new ArrayList<>();
+//        invoices = new ArrayList<>();
+    }
 
     public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        phoneNumbers = new ArrayList<>();
+        vehicles = new ArrayList<>();
+//        invoices = new ArrayList<>();
     }
 
     public Customer(String firstName, String lastName, MailingAddress mailingAddress, ArrayList<PhoneNumber> phoneNumbers, String email) {
@@ -64,7 +71,7 @@ public class Customer extends Auditable {
         this.phoneNumbers = phoneNumbers;
         this.email = email;
         this.vehicles = new ArrayList<>();
-        this.invoices = new ArrayList<>();
+//        this.invoices = new ArrayList<>();
     }
 
     public Customer(String firstName, String lastName, MailingAddress mailingAddress, ArrayList<PhoneNumber> phoneNumbers, String email, ArrayList<Vehicle> vehicles) {
@@ -74,7 +81,7 @@ public class Customer extends Auditable {
         this.phoneNumbers = phoneNumbers;
         this.email = email;
         this.vehicles = vehicles;
-        this.invoices = new ArrayList<>();
+//        this.invoices = new ArrayList<>();
     }
 
     public Customer(String firstName, String lastName, ArrayList<PhoneNumber> phoneNumbers, ArrayList<Vehicle> vehicles) {
@@ -82,7 +89,7 @@ public class Customer extends Auditable {
         this.lastName = lastName;
         this.phoneNumbers = phoneNumbers;
         this.vehicles = vehicles;
-        this.invoices = new ArrayList<>();
+//        this.invoices = new ArrayList<>();
     }
 
     public long getId() {
@@ -141,13 +148,13 @@ public class Customer extends Auditable {
         this.vehicles = vehicles;
     }
 
-    public List<Invoice> getInvoices() {
-        return invoices;
-    }
-
-    public void setInvoices(ArrayList<Invoice> invoices) {
-        this.invoices = invoices;
-    }
+//    public List<Invoice> getInvoices() {
+//        return invoices;
+//    }
+//
+//    public void setInvoices(ArrayList<Invoice> invoices) {
+//        this.invoices = invoices;
+//    }
 
     public void addPhone(PhoneNumber phoneNumber) {
         this.phoneNumbers.add(phoneNumber);

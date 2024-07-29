@@ -1,5 +1,6 @@
 package com.heftyb.dms.vehicles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
@@ -20,9 +21,16 @@ public class Manufacturer extends Auditable {
     private List<WMI> wmis;
 
     @OneToMany(mappedBy = "manufacturer")
+    @JsonIgnore
     private List<Model> models;
 
     public Manufacturer() {
+    }
+
+    public Manufacturer(String name) {
+        this.name = name;
+        this.wmis = new ArrayList<>();
+        this.models = new ArrayList<>();
     }
 
     public long getId() {
@@ -63,5 +71,13 @@ public class Manufacturer extends Auditable {
 
     public boolean addModel(Model model) {
         return models.add(model);
+    }
+
+    @Override
+    public String toString() {
+        return "Manufacturer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

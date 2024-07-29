@@ -9,6 +9,7 @@ import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,8 +23,10 @@ public class RepairOrder extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
     @Temporal(TemporalType.DATE)
     private Date openDate;
+
 
     @Temporal(TemporalType.DATE)
     private Date finalizedDate;
@@ -37,9 +40,11 @@ public class RepairOrder extends Auditable {
 //    private Invoice invoice;
 
 
+    @NotNull
     @ManyToOne
     private Customer customer;
 
+    @NotNull
     @ManyToOne()
     @JoinColumn(name = "vehicleId")
     private Vehicle vehicle;
@@ -75,16 +80,23 @@ public class RepairOrder extends Auditable {
     public RepairOrder() {
     }
 
-    public RepairOrder(Date openDate, Invoice invoice, Customer customer, Vehicle vehicle, int mileageIn, int mileageOut, String serviceTag, Employee advisor, ArrayList<RepairOrderJob> jobs) {
+    public RepairOrder(Date openDate, Customer customer, Vehicle vehicle, int mileageIn, String serviceTag, Employee advisor, List<RepairOrderJob> jobs) {
         this.openDate = openDate;
-//        this.invoice = invoice;
         this.customer = customer;
         this.vehicle = vehicle;
         this.mileageIn = mileageIn;
-        this.mileageOut = mileageOut;
         this.serviceTag = serviceTag;
         this.advisor = advisor;
         this.jobs = jobs;
+    }
+    public RepairOrder(Date openDate, Customer customer, Vehicle vehicle, int mileageIn, String serviceTag, Employee advisor) {
+        this.openDate = openDate;
+        this.customer = customer;
+        this.vehicle = vehicle;
+        this.mileageIn = mileageIn;
+        this.serviceTag = serviceTag;
+        this.advisor = advisor;
+        this.jobs = new ArrayList<>();
     }
 
     public long getId() {
@@ -241,5 +253,28 @@ public class RepairOrder extends Auditable {
 
     public void setMiscItems(List<MiscellaneousItem> miscItems) {
         this.miscItems = miscItems;
+    }
+
+    @Override
+    public String toString() {
+        return "RepairOrder{" +
+                "id=" + id +
+                ", openDate=" + openDate +
+                ", finalizedDate=" + finalizedDate +
+                ", closedDate=" + closedDate +
+                ", customer=" + customer +
+                ", vehicle=" + vehicle +
+                ", mileageIn=" + mileageIn +
+                ", mileageOut=" + mileageOut +
+                ", serviceTag='" + serviceTag + '\'' +
+                ", advisor=" + advisor +
+                ", isActive=" + isActive +
+                ", jobs=" + jobs +
+                ", subtotal=" + subtotal +
+                ", fees=" + fees +
+                ", miscItems=" + miscItems +
+                ", taxes=" + taxes +
+                ", totalAmount=" + totalAmount +
+                '}';
     }
 }

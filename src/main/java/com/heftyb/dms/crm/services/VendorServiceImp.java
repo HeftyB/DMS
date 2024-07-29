@@ -1,8 +1,7 @@
 package com.heftyb.dms.crm.services;
 
-import com.heftyb.dms.crm.MailingAddress;
+import com.heftyb.dms.crm.PhoneNumber;
 import com.heftyb.dms.crm.Vendor;
-import com.heftyb.dms.crm.repositories.MailingAddressRepository;
 import com.heftyb.dms.crm.repositories.VendorRepository;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import jakarta.transaction.Transactional;
@@ -11,17 +10,17 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Transactional
+//@Transactional
 @Service(value = "vendorService")
 public class VendorServiceImp implements VendorService{
 
     private final VendorRepository vendorRepository;
-    private final MailingAddressRepository mailRepo;
+    private final ContactService contactService;
 
     public VendorServiceImp(final VendorRepository vendorRepository,
-                            final MailingAddressRepository mailRepo) {
+                            final ContactService contactService) {
         this.vendorRepository = vendorRepository;
-        this.mailRepo = mailRepo;
+        this.contactService = contactService;
     }
 
     @Override
@@ -47,6 +46,7 @@ public class VendorServiceImp implements VendorService{
         );
     }
 
+    @Transactional
     @Override
     public Vendor save(Vendor vendor) {
         Vendor v = new Vendor();
@@ -54,29 +54,23 @@ public class VendorServiceImp implements VendorService{
         v.setPersonOfContact(vendor.getPersonOfContact());
         vendor.getAddress().setVendor(v);
 
-        MailingAddress m = new MailingAddress();
-        m.setName(vendor.getAddress().getName());
-        m.setAddressLine1(vendor.getAddress().getAddressLine1());
-        m.setAddressLine2(vendor.getAddress().getAddressLine2());
-        m.setCity(vendor.getAddress().getCity());
-        m.setState(vendor.getAddress().getState());
-        m.setZip(vendor.getAddress().getZip());
+        v = vendorRepository.save(v);
 
-        m.setVendor(v);
+        v.setAddress(contactService.saveNewMailingAddress(vendor.getAddress()));
 
-        v.setAddress(mailRepo.save(m));
+        for(PhoneNumber pn : v.getPhoneNumbers()) {
+            pn.setVendor(v);
+            v.getPhoneNumbers().add(contactService.saveNewPhoneNumber(pn));
+        }
 
-        v.setPhone(vendor.getPhone());
         v.setEmail(vendor.getEmail());
         v.setTaxId(vendor.getTaxId());
         v.setPaymentMethod(vendor.getPaymentMethod());
-        v.setSentPurchaseOrders(new ArrayList<>());
-        v.setReceivedPurchaseOrders(new ArrayList<>());
-        v.setInvoices(new ArrayList<>());
 
         return vendorRepository.save(v);
     }
 
+    @Transactional
     @Override
     public void delete(long id) {
         findById(id);
