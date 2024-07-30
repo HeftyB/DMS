@@ -1,13 +1,14 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.invoice.Invoice;
+import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.invoice.Invoice;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -23,61 +24,72 @@ public class Customer extends Auditable {
     @NotNull
     private String lastName;
 
-    @NotNull
-    private String preferredName;
-
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private MailingAddress mailingAddress;
 
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private ArrayList<PhoneNumber> phoneNumbers;
+    private List<PhoneNumber> phoneNumbers;
 
 
     private String email;
 
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
-    private ArrayList<Vehicle> vehicles;
+    private List<Vehicle> vehicles;
 
-    @OneToMany(mappedBy = "customer")
-    @JsonIgnore
-    private ArrayList<Invoice> invoices;
+//    @OneToMany(mappedBy = "customer")
+//    @JsonIgnore
+//    private List<Invoice> invoices;
+
+//    @OneToMany(mappedBy = "customer")
+//    @JsonIgnore
+//    private ArrayList<Statement> statements;
 
 //    private ArrayList<SaleLead> leads;
 
 
-    public Customer() {}
+    public Customer() {
+        phoneNumbers = new ArrayList<>();
+        vehicles = new ArrayList<>();
+//        invoices = new ArrayList<>();
+    }
 
-    public Customer(String firstName, String lastName, String preferredName, MailingAddress mailingAddress, ArrayList<PhoneNumber> phoneNumbers, String email) {
+    public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.preferredName = preferredName;
+        this.email = email;
+        phoneNumbers = new ArrayList<>();
+        vehicles = new ArrayList<>();
+//        invoices = new ArrayList<>();
+    }
+
+    public Customer(String firstName, String lastName, MailingAddress mailingAddress, ArrayList<PhoneNumber> phoneNumbers, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.mailingAddress = mailingAddress;
         this.phoneNumbers = phoneNumbers;
         this.email = email;
         this.vehicles = new ArrayList<>();
-        this.invoices = new ArrayList<>();
+//        this.invoices = new ArrayList<>();
     }
 
-    public Customer(String firstName, String lastName, String preferredName, MailingAddress mailingAddress, ArrayList<PhoneNumber> phoneNumbers, String email, ArrayList<Vehicle> vehicles) {
+    public Customer(String firstName, String lastName, MailingAddress mailingAddress, ArrayList<PhoneNumber> phoneNumbers, String email, ArrayList<Vehicle> vehicles) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.preferredName = preferredName;
         this.mailingAddress = mailingAddress;
         this.phoneNumbers = phoneNumbers;
         this.email = email;
         this.vehicles = vehicles;
-        this.invoices = new ArrayList<>();
+//        this.invoices = new ArrayList<>();
     }
 
-    public Customer(String firstName, String lastName, String preferredName, ArrayList<PhoneNumber> phoneNumbers, ArrayList<Vehicle> vehicles) {
+    public Customer(String firstName, String lastName, ArrayList<PhoneNumber> phoneNumbers, ArrayList<Vehicle> vehicles) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.preferredName = preferredName;
         this.phoneNumbers = phoneNumbers;
         this.vehicles = vehicles;
-        this.invoices = new ArrayList<>();
+//        this.invoices = new ArrayList<>();
     }
 
     public long getId() {
@@ -104,14 +116,6 @@ public class Customer extends Auditable {
         this.lastName = lastName;
     }
 
-    public String getPreferredName() {
-        return preferredName;
-    }
-
-    public void setPreferredName(String preferredName) {
-        this.preferredName = preferredName;
-    }
-
     public MailingAddress getMailingAddress() {
         return mailingAddress;
     }
@@ -120,7 +124,7 @@ public class Customer extends Auditable {
         this.mailingAddress = mailingAddress;
     }
 
-    public ArrayList<PhoneNumber> getPhoneNumbers() {
+    public List<PhoneNumber> getPhoneNumbers() {
         return phoneNumbers;
     }
 
@@ -136,7 +140,7 @@ public class Customer extends Auditable {
         this.email = email;
     }
 
-    public ArrayList<Vehicle> getVehicles() {
+    public List<Vehicle> getVehicles() {
         return vehicles;
     }
 
@@ -144,11 +148,28 @@ public class Customer extends Auditable {
         this.vehicles = vehicles;
     }
 
-    public ArrayList<Invoice> getInvoices() {
-        return invoices;
+//    public List<Invoice> getInvoices() {
+//        return invoices;
+//    }
+//
+//    public void setInvoices(ArrayList<Invoice> invoices) {
+//        this.invoices = invoices;
+//    }
+
+    public void addPhone(PhoneNumber phoneNumber) {
+        this.phoneNumbers.add(phoneNumber);
     }
 
-    public void setInvoices(ArrayList<Invoice> invoices) {
-        this.invoices = invoices;
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mailingAddress=" + mailingAddress +
+                ", phoneNumbers=" + phoneNumbers +
+                ", email='" + email + '\'' +
+                ", vehicles=" + vehicles +
+                '}';
     }
 }

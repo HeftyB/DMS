@@ -1,17 +1,19 @@
 package com.heftyb.dms.repairorder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.fee.RepairOrderFee;
-import com.heftyb.dms.account.models.tax.TaxCharge;
+import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.fee.RepairOrderFee;
+import com.heftyb.dms.account.invoice.Invoice;
+import com.heftyb.dms.account.tax.TaxCharge;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "repairOrders")
@@ -21,37 +23,60 @@ public class RepairOrder extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private ZonedDateTime openDate;
-    private ZonedDateTime closedDate;
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    private Date openDate;
 
+
+    @Temporal(TemporalType.DATE)
+    private Date finalizedDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
+    private Date closedDate;
+
+//    @OneToOne(mappedBy = "repairOrder")
+//    @JsonIgnore
+//    private Invoice invoice;
+
+
+    @NotNull
     @ManyToOne
     private Customer customer;
 
+    @NotNull
     @ManyToOne()
     @JoinColumn(name = "vehicleId")
     private Vehicle vehicle;
 
+    @NotNull
     private int mileageIn;
+
     private int mileageOut;
+
+    @NotNull
     private String serviceTag;
 
     @ManyToOne
     @JoinColumn()
+    @NotNull
     private Employee advisor;
 
+    @NotNull
     @JsonIgnore
     private boolean isActive;
 
+
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private ArrayList<RepairOrderJob> jobs;
+    private List<RepairOrderJob> jobs;
 
     private float subtotal;
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private ArrayList<RepairOrderFee> fees;
+    private List<RepairOrderFee> fees;
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private ArrayList<MiscellaneousItem> miscItems;
+    private List<MiscellaneousItem> miscItems;
 
     @OneToOne
     @JoinColumn(name = "taxChargeId")
@@ -60,18 +85,31 @@ public class RepairOrder extends Auditable {
     private double totalAmount;
 
     public RepairOrder() {
+        isActive = true;
+        jobs = new ArrayList<>();
+        fees = new ArrayList<>();
+        miscItems = new ArrayList<>();
     }
 
-    public RepairOrder(ZonedDateTime openDate, ZonedDateTime closedDate, Customer customer, Vehicle vehicle, int mileageIn, int mileageOut, String serviceTag, Employee advisor, ArrayList<RepairOrderJob> jobs) {
+    public RepairOrder(Date openDate, Customer customer, Vehicle vehicle, int mileageIn, String serviceTag, Employee advisor, List<RepairOrderJob> jobs) {
         this.openDate = openDate;
-        this.closedDate = closedDate;
         this.customer = customer;
         this.vehicle = vehicle;
         this.mileageIn = mileageIn;
-        this.mileageOut = mileageOut;
         this.serviceTag = serviceTag;
         this.advisor = advisor;
         this.jobs = jobs;
+        isActive = true;
+    }
+    public RepairOrder(Date openDate, Customer customer, Vehicle vehicle, int mileageIn, String serviceTag, Employee advisor) {
+        this.openDate = openDate;
+        this.customer = customer;
+        this.vehicle = vehicle;
+        this.mileageIn = mileageIn;
+        this.serviceTag = serviceTag;
+        this.advisor = advisor;
+        this.jobs = new ArrayList<>();
+        isActive = true;
     }
 
     public long getId() {
@@ -82,19 +120,19 @@ public class RepairOrder extends Auditable {
         this.id = id;
     }
 
-    public ZonedDateTime getOpenDate() {
+    public Date getOpenDate() {
         return openDate;
     }
 
-    public void setOpenDate(ZonedDateTime openDate) {
+    public void setOpenDate(Date openDate) {
         this.openDate = openDate;
     }
 
-    public ZonedDateTime getClosedDate() {
+    public Date getClosedDate() {
         return closedDate;
     }
 
-    public void setClosedDate(ZonedDateTime closedDate) {
+    public void setClosedDate(Date closedDate) {
         this.closedDate = closedDate;
     }
 
@@ -154,7 +192,7 @@ public class RepairOrder extends Auditable {
         isActive = active;
     }
 
-    public ArrayList<RepairOrderJob> getJobs() {
+    public List<RepairOrderJob> getJobs() {
         return jobs;
     }
 
@@ -170,7 +208,7 @@ public class RepairOrder extends Auditable {
         this.subtotal = subtotal;
     }
 
-    public ArrayList<RepairOrderFee> getFees() {
+    public List<RepairOrderFee> getFees() {
         return fees;
     }
 
@@ -178,7 +216,7 @@ public class RepairOrder extends Auditable {
         this.fees = fees;
     }
 
-    public ArrayList<MiscellaneousItem> getMiscItems() {
+    public List<MiscellaneousItem> getMiscItems() {
         return miscItems;
     }
 
@@ -200,5 +238,56 @@ public class RepairOrder extends Auditable {
 
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public Date getFinalizedDate() {
+        return finalizedDate;
+    }
+
+    public void setFinalizedDate(Date finalizedDate) {
+        this.finalizedDate = finalizedDate;
+    }
+
+//    public Invoice getInvoice() {
+//        return invoice;
+//    }
+//
+//    public void setInvoice(Invoice invoice) {
+//        this.invoice = invoice;
+//    }
+
+    public void setJobs(List<RepairOrderJob> jobs) {
+        this.jobs = jobs;
+    }
+
+    public void setFees(List<RepairOrderFee> fees) {
+        this.fees = fees;
+    }
+
+    public void setMiscItems(List<MiscellaneousItem> miscItems) {
+        this.miscItems = miscItems;
+    }
+
+    @Override
+    public String toString() {
+        return "RepairOrder{" +
+                "id=" + id +
+                ", openDate=" + openDate +
+                ", finalizedDate=" + finalizedDate +
+                ", closedDate=" + closedDate +
+                ", customer=" + customer +
+                ", vehicle=" + vehicle +
+                ", mileageIn=" + mileageIn +
+                ", mileageOut=" + mileageOut +
+                ", serviceTag='" + serviceTag + '\'' +
+                ", advisor=" + advisor +
+                ", isActive=" + isActive +
+                ", jobs=" + jobs +
+                ", subtotal=" + subtotal +
+                ", fees=" + fees +
+                ", miscItems=" + miscItems +
+                ", taxes=" + taxes +
+                ", totalAmount=" + totalAmount +
+                '}';
     }
 }

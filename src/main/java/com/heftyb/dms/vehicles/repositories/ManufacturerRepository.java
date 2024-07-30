@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ManufacturerRepository extends CrudRepository<Manufacturer, Long> {
-    Optional<Manufacturer> findByName(String name);
+    Optional<Manufacturer> findByNameIgnoreCase(String name);
     List<Manufacturer> findByNameContainingIgnoreCase(String name);
 }
 

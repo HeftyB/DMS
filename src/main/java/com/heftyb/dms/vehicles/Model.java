@@ -1,6 +1,7 @@
 package com.heftyb.dms.vehicles;
 
-import com.heftyb.dms.account.models.Auditable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +14,7 @@ public class Model extends Auditable {
     private String name;
 
     @ManyToOne
+    @JsonIgnore
     private Manufacturer manufacturer;
 
     public Model() {
@@ -45,5 +47,12 @@ public class Model extends Auditable {
 
     public void setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
+    }
+
+    @Override
+    public String toString() {
+        return "Model{" +
+                "id=" + id +
+                ", name='" + name + "\n}";
     }
 }

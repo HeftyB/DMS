@@ -1,7 +1,7 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +13,8 @@ public class PhoneNumber extends Auditable {
 
     private String number;
     private boolean isPrimary;
+
+    private PhoneNumberType type;
 
     @ManyToOne
     @JoinColumn
@@ -29,7 +31,25 @@ public class PhoneNumber extends Auditable {
     @JsonIgnore
     private SaleLead lead;
 
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnore
+    private Vendor vendor;
+
     public PhoneNumber() {
+    }
+
+    public PhoneNumber(String number, boolean isPrimary, PhoneNumberType type) {
+        this.number = number;
+        this.isPrimary = isPrimary;
+        this.type = type;
+    }
+
+    public PhoneNumber(String number, boolean isPrimary, PhoneNumberType type, Customer customer) {
+        this.number = number;
+        this.isPrimary = isPrimary;
+        this.type = type;
+        this.customer = customer;
     }
 
     public long getId() {
@@ -78,5 +98,31 @@ public class PhoneNumber extends Auditable {
 
     public void setPrimary(boolean primary) {
         isPrimary = primary;
+    }
+
+    public PhoneNumberType getType() {
+        return type;
+    }
+
+    public void setType(PhoneNumberType type) {
+        this.type = type;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    @Override
+    public String toString() {
+        return "PhoneNumber{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", isPrimary=" + isPrimary +
+                ", type=" + type +
+                '}';
     }
 }

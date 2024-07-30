@@ -43,7 +43,7 @@ public class MailingAddress {
     }
 
     public MailingAddress(String addressLine1, String addressLine2, String city, String state, String zip, Customer customer) {
-        this.name = customer.getPreferredName() + " "  + employee.getLastName();
+        this.name = customer.getFirstName() + " "  + customer.getLastName();
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.city = city;
@@ -154,5 +154,18 @@ public class MailingAddress {
 
     public String getAddress() {
         return String.format("%s \n %s \n %s \n %s, %s %s", name, addressLine1, addressLine2, city, state, zip);
+    }
+
+    @Override
+    public String toString() {
+        return "MailingAddress{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", addressLine1='" + addressLine1 + '\'' +
+                ", addressLine2='" + addressLine2 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                '}';
     }
 }

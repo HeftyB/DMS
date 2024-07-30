@@ -1,6 +1,6 @@
 package com.heftyb.dms.timekeeping;
 
-import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.repairorder.RepairOrderJob;
 import jakarta.persistence.*;
@@ -15,6 +15,7 @@ public class JobTimePunchSet extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     @OneToOne

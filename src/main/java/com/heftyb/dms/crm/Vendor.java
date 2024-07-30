@@ -1,12 +1,13 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.invoice.Invoice;
-import com.heftyb.dms.account.models.po.PurchaseOrder;
+import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.invoice.Invoice;
+import com.heftyb.dms.account.po.PurchaseOrder;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vendors")
@@ -21,7 +22,9 @@ public class Vendor extends Auditable {
     @OneToOne(mappedBy = "vendor", cascade = CascadeType.ALL)
     private MailingAddress address;
 
-    private String phone;
+    @OneToMany
+    private List<PhoneNumber> phoneNumbers;
+
     private String email;
 
     private String taxId;
@@ -29,24 +32,28 @@ public class Vendor extends Auditable {
 
     @OneToMany(mappedBy = "from", cascade = CascadeType.ALL)
     @JsonIgnore
-    private ArrayList<PurchaseOrder> sentPurchaseOrders;
+    private List<PurchaseOrder> sentPurchaseOrders;
 
     @OneToMany(mappedBy = "to", cascade = CascadeType.ALL)
     @JsonIgnore
-    private ArrayList<PurchaseOrder> receivedPurchaseOrders;
+    private List<PurchaseOrder> receivedPurchaseOrders;
 
     @OneToMany(mappedBy = "vendor")
     @JsonIgnore
-    private ArrayList<Invoice> invoices;
+    private List<Invoice> invoices;
 
     public Vendor() {
+        phoneNumbers = new ArrayList<>();
+        sentPurchaseOrders = new ArrayList<>();
+        receivedPurchaseOrders = new ArrayList<>();
+        invoices = new ArrayList<>();
     }
 
-    public Vendor(String companyName, String personOfContact, MailingAddress address, String phone, String email, String taxId, String paymentMethod) {
+    public Vendor(String companyName, String personOfContact, MailingAddress address, List<PhoneNumber> phoneNumbers, String email, String taxId, String paymentMethod) {
         this.companyName = companyName;
         this.personOfContact = personOfContact;
         this.address = address;
-        this.phone = phone;
+        this.phoneNumbers = phoneNumbers;
         this.email = email;
         this.taxId = taxId;
         this.paymentMethod = paymentMethod;
@@ -88,12 +95,12 @@ public class Vendor extends Auditable {
     }
 
 
-    public String getPhone() {
-        return phone;
+    public List<PhoneNumber> getPhoneNumbers() {
+        return phoneNumbers;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumbers(List<PhoneNumber> phone) {
+        this.phoneNumbers = phone;
     }
 
     public String getEmail() {
@@ -120,7 +127,7 @@ public class Vendor extends Auditable {
         this.paymentMethod = paymentmethod;
     }
 
-    public ArrayList<PurchaseOrder> getSentPurchaseOrders() {
+    public List<PurchaseOrder> getSentPurchaseOrders() {
         return sentPurchaseOrders;
     }
 
@@ -128,7 +135,7 @@ public class Vendor extends Auditable {
         this.sentPurchaseOrders = sentPurchaseOrders;
     }
 
-    public ArrayList<PurchaseOrder> getReceivedPurchaseOrders() {
+    public List<PurchaseOrder> getReceivedPurchaseOrders() {
         return receivedPurchaseOrders;
     }
 
@@ -136,7 +143,7 @@ public class Vendor extends Auditable {
         this.receivedPurchaseOrders = receivedPurchaseOrders;
     }
 
-    public ArrayList<Invoice> getInvoices() {
+    public List<Invoice> getInvoices() {
         return invoices;
     }
 

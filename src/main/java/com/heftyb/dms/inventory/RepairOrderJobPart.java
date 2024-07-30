@@ -1,12 +1,11 @@
 package com.heftyb.dms.inventory;
 
-import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.repairorder.RepairOrderJob;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Table(name = "repairOrderJobParts")

@@ -1,12 +1,12 @@
 package com.heftyb.dms.inventory;
 
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.po.PurchaseOrder;
+import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.po.PurchaseOrder;
 import com.heftyb.dms.repairorder.RepairOrder;
 import com.heftyb.dms.repairorder.RepairOrderJob;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "parts")
@@ -27,7 +27,7 @@ public class Part extends Auditable {
     private int qty;
 
     @OneToMany(mappedBy = "part", cascade = CascadeType.ALL)
-    private ArrayList<StockedPart> receivedStock;
+    private List<StockedPart> receivedStock;
 
     private float cost;
     private float price;
@@ -150,6 +150,38 @@ public class Part extends Auditable {
 
     public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
+    }
+
+    public String getBin() {
+        return bin;
+    }
+
+    public void setBin(String bin) {
+        this.bin = bin;
+    }
+
+    public boolean isInStock() {
+        return inStock;
+    }
+
+    public void setInStock(boolean inStock) {
+        this.inStock = inStock;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public List<StockedPart> getReceivedStock() {
+        return receivedStock;
+    }
+
+    public void setReceivedStock(List<StockedPart> receivedStock) {
+        this.receivedStock = receivedStock;
     }
 
     public RepairOrder getRepairOrder() {

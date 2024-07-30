@@ -2,8 +2,9 @@ package com.heftyb.dms.timekeeping;
 
 import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
-import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "timepunchout")
@@ -13,20 +14,32 @@ public class TimePunchOut {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
     @ManyToOne
     private Employee employee;
 
-    private ZonedDateTime time;
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date time;
 
+    @NotNull
     private TimePunchCode code;
 
     public TimePunchOut() {
     }
 
-    public TimePunchOut(Employee employee, ZonedDateTime time, TimePunchCode code) {
+    public TimePunchOut(Employee employee, Date time, TimePunchCode code) {
         this.employee = employee;
         this.time = time;
         this.code = code;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Employee getEmployee() {
@@ -37,11 +50,11 @@ public class TimePunchOut {
         this.employee = employee;
     }
 
-    public ZonedDateTime getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(ZonedDateTime time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

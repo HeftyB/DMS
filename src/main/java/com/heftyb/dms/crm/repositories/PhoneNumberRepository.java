@@ -6,5 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface PhoneNumberRepository extends CrudRepository<PhoneNumber, Long> {
-    List<PhoneNumber> findByNumberContaining(String number);
+    Iterable<PhoneNumber> findByNumberContaining(String number);
+    Iterable<PhoneNumber> findByNumberContainingAndAndCustomerNotNull(String number);
 }

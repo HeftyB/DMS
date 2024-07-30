@@ -1,6 +1,6 @@
 package com.heftyb.dms.crm;
 
-import com.heftyb.dms.account.models.Auditable;
+import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
 @Entity
@@ -31,6 +31,14 @@ public class ContactInformation extends Auditable {
         this.phone = phone;
         this.email = email;
         this.notes = notes;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -1,13 +1,13 @@
 package com.heftyb.dms.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.models.Auditable;
-import com.heftyb.dms.account.models.po.PurchaseOrder;
+import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicles")
@@ -45,7 +45,7 @@ public class Vehicle extends Auditable {
 
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     @JsonIgnore
-    private ArrayList<RepairOrder> repairOrders;
+    private List<RepairOrder> ServiceHistory;
 
     @ManyToOne
     @JoinColumn
@@ -53,22 +53,26 @@ public class Vehicle extends Auditable {
 
 
     public Vehicle() {
-
+        ServiceHistory = new ArrayList<>();
     }
 
-    public Vehicle(int modelYear, Manufacturer make, Model model) {
+    public Vehicle(String vin, int modelYear, Manufacturer make, Model model) {
+        this.vin = vin;
         this.modelYear = modelYear;
         this.make = make;
         this.model = model;
+        ServiceHistory = new ArrayList<>();
     }
 
-    public Vehicle(int modelYear, Manufacturer make, Model model, String trim, String engine, String color) {
+    public Vehicle(String vin, int modelYear, Manufacturer make, Model model, String trim, String engine, String color) {
+        this.vin = vin;
         this.modelYear = modelYear;
         this.make = make;
         this.model = model;
         this.trim = trim;
         this.engine = engine;
         this.color = color;
+        ServiceHistory = new ArrayList<>();
     }
 
     public long getId() {
@@ -135,12 +139,12 @@ public class Vehicle extends Auditable {
         this.vin = vin;
     }
 
-    public ArrayList<RepairOrder> getRepairOrders() {
-        return repairOrders;
+    public List<RepairOrder> getServiceHistory() {
+        return ServiceHistory;
     }
 
-    public void setRepairOrders(ArrayList<RepairOrder> repairOrders) {
-        this.repairOrders = repairOrders;
+    public void setServiceHistory(ArrayList<RepairOrder> repairOrders) {
+        this.ServiceHistory = repairOrders;
     }
 
     public Customer getCustomer() {
