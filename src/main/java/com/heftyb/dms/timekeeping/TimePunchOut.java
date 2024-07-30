@@ -2,6 +2,7 @@ package com.heftyb.dms.timekeeping;
 
 import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
@@ -13,12 +14,15 @@ public class TimePunchOut {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
     @ManyToOne
     private Employee employee;
 
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;
 
+    @NotNull
     private TimePunchCode code;
 
     public TimePunchOut() {

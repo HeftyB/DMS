@@ -1,7 +1,9 @@
 package com.heftyb.dms.timekeeping;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,9 +15,11 @@ public class TimeSheet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
     @Temporal(TemporalType.DATE)
     private Date payPeriodStart;
 
+    @NotNull
     @Temporal(TemporalType.DATE)
     private Date payPeriodEnd;
 
@@ -28,6 +32,8 @@ public class TimeSheet {
     private double totalHours;
 
     public TimeSheet() {
+        timeClockPunchSets = new ArrayList<>();
+        pto = new ArrayList<>();
     }
 
     public TimeSheet(Date payPeriodStart, Date payPeriodEnd, List<TimeClockPunchSet> timeClockPunchSets, List<PTO> pto) {

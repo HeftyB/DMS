@@ -155,4 +155,17 @@ public class MailingAddress {
     public String getAddress() {
         return String.format("%s \n %s \n %s \n %s, %s %s", name, addressLine1, addressLine2, city, state, zip);
     }
+
+    @Override
+    public String toString() {
+        return "MailingAddress{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", addressLine1='" + addressLine1 + '\'' +
+                ", addressLine2='" + addressLine2 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                '}';
+    }
 }

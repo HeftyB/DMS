@@ -49,16 +49,23 @@ public class RepairOrder extends Auditable {
     @JoinColumn(name = "vehicleId")
     private Vehicle vehicle;
 
+    @NotNull
     private int mileageIn;
+
     private int mileageOut;
+
+    @NotNull
     private String serviceTag;
 
     @ManyToOne
     @JoinColumn()
+    @NotNull
     private Employee advisor;
 
+    @NotNull
     @JsonIgnore
     private boolean isActive;
+
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
     private List<RepairOrderJob> jobs;
@@ -78,6 +85,10 @@ public class RepairOrder extends Auditable {
     private double totalAmount;
 
     public RepairOrder() {
+        isActive = true;
+        jobs = new ArrayList<>();
+        fees = new ArrayList<>();
+        miscItems = new ArrayList<>();
     }
 
     public RepairOrder(Date openDate, Customer customer, Vehicle vehicle, int mileageIn, String serviceTag, Employee advisor, List<RepairOrderJob> jobs) {
@@ -88,6 +99,7 @@ public class RepairOrder extends Auditable {
         this.serviceTag = serviceTag;
         this.advisor = advisor;
         this.jobs = jobs;
+        isActive = true;
     }
     public RepairOrder(Date openDate, Customer customer, Vehicle vehicle, int mileageIn, String serviceTag, Employee advisor) {
         this.openDate = openDate;
@@ -97,6 +109,7 @@ public class RepairOrder extends Auditable {
         this.serviceTag = serviceTag;
         this.advisor = advisor;
         this.jobs = new ArrayList<>();
+        isActive = true;
     }
 
     public long getId() {

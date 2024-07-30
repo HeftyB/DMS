@@ -254,4 +254,16 @@ public class Employee extends Auditable {
 //    public void setTimeSheets(ArrayList<TimeSheet> timeSheets) {
 //        this.timeSheets = timeSheets;
 //    }
+
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mailingAddress=" + mailingAddress +
+                ", phoneNumbers=" + phoneNumbers +
+                '}';
+    }
 }

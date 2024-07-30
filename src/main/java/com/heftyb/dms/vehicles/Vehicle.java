@@ -45,7 +45,7 @@ public class Vehicle extends Auditable {
 
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<RepairOrder> repairOrders;
+    private List<RepairOrder> ServiceHistory;
 
     @ManyToOne
     @JoinColumn
@@ -53,7 +53,7 @@ public class Vehicle extends Auditable {
 
 
     public Vehicle() {
-        repairOrders = new ArrayList<>();
+        ServiceHistory = new ArrayList<>();
     }
 
     public Vehicle(String vin, int modelYear, Manufacturer make, Model model) {
@@ -61,7 +61,7 @@ public class Vehicle extends Auditable {
         this.modelYear = modelYear;
         this.make = make;
         this.model = model;
-        repairOrders = new ArrayList<>();
+        ServiceHistory = new ArrayList<>();
     }
 
     public Vehicle(String vin, int modelYear, Manufacturer make, Model model, String trim, String engine, String color) {
@@ -72,7 +72,7 @@ public class Vehicle extends Auditable {
         this.trim = trim;
         this.engine = engine;
         this.color = color;
-        repairOrders = new ArrayList<>();
+        ServiceHistory = new ArrayList<>();
     }
 
     public long getId() {
@@ -139,12 +139,12 @@ public class Vehicle extends Auditable {
         this.vin = vin;
     }
 
-    public List<RepairOrder> getRepairOrders() {
-        return repairOrders;
+    public List<RepairOrder> getServiceHistory() {
+        return ServiceHistory;
     }
 
-    public void setRepairOrders(ArrayList<RepairOrder> repairOrders) {
-        this.repairOrders = repairOrders;
+    public void setServiceHistory(ArrayList<RepairOrder> repairOrders) {
+        this.ServiceHistory = repairOrders;
     }
 
     public Customer getCustomer() {

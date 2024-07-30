@@ -115,4 +115,14 @@ public class PhoneNumber extends Auditable {
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
     }
+
+    @Override
+    public String toString() {
+        return "PhoneNumber{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", isPrimary=" + isPrimary +
+                ", type=" + type +
+                '}';
+    }
 }

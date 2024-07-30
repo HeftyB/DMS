@@ -1,5 +1,6 @@
 package com.heftyb.dms.vehicles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
@@ -15,6 +16,7 @@ public class WMI extends Auditable {
     private String wmi;
 
     @ManyToOne
+    @JsonIgnore
     private Manufacturer manufacturer;
 
     public WMI() {

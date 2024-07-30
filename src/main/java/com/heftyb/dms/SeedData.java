@@ -61,14 +61,14 @@ public class SeedData implements CommandLineRunner {
 
 
         Map<String, String[]> map = Map.ofEntries(
-                new AbstractMap.SimpleEntry<String, String[]>("ABARTH", new String[]{"204", "205", "750", "850", "1000", "1150", "1300", "1600", "2000", "SIMCA"}),
-                new AbstractMap.SimpleEntry<String, String[]>("ACURA", new String[]{"MDX", "NSX", "RL", "RSX", "TL", "TSX", "CSX", "RDX", "ZDX", "ILX", "RLX", "TLX", "INTEGRA"}),
-                new AbstractMap.SimpleEntry<String, String[]>("ALFA ROMEO", new String[]{"8C", "4C", "GIULIA", "STELVIO", "TONALE"}),
-                new AbstractMap.SimpleEntry<String, String[]>("ASTON MARTIN", new String[]{"DB7", "VANQUISH", "DB9", "V8 VANTAGE", "V12 VANTAGE", "DBS", "RAPIDE", "ONE-77", "VIRAGE", "VANTAGE", "RAPIDE E", "DB11", "DBX", "DBX707", "VALOUR"}),
-                new AbstractMap.SimpleEntry<String, String[]>("AUDI", new String[]{"A3", "A4", "A5", "A6", "A7", "A8", "ALLROAD", "S4", "S6", "TT", "Q7", "RS4", "RS5", "RS7", "S8", "R8", "S5", "Q5", "S7", "SQ5", "Q3", "S3", "RS3", "ETRON", "Q8", "RSQ8", "SQ7", "SQ8", "Q4 ETRON", "RS3", "RS5", "RS6"}),
-                new AbstractMap.SimpleEntry<String, String[]>("BENTLY", new String[]{"ARNAGE", "CONTINENTAL", "AZURE", "BROOKLANDS", "MULSANNE", "FLYING SPUR", "BENTAYGA"}),
-                new AbstractMap.SimpleEntry<String, String[]>("BMW", new String[]{"325", "328", "330", "335", "525", "530", "545", "645", "745", "750", "760", "M1", "M2", "M3", "M4", "M5", "M6", "XM", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "Z3", "Z4", "Z8", "i3", "i4", "i5", "i7", "iX1", "iX2", "iX3", "ix"}),
-                new AbstractMap.SimpleEntry<String, String[]>("INFINITI", new String[]{"Q50", " QX50", "QX55", "QX60", "QX80", "QX56", "G35", "MX30", "I-SERIES", "J-SERIES"})
+                new AbstractMap.SimpleEntry<>("ABARTH", new String[]{"204", "205", "750", "850", "1000", "1150", "1300", "1600", "2000", "SIMCA"}),
+                new AbstractMap.SimpleEntry<>("ACURA", new String[]{"MDX", "NSX", "RL", "RSX", "TL", "TSX", "CSX", "RDX", "ZDX", "ILX", "RLX", "TLX", "INTEGRA"}),
+                new AbstractMap.SimpleEntry<>("ALFA ROMEO", new String[]{"8C", "4C", "GIULIA", "STELVIO", "TONALE"}),
+                new AbstractMap.SimpleEntry<>("ASTON MARTIN", new String[]{"DB7", "VANQUISH", "DB9", "V8 VANTAGE", "V12 VANTAGE", "DBS", "RAPIDE", "ONE-77", "VIRAGE", "VANTAGE", "RAPIDE E", "DB11", "DBX", "DBX707", "VALOUR"}),
+                new AbstractMap.SimpleEntry<>("AUDI", new String[]{"A3", "A4", "A5", "A6", "A7", "A8", "ALLROAD", "S4", "S6", "TT", "Q7", "RS4", "RS5", "RS7", "S8", "R8", "S5", "Q5", "S7", "SQ5", "Q3", "S3", "RS3", "ETRON", "Q8", "RSQ8", "SQ7", "SQ8", "Q4 ETRON", "RS3", "RS5", "RS6"}),
+                new AbstractMap.SimpleEntry<>("BENTLY", new String[]{"ARNAGE", "CONTINENTAL", "AZURE", "BROOKLANDS", "MULSANNE", "FLYING SPUR", "BENTAYGA"}),
+                new AbstractMap.SimpleEntry<>("BMW", new String[]{"325", "328", "330", "335", "525", "530", "545", "645", "745", "750", "760", "M1", "M2", "M3", "M4", "M5", "M6", "XM", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "Z3", "Z4", "Z8", "i3", "i4", "i5", "i7", "iX1", "iX2", "iX3", "ix"}),
+                new AbstractMap.SimpleEntry<>("INFINITI", new String[]{"Q50", " QX50", "QX55", "QX60", "QX80", "QX56", "G35", "MX30", "I-SERIES", "J-SERIES"})
 
 //                new AbstractMap.SimpleEntry<String, String[]>("ABARTH", new String[]{"", ""})
 
@@ -79,21 +79,16 @@ public class SeedData implements CommandLineRunner {
             Manufacturer m = new Manufacturer(k);
             m = manufacturerService.save(m);
             m.setModels(new ArrayList<>());
-            for (String s: v) {
+            for (String s : v) {
                 m.getModels().add(modelService.save(new Model(s, m)));
             }
         });
 
 
-
-
         List<Manufacturer> manufacturers = manufacturerService.findAll();
 
-        MailingAddress mailingAddress = new MailingAddress("HeftyB", "123 test ln", "",  "Jacksonville", "Florida", "37770");
-        MailingAddress mailingAddress1 = new MailingAddress("DanaD", "654 fast dr", "",  "Jacksonville", "Florida", "37770");
-
-//        mailingAddress = mailingAddressService.save(mailingAddress);
-//        mailingAddress1 = mailingAddressService.save(mailingAddress1);
+        MailingAddress mailingAddress = new MailingAddress("HeftyB", "123 test ln", "", "Jacksonville", "Florida", "37770");
+        MailingAddress mailingAddress1 = new MailingAddress("DanaD", "654 fast dr", "", "Jacksonville", "Florida", "37770");
 
 
         PhoneNumber phoneNumber = new PhoneNumber("9045555555", true, PhoneNumberType.HOME);
@@ -107,17 +102,14 @@ public class SeedData implements CommandLineRunner {
         Customer customer = new Customer("Dana", "Dee", "maiL@mail.com");
         customer.setMailingAddress(mailingAddress1);
 
-
-//        customer.setPhoneNumbers(new ArrayList<>());
         phoneNumber.setCustomer(customer);
         customer.getPhoneNumbers().add(phoneNumber);
-//        customer.setVehicles(new ArrayList<>());
 
         customer = customerService.save(customer);
 
         Manufacturer manufacturer = manufacturerService.findByName("INFINITI");
-        Model model = manufacturer.getModels().stream().filter((m)-> m.getName() == "QX60").findFirst().orElseThrow(
-                ()-> new DataNotFoundException("couldn't find model QX60")
+        Model model = manufacturer.getModels().stream().filter((m) -> m.getName() == "QX60").findFirst().orElseThrow(
+                () -> new DataNotFoundException("couldn't find model QX60")
         );
         String vin = "5N1DL0MN0LC520454";
         Vehicle vehicle = new Vehicle(vin, 2020, manufacturer, model);
@@ -142,14 +134,26 @@ public class SeedData implements CommandLineRunner {
 //        System.out.println(r);
 
         r = repairOrderService.save(r);
-        RepairOrderJob rj1 = jobService.save(new RepairOrderJob(r, "REPLACE FRONT BRAKE PADS AND ROTORS, CUSTOMER SUPPLIED PARTS"));
-        RepairOrderJob rj2 = jobService.save(new RepairOrderJob(r, "REPLACE REAR BRAKE PADS AND ROTORS, CUSTOMER SUPPLIED PARTS"));
-        RepairOrderJob rj3 = jobService.save(new RepairOrderJob(r, "BRAKE FLUID FLUSH, CUSTOMER SUPPLIED PARTS"));
+        RepairOrderJob[] jobs = {
+        jobService.save(new RepairOrderJob(r, "REPLACE FRONT BRAKE PADS AND ROTORS, CUSTOMER SUPPLIED PARTS")),
+        jobService.save(new RepairOrderJob(r, "REPLACE REAR BRAKE PADS AND ROTORS, CUSTOMER SUPPLIED PARTS")),
+        jobService.save(new RepairOrderJob(r, "BRAKE FLUID FLUSH, CUSTOMER SUPPLIED PARTS"))
+        };
+
+        for(RepairOrderJob j : jobs) {
+            r.getJobs().add(j);
+        }
+
+//        r = repairOrderService.save(r);
 
         System.out.println("---------------------**FINISHED!!!!**---------------------");
 
-        manufacturers.stream().forEach((m)-> {System.out.println(m);});
-        repairOrderService.findAll().stream().forEachOrdered((rr)-> {System.out.println(rr);});
+//        manufacturers.stream().forEach((m)-> {System.out.println(m);});
+//        repairOrderService.findAll().stream().forEachOrdered((rr)-> {System.out.println(rr);});
+//        System.out.println(manufacturer);
+//        customerService.findAll().iterator().forEachRemaining(System.out::println);
+//        employeeService.findAll().iterator().forEachRemaining(System.out::println);
+//        vehicleService.findAll().iterator().forEachRemaining(System.out::println);
         /// code to be run here!
     }
 }

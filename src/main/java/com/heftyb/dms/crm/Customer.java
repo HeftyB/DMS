@@ -159,4 +159,17 @@ public class Customer extends Auditable {
     public void addPhone(PhoneNumber phoneNumber) {
         this.phoneNumbers.add(phoneNumber);
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mailingAddress=" + mailingAddress +
+                ", phoneNumbers=" + phoneNumbers +
+                ", email='" + email + '\'' +
+                ", vehicles=" + vehicles +
+                '}';
+    }
 }

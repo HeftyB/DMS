@@ -41,16 +41,21 @@ public class RepairOrderJob extends Auditable {
     private List<MiscellaneousItem> miscItems;
 
     public RepairOrderJob() {
+        parts = new ArrayList<>();
+        timeClockPunchSets = new ArrayList<>();
+        labor = new ArrayList<>();
+        miscItems = new ArrayList<>();
     }
 
     public RepairOrderJob(RepairOrder repairOrder ,String concern) {
         this.repairOrder = repairOrder;
         this.concern = concern;
-        this.cause = "";
-        this.correction = "";
-        this.parts = new ArrayList<>();
-        this.timeClockPunchSets = new ArrayList<>();
-        this.labor = new ArrayList<>();
+        cause = "";
+        correction = "";
+        parts = new ArrayList<>();
+        timeClockPunchSets = new ArrayList<>();
+        labor = new ArrayList<>();
+        miscItems = new ArrayList<>();
     }
 
     public RepairOrderJob(RepairOrder repairOrder ,String concern, String cause, String correction) {
@@ -141,5 +146,19 @@ public class RepairOrderJob extends Auditable {
 
     public double getTotalLaborCost() {
         return labor.stream().mapToDouble(TechnicianFlatRateHour::getFlatRateHours).sum() * Double.parseDouble(System.getenv("LABOR_RATE"));
+    }
+
+    @Override
+    public String toString() {
+        return "RepairOrderJob{" +
+                "id=" + id +
+                ", concern='" + concern + '\'' +
+                ", cause='" + cause + '\'' +
+                ", correction='" + correction + '\'' +
+                ", parts=" + parts +
+                ", timeClockPunchSets=" + timeClockPunchSets +
+                ", labor=" + labor +
+                ", miscItems=" + miscItems +
+                '}';
     }
 }

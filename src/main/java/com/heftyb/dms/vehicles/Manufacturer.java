@@ -21,7 +21,6 @@ public class Manufacturer extends Auditable {
     private List<WMI> wmis;
 
     @OneToMany(mappedBy = "manufacturer")
-    @JsonIgnore
     private List<Model> models;
 
     public Manufacturer() {
