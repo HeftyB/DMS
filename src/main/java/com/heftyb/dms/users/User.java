@@ -2,6 +2,7 @@ package com.heftyb.dms.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.crm.Customer;
+import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,10 +24,14 @@ public class User {
     private String password;
 
     @NotNull
-    @ManyToOne
-    private Customer customer;
-
     private String email;
+
+    private boolean enabled;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private Employee employee;
 
     @OneToMany(mappedBy = "user",
     cascade = CascadeType.ALL,
@@ -37,10 +42,12 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password, Customer customer) {
+    public User(String username, String password, String email, Employee employee) {
         this.username = username;
         this.password = password;
-        this.customer = customer;
+        this.email = email;
+        enabled = true;
+        this.employee = employee;
     }
 
     public long getId() {
@@ -67,14 +74,6 @@ public class User {
         this.password = password;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public Set<UserRole> getRoles() {
         return roles;
     }
@@ -89,5 +88,21 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }
