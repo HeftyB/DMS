@@ -5,8 +5,11 @@ import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,9 +40,10 @@ public class User {
     cascade = CascadeType.ALL,
     orphanRemoval = true)
     @JsonIgnore
-    private Set<UserRole> roles = new HashSet<>();
+    private Set<UserRole> roles;
 
     public User() {
+        roles = new HashSet<>();
     }
 
     public User(String username, String password, String email, Employee employee) {
@@ -48,6 +52,7 @@ public class User {
         this.email = email;
         enabled = true;
         this.employee = employee;
+        roles = new HashSet<>();
     }
 
     public long getId() {
@@ -104,5 +109,33 @@ public class User {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    @JsonIgnore
+    public List<SimpleGrantedAuthority> getAuthority() {
+        List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
+
+        for (UserRole r : this.roles)
+        {
+            String myRole = "ROLE_" + r.getRole()
+                    .getRole()
+                    .toUpperCase();
+            rtnList.add(new SimpleGrantedAuthority(myRole));
+        }
+
+        return rtnList;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", enabled=" + enabled +
+                ", employee=" + employee +
+                ", roles=" + roles +
+                '}';
     }
 }
