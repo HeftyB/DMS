@@ -31,7 +31,7 @@ public class User {
 
     private boolean enabled;
 
-    private String displayPhoto;
+    private String displayPhotoURL;
 
 
     @OneToOne(cascade = CascadeType.ALL)

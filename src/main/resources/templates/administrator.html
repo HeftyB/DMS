@@ -61,6 +61,7 @@
           <li class="employee-card">
             <div>
               <p th:text="${user.username}"></p>
+              <img th:src="@{/defaults/default_user.svg}" alt="userPhoto" class="user-photo">
               <p th:text="${user.employee.firstName}"></p>
               <p th:text="${user.employee.lastName}"></p>
               <p th:text="${user.roles}"></p>
