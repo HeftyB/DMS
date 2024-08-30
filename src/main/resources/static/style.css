@@ -1,3 +1,62 @@
-*  {
+/**  {*/
+/*    border: 1px black solid;*/
+/*}*/
+
+.body {
+    background-color: cornflowerblue;
+}
+
+.nav-list {
+    display: flex;
+    justify-content: space-around;
+}
+
+.no-bullet-list {
+    list-style-type: none;
+}
+
+.nav-item {
+    margin: 1% 4%;
+}
+
+.wrapper {
+    background-color: #f4f4f4;
+    width: 87.5%;
+    margin: auto;
+}
+.admin_main {
+    display: flex;
+}
+.side-navbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    color: white;
+    background-color: black;
+}
+.side-navbar-open {
+    width: 20%;
+    opacity: 30%;
+}
+.side-navbar-closed {
+    width: 8%;
+    opacity: 50%;
+}
+
+.admin-data {
+    width: 100%;
+}
+
+.center-title {
+    text-align: center;
+}
+
+.clean-link {
+    text-decoration: none;
+}
+
+.employee-card {
     border: 1px black solid;
+    margin: 3%;
+    padding: 2% 1.5%;
 }

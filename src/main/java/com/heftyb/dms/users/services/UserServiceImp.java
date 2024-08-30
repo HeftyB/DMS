@@ -56,6 +56,13 @@ public class UserServiceImp implements UserService{
         return !matchingEmails.isEmpty();
     }
 
+    @Override
+    public List<User> findAll() {
+        List<User> users = new ArrayList<>();
+        userRepo.findAll().iterator().forEachRemaining(users::add);
+        return users;
+    }
+
 
     @Override
     public User registerNewUserAccount(final UserDTO userDto) {

@@ -31,6 +31,8 @@ public class User {
 
     private boolean enabled;
 
+    private String displayPhoto;
+
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id", referencedColumnName = "id")

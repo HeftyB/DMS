@@ -47,6 +47,13 @@ public class UserRole implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "UserRole{" +
+                ", role=" + role +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserRole)) return false;

@@ -11,6 +11,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -48,6 +49,8 @@ public class Employee extends Auditable {
     private boolean jobInProgress;
 
     private JobTitle jobTitle;
+
+    private Date hiredDate;
 
 
 //    private Employee manager;
