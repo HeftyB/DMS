@@ -1,8 +1,10 @@
 package com.heftyb.dms.timekeeping;
 
 import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.PayPeriod;
 import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Duration;
 import java.util.Date;
@@ -19,27 +21,35 @@ public class TimeClockPunchSet extends Auditable {
     private Date date;
 
     @OneToOne
-    @JoinColumn()
+//    @NotNull
+    @JoinColumn
     private TimePunchIn in;
 
     @OneToOne
-    @JoinColumn()
+    @JoinColumn
     private TimePunchOut out;
 
-    @ManyToOne()
-    @JoinColumn()
+    @ManyToOne
+    @JoinColumn(name = "employeeId", referencedColumnName = "id")
     private Employee employee;
 
     @ManyToOne
     @JoinColumn
     private TimeSheet timeSheet;
 
-
+    @ManyToOne
+    @JoinColumn
+    private PayPeriod payPeriod;
 
     public TimeClockPunchSet() {
     }
 
-
+    public TimeClockPunchSet(Date date, TimePunchIn in, Employee employee, PayPeriod period) {
+        this.date = date;
+        this.in = in;
+        this.employee = employee;
+        payPeriod = period;
+    }
 
     public TimeClockPunchSet(TimePunchIn timein) {
         this.in = timein;
@@ -93,8 +103,29 @@ public class TimeClockPunchSet extends Auditable {
         this.timeSheet = timeSheet;
     }
 
+    public PayPeriod getPayPeriod() {
+        return payPeriod;
+    }
+
+    public void setPayPeriod(PayPeriod payPeriod) {
+        this.payPeriod = payPeriod;
+    }
+
+    public Date getInPunchTime() { return in.getTime(); }
+
     public long hoursBetweenPunches() {
         Duration d = Duration.between(in.getTime().toInstant(), out.getTime().toInstant());
         return d.toMinutes() / 60;
+    }
+
+    @Override
+    public String toString() {
+        return "TimeClockPunchSet{" +
+                "id=" + id +
+                ", date=" + date +
+                ", in=" + in +
+                ", out=" + out +
+                ", employee=" + employee +
+                '}';
     }
 }
