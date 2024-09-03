@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import java.security.InvalidParameterException;
 import java.util.*;
 
-@Service
+@Service(value = "userService")
 @Transactional
 public class UserServiceImp implements UserService{
     private final UserRepository userRepo;
@@ -63,7 +63,7 @@ public class UserServiceImp implements UserService{
         return users;
     }
 
-
+    @Transactional
     @Override
     public User registerNewUserAccount(final UserDTO userDto) {
         if (emailExist(userDto.getEmail())) {
@@ -86,6 +86,7 @@ public class UserServiceImp implements UserService{
         return token.getUser();
     }
 
+    @Transactional
     @Override
     public User saveRegisteredUser(User user) {
         User u = new User();
@@ -99,6 +100,7 @@ public class UserServiceImp implements UserService{
         return userRepo.save(u);
     }
 
+    @Transactional
     @Override
     public void deleteUser(User user) {
         Optional<VerificationToken> token = verificationTokenRepo.findByUser(user);
@@ -110,6 +112,7 @@ public class UserServiceImp implements UserService{
         userRepo.deleteById(user.getId());
     }
 
+    @Transactional
     @Override
     public void createVerificationTokenForUser(User user, String token) {
         verificationTokenRepo.save(new VerificationToken(token, user));
@@ -122,6 +125,7 @@ public class UserServiceImp implements UserService{
         );
     }
 
+    @Transactional
     @Override
     public VerificationToken generateNewVerificationToken(String token) {
         VerificationToken newToken = verificationTokenRepo.findByToken(token).orElseThrow(
@@ -133,6 +137,7 @@ public class UserServiceImp implements UserService{
         return verificationTokenRepo.save(newToken);
     }
 
+    @Transactional
     @Override
     public void createPasswordResetTokenForUser(User user, String token) {
         PasswordResetToken passToken = new PasswordResetToken(token, user);
@@ -178,6 +183,7 @@ public class UserServiceImp implements UserService{
         return userRepo.findById(id);
     }
 
+    @Transactional
     @Override
     public void changeUserPassword(User user, String password) {
         User u = userRepo.findById(user.getId())

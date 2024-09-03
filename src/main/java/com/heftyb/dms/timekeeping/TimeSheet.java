@@ -1,5 +1,6 @@
 package com.heftyb.dms.timekeeping;
 
+import com.heftyb.dms.account.PayPeriod;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -15,13 +16,10 @@ public class TimeSheet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @ManyToOne
+    @JoinColumn
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date payPeriodStart;
-
-    @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date payPeriodEnd;
+    private PayPeriod payPeriod;
 
     @OneToMany(mappedBy = "timeSheet")
     private List<TimeClockPunchSet> timeClockPunchSets;
@@ -36,9 +34,8 @@ public class TimeSheet {
         pto = new ArrayList<>();
     }
 
-    public TimeSheet(Date payPeriodStart, Date payPeriodEnd, List<TimeClockPunchSet> timeClockPunchSets, List<PTO> pto) {
-        this.payPeriodStart = payPeriodStart;
-        this.payPeriodEnd = payPeriodEnd;
+    public TimeSheet(PayPeriod payPeriod, List<TimeClockPunchSet> timeClockPunchSets, List<PTO> pto) {
+        this.payPeriod = payPeriod;
         this.timeClockPunchSets = timeClockPunchSets;
         this.pto = pto;
     }
@@ -49,22 +46,6 @@ public class TimeSheet {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Date getPayPeriodStart() {
-        return payPeriodStart;
-    }
-
-    public void setPayPeriodStart(Date payPeriodStart) {
-        this.payPeriodStart = payPeriodStart;
-    }
-
-    public Date getPayPeriodEnd() {
-        return payPeriodEnd;
-    }
-
-    public void setPayPeriodEnd(Date payPeriodEnd) {
-        this.payPeriodEnd = payPeriodEnd;
     }
 
     public List<TimeClockPunchSet> getTimeClockPunchSets() {
@@ -91,4 +72,11 @@ public class TimeSheet {
         this.totalHours = totalHours;
     }
 
+    public PayPeriod getPayPeriod() {
+        return payPeriod;
+    }
+
+    public void setPayPeriod(PayPeriod payPeriod) {
+        this.payPeriod = payPeriod;
+    }
 }

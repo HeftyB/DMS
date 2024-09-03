@@ -1,10 +1,10 @@
 package com.heftyb.dms.timekeeping.services;
 
-import com.heftyb.dms.timekeeping.JobTimePunchSet;
-import com.heftyb.dms.timekeeping.TimeClockPunchSet;
-import com.heftyb.dms.timekeeping.TimePunchIn;
-import com.heftyb.dms.timekeeping.TimePunchOut;
+import com.heftyb.dms.account.PayPeriod;
+import com.heftyb.dms.timekeeping.*;
+import com.heftyb.dms.users.User;
 
+import java.time.Period;
 import java.util.List;
 
 public interface TimeClockService {
@@ -13,7 +13,7 @@ public interface TimeClockService {
     TimePunchIn findTimePunchInById(long id);
     TimePunchOut findTimePunchOutById(long id);
     TimePunchIn saveTimePunchIn(TimePunchIn timePunchIn);
-    TimePunchOut saveTimePunchOut(TimePunchIn timePunchIn);
+    TimePunchOut saveTimePunchOut(TimePunchOut timePunchOut);
     void deleteTimePunchIn(long id);
     void deleteTimePunchOut(long id);
 
@@ -22,6 +22,12 @@ public interface TimeClockService {
     TimeClockPunchSet findTimeClockPunchSetById(long id);
     TimeClockPunchSet saveTimeClockPunchSet(TimeClockPunchSet timeClockPunchSet);
     void deleteTimeClockPunchSet(long id);
+
+    List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSets(User user);
+    List<TimeClockPunchSet> findCurrentUsersPunchSetsByPayPeriod(User user, PayPeriod period);
+    TimeClockPunchSet findCurrentTimeClockPunchSetByUser(User u);
+    void clockIn(String username, TimePunchCode code);
+    void clockOut(String username, TimePunchCode code);
 
     List<JobTimePunchSet> findAllJobTimePunchSets();
     JobTimePunchSet findJobTimePunchSetById(long id);

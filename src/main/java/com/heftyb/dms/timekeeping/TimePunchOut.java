@@ -65,4 +65,13 @@ public class TimePunchOut {
     public void setCode(TimePunchCode code) {
         this.code = code;
     }
+
+    @Override
+    public String toString() {
+        return "TimePunchOut{" +
+                "id=" + id +
+                ", time=" + time +
+                ", code=" + code +
+                '}';
+    }
 }

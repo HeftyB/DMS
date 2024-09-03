@@ -1,5 +1,6 @@
 package com.heftyb.dms.timekeeping.services;
 
+import com.heftyb.dms.account.services.PayPeriodService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.timekeeping.PTO;
 import com.heftyb.dms.timekeeping.TimeClockPunchSet;
@@ -18,13 +19,16 @@ public class TimeSheetServiceImp implements TimeSheetService{
     private final TimeSheetRepository tsRepo;
     private final TimeClockService timeClockService;
     private final PTOService ptoService;
+    private final PayPeriodService payPeriodService;
 
     public TimeSheetServiceImp(final TimeSheetRepository tsRepo,
                                final TimeClockService timeClockService,
-                               final PTOService ptoService) {
+                               final PTOService ptoService,
+                               final PayPeriodService payPeriodService) {
         this.tsRepo = tsRepo;
         this.timeClockService = timeClockService;
         this.ptoService = ptoService;
+        this.payPeriodService = payPeriodService;
     }
 
     @Override
@@ -46,8 +50,7 @@ public class TimeSheetServiceImp implements TimeSheetService{
     @Override
     public TimeSheet saveTimeSheet(TimeSheet timeSheet) {
         TimeSheet t = new TimeSheet();
-        t.setPayPeriodStart(timeSheet.getPayPeriodStart());
-        t.setPayPeriodEnd(timeSheet.getPayPeriodEnd());
+        t.setPayPeriod(payPeriodService.findById(timeSheet.getPayPeriod().getId()));
         t.setTimeClockPunchSets(new ArrayList<>());
 
         for(TimeClockPunchSet tp : timeSheet.getTimeClockPunchSets()) {

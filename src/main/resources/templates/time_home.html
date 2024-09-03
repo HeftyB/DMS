@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Time Home</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+  <h1>TimeClock Home</h1>
+  <hr>
+  <h3>Hello, <span th:utext="${username}"></span>  you are <span th:text="${clockedInStatus} ? 'CLOCKED IN' : 'CLOCKED OUT'"></span></h3>
+  <p>Time Punches for: <span th:text="${currentDate}"></span></p>
+  <div>
+    <h3>timePunchSets</h3>
+    <ul th:each="s : ${punchSetList}">
+      <li>
+        <hr>
+        <p th:text="${s.id}"></p>
+        <p th:text="${s.date}"></p>
+        <p th:text="${s.in}"></p>
+<!--        <span th:text="${s.in.code}"></span>-->
+        <p th:text="${s.out}"></p>
+<!--        <span th:text="${s.out.code}"></span>-->
+        <hr>
+      </li>
+    </ul>
+  </div>
+
+  <hr>
+  <hr>
+  <hr>
+
+
+  <form action="#" th:action="${clockedInStatus} ? '/timeclock/out' : '/timeclock/in' " method="post">
+    <div th:if="${!clockedInStatus}">
+      <input type="radio" id="in" name="code" value="IN">
+      <label for="in">IN</label>
+      <br>
+    </div>
+
+    <div th:if="${clockedInStatus}">
+      <input type="radio" id="break" name="code" value="BREAK">
+      <label for="break">BREAK</label>
+      <br>
+    </div>
+
+    <div th:if="${clockedInStatus}">
+    <input type="radio" id="lunch" name="code" value="LUNCH">
+    <label for="lunch">LUNCH</label>
+    <br>
+    </div>
+
+    <div th:if="${clockedInStatus}">
+    <input type="radio" id="out" name="code" value="OUT">
+    <label for="out">OUT</label>
+    </div>
+
+    <input id="submitButton" type="submit">
+  </form>
+</body>
+
+</html>
