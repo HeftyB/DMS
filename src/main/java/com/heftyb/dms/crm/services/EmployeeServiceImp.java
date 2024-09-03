@@ -67,4 +67,11 @@ public class EmployeeServiceImp implements EmployeeService {
         findById(id);
         empRepo.deleteById(id);
     }
+
+    @Override
+    public void setEmployeeClockedIn(long id, boolean status) {
+        Employee e = findById(id);
+        e.setClockedIn(status);
+        empRepo.save(e);
+    }
 }

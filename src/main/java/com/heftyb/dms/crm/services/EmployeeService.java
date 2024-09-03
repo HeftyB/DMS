@@ -9,4 +9,5 @@ public interface EmployeeService {
     Employee findById(long id);
     Employee save(Employee employee);
     void delete(long id);
+    void setEmployeeClockedIn(long id, boolean status);
 }
