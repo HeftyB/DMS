@@ -7,24 +7,57 @@
   <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+  <header th:insert="fragments::header"></header>
   <h1>TimeClock Home</h1>
+  <a href="/">HOME?LANDING PAGE (just in case)</a>
   <hr>
   <h3>Hello, <span th:utext="${username}"></span>  you are <span th:text="${clockedInStatus} ? 'CLOCKED IN' : 'CLOCKED OUT'"></span></h3>
   <p>Time Punches for: <span th:text="${currentDate}"></span></p>
   <div>
+
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+
     <h3>timePunchSets</h3>
-    <ul th:each="s : ${punchSetList}">
-      <li>
-        <hr>
-        <p th:text="${s.id}"></p>
-        <p th:text="${s.date}"></p>
-        <p th:text="${s.in}"></p>
-<!--        <span th:text="${s.in.code}"></span>-->
-        <p th:text="${s.out}"></p>
-<!--        <span th:text="${s.out.code}"></span>-->
-        <hr>
-      </li>
-    </ul>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>DATE</th>
+        <th>IN-TIME</th>
+        <th>OUT-TIME</th>
+      </tr>
+      <tr th:each="s : ${punchSetList}">
+        <td><span th:text="${s.id}"></span></td>
+        <td><span th:text="${s.date}"></span></td>
+        <td>
+          <p>
+            <span th:text="${s.in.time}"></span>
+            <span th:text="${s.in.code}"></span>
+          </p>
+        </td>
+        <td>
+          <p>
+            <span th:if="${s.out}" th:text="${s.out.time}"></span>
+            <span th:text="${s.out} ? ${s.out.code} : '--'"></span>
+          </p>
+        </td>
+      </tr>
+    </table>
   </div>
 
   <hr>
