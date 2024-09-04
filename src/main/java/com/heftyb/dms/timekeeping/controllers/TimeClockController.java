@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -36,23 +37,41 @@ public class TimeClockController {
         this.userService = userService;
         this.payPeriodService = payPeriodService;
     }
-    @GetMapping("/")
+
+    public String getTodaysDate() {
+        LocalDate date = LocalDate.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        return date.format(formatter);
+    }
+
+    private ModelMap addTimeClockAttributes(ModelMap model,
+                                           List<TimeClockPunchSet> punchSetList,
+                                            String username,
+                                            boolean clockedIn,
+                                            String date,
+                                            String payStart,
+                                            String payEnd) {
+        model.addAttribute("punchSetList", punchSetList);
+        model.addAttribute("username", username);
+        model.addAttribute("clockedInStatus", clockedIn);
+        model.addAttribute("currentDate", date);
+        model.addAttribute("payPeriodStart", payStart);
+        model.addAttribute("payPeriodStart", payEnd);
+
+        return model;
+    }
+
+    @GetMapping({"/", ""})
     public String home(Principal principal, ModelMap model) {
         User user = userService.findUserByUsername(principal.getName());
 
         PayPeriod payPeriod = payPeriodService.getCurrentPayPeriod();
         List<TimeClockPunchSet> punchSetList = timeClockService.findCurrentUsersPunchSetsByPayPeriod(user, payPeriod);
-        LocalDate date = LocalDate.now();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
-        model.addAttribute("punchSetList", punchSetList);
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("clockedInStatus", user.getEmployee().isClockedIn());
-        model.addAttribute("currentDate", date.format(formatter));
-        model.addAttribute("payPeriodStart", payPeriod.getStartDate());
-        model.addAttribute("payPeriodStart", payPeriod.getStartDate());
-        model.addAttribute("payPeriodEnd", payPeriod.getEndDate());
+        model = addTimeClockAttributes(model, punchSetList, user.getUsername(), user.getEmployee().isClockedIn(), getTodaysDate(), payPeriod.getStartDate().toString(), payPeriod.getEndDate().toString());
+
 
         return "time_home";
     }
@@ -69,5 +88,24 @@ public class TimeClockController {
         timeClockService.clockOut(principal.getName(), code);
 
         return "redirect:/timeclock/";
+    }
+
+    @GetMapping({"/punches", "/punches/"})
+    public String getDatesPunches(@RequestParam String date, Principal principal, ModelMap model) throws ParseException {
+        User u = userService.findUserByUsername(principal.getName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+        List<TimeClockPunchSet> punchSets = timeClockService
+                .findCurrentUsersTimeClockPunchSetsByDate(principal.getName(), sdf.parse(date));
+
+
+        model = addTimeClockAttributes(model, punchSets,
+                u.getUsername(),
+                u.getEmployee().isClockedIn(),
+                date,
+                punchSets.size() > 0 ? punchSets.getFirst().getPayPeriod().getStartDate().toString() : getTodaysDate(),
+                punchSets.size() > 0 ? punchSets.getFirst().getPayPeriod().getEndDate().toString() : getTodaysDate());
+
+        return "time_home";
+
     }
 }

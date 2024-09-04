@@ -1,44 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <title>Admin Page</title>
-    <link rel="stylesheet" th:href="@{/style.css}">
-</head>
+<head th:replace="~{fragments::head (page_title='Administration')}"></head>
 <body class="body">
   <div class ="wrapper">
-    <header>
-      <nav>
-        <ul class="nav-list no-bullet-list">
-          <li class="nav-item">
-            <a class="clean-link" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="clean-link" href="#">Service Department Item List</a>
-          </li>
-          <li class="nav-item">
-            <a class="clean-link" href="#">Appointments</a>
-          </li>
-          <li class="nav-item">
-            <a class="clean-link" href="/timeclock/">Time Clock</a>
-          </li>
-          <li class="nav-item">
-            <a class="clean-link" href="/logout">LOGOUT</a>
-          </li>
-          <li class="nav-item">
-            <a class="clean-link" href="/support">Support</a>
-          </li>
-          <li class="nav-item">
-            <a class="clean-link" href="#">Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="clean-link" href="/support">Support</a>
-          </li>
-        </ul>
-      </nav>
-      <hr>
-    </header>
+
+    <nav th:insert="~{fragments::header-top (username=${username})}"></nav>
 
     <h1 class="center-title">HR Administrator</h1>
     <hr>
@@ -82,5 +48,7 @@
 
     </div>
   </div>
+
+  <footer th:replace="~{fragments::foot}"></footer>
 </body>
 </html>

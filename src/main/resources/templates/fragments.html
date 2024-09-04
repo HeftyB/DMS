@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:fragment="head (page_title)">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title th:text="${page_title}">Template Title</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header-top (username)">
+    <div class="container">
+        <ul class="nav-list">
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#" th:href="@{/}">Home</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#" th:href="@{/repair_orders}">Repair
+                Orders</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Appointments</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Customers</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Vehicles</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Parts</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Support</a></li>
+            <!--            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">User</a></li>-->
+            <li sec:authorize="hasRole('ROLE_ADMIN')" class="no-bullet-list nav-item"><a class="clean-link" href="#"
+                                                                                         th:href="@{/admin}">Admin</a>
+            </li>
+            <li id="nav_user_link" class="no-bullet-list nav-item nav-user-button" onmouseenter="toggleUserMenu()" onmouseleave="toggleUserMenu()">
+                <span class="clean-link" th:text="${username} ? ${username} : 'User'">UPLogout</span>
+                <div id="nav_user_menu" class="user-menu-closed">
+                    <a class="clean-link nav-menu-item" href="#" th:href="@{/timeclock}" th:text="Time-Clock"></a>
+                    <a class="clean-link nav-menu-item" href="#">User Profile</a>
+                    <a class="clean-link nav-menu-item" href="#" th:href="@{/logout}" th:text="Logout"></a>
+                </div>
+            </li>
+        </ul>
+
+
+    </div>
+</nav>
+
+<footer th:fragment="foot">
+    <script>
+        let m = document.querySelector("#nav_user_menu")
+
+        let toggleUserMenu = () => {
+            console.log(`menu=${m}`)
+            m.classList.toggle("user-menu-closed")
+            m.classList.toggle("user-menu-open")
+        }
+
+        document.querySelector("#nav_user_link")
+            .addEventListener("click", e => toggleUserMenu())
+
+
+    </script>
+</footer>
+</body>
+</html>

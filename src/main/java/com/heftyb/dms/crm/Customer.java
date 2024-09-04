@@ -160,6 +160,8 @@ public class Customer extends Auditable {
         this.phoneNumbers.add(phoneNumber);
     }
 
+    public String getName() { return firstName + " " + lastName; }
+
     @Override
     public String toString() {
         return "Customer{" +

@@ -3,7 +3,7 @@
 /*}*/
 
 .body {
-    background-color: cornflowerblue;
+    /*background-color: cornflowerblue;*/
 }
 
 .nav-list {
@@ -16,10 +16,24 @@
 }
 
 .nav-item {
-    margin: 1% 4%;
+    padding: 10px;
+    /*margin: 1% 4%;*/
 }
 
-.wrapper {
+.nav-item * {
+    color: black;
+}
+
+.nav-item:hover {
+    transform: scale(1.2);
+
+}
+
+.nav-menu-item {
+    padding: 10px;
+}
+
+.wrapper, .container {
     background-color: #f4f4f4;
     width: 87.5%;
     margin: auto;
@@ -59,4 +73,40 @@
     border: 1px black solid;
     margin: 3%;
     padding: 2% 1.5%;
+}
+
+.user-menu-closed {
+    display: none;
+}
+
+.user-menu-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    border: 1px black solid;
+    width: 150px;
+}
+.nav-user-button {
+    position: relative;
+}
+
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.time-home-greeting {
+    text-align: center;
 }

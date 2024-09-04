@@ -9,7 +9,10 @@ import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,6 +68,11 @@ public class RepairOrder extends Auditable {
     @NotNull
     @JsonIgnore
     private boolean isActive;
+
+    @NotNull
+    @Size(max = 1)
+    @Pattern(regexp = "/([0-9])+/g")
+    private String priority  = "0";
 
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
@@ -248,7 +256,15 @@ public class RepairOrder extends Auditable {
         this.finalizedDate = finalizedDate;
     }
 
-//    public Invoice getInvoice() {
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    //    public Invoice getInvoice() {
 //        return invoice;
 //    }
 //

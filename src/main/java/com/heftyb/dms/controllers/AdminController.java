@@ -30,13 +30,14 @@ public class AdminController {
 //        return new ModelAndView("administrator", model);
 //    }
 
-    @GetMapping("/")
+    @GetMapping({"/", ""})
     public String adminHome(HttpServletRequest request, Model model, Principal principal) {
         User u = userService.findUserByUsername(principal.getName());
         model.addAttribute("user1", u);
 
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
+        model.addAttribute("username", principal.getName());
         return "administrator";
     }
 }

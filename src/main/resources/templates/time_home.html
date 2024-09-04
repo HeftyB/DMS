@@ -1,39 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="UTF-8">
-  <title>Time Home</title>
-  <link rel="stylesheet" th:href="@{/style.css}">
-</head>
+<head th:replace="~{fragments::head (page_title='Time-Clock')}"></head>
 <body>
-  <header th:insert="fragments::header"></header>
-  <h1>TimeClock Home</h1>
-  <a href="/">HOME?LANDING PAGE (just in case)</a>
-  <hr>
-  <h3>Hello, <span th:utext="${username}"></span>  you are <span th:text="${clockedInStatus} ? 'CLOCKED IN' : 'CLOCKED OUT'"></span></h3>
-  <p>Time Punches for: <span th:text="${currentDate}"></span></p>
+  <header th:insert="~{fragments::header-top (username=${username})}"></header>
+
+  <div class="time-home-greeting">
+    <h3>Hello, <span th:utext="${username}"></span>  you are <span th:text="${clockedInStatus} ? 'CLOCKED IN' : 'CLOCKED OUT'"></span></h3>
+    <p>Time Punches for: <span th:text="${currentDate}"></span></p>
+    <div style="height=75px; width=100%; background: #FFFFFF; border: 1px solid black;">
+      <form action="#" th:action="@{/timeclock/punches}" method="get">
+        <label for="time_punch_date_selector"></label>
+        <input type="date" id="time_punch_date_selector" name="date" th:value="${currentDate}">
+        <button type="submit" >Change Date!</button>
+      </form>
+    </div>
+  </div>
   <div>
-
-    <style>
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-      }
-
-      td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-      }
-
-      tr:nth-child(even) {
-        background-color: #dddddd;
-      }
-    </style>
-
-    <h3>timePunchSets</h3>
+    <h3>Time Punches</h3>
     <table>
       <tr>
         <th>ID</th>
@@ -91,6 +74,8 @@
 
     <input id="submitButton" type="submit">
   </form>
+
+  <footer th:replace="~{fragments::foot}"></footer>
 </body>
 
 </html>

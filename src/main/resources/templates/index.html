@@ -1,27 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <title>Hefty DMS Application</title>
-    <link rel="stylesheet" th:href="@{/style.css}">
-</head>
+<head th:replace="~{fragments::head (page_title='Home')}"></head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/admin/ ">ADMIN</a></li>
-                <li><a href="/logout">LOGOUT</a></li>
-            </ul>
-        </nav>
-    </header>
+
+    <nav th:insert="~{fragments::header-top (username=${username})}"></nav>
 
     <div>
         <h1>Welcome to Hefty's dealer management software suite</h1>
     </div>
 
-    <footer>
-        <span>insert terms and conditions here!</span>
-    </footer>
+    <footer th:replace="~{fragments::foot}"></footer>
 </body>
 </html>

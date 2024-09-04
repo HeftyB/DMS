@@ -5,6 +5,7 @@ import com.heftyb.dms.timekeeping.*;
 import com.heftyb.dms.users.User;
 
 import java.time.Period;
+import java.util.Date;
 import java.util.List;
 
 public interface TimeClockService {
@@ -24,6 +25,8 @@ public interface TimeClockService {
     void deleteTimeClockPunchSet(long id);
 
     List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSets(User user);
+    List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSets(String username);
+    List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSetsByDate(String username, Date date);
     List<TimeClockPunchSet> findCurrentUsersPunchSetsByPayPeriod(User user, PayPeriod period);
     TimeClockPunchSet findCurrentTimeClockPunchSetByUser(User u);
     void clockIn(String username, TimePunchCode code);

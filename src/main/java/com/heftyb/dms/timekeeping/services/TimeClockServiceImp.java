@@ -189,6 +189,18 @@ public class TimeClockServiceImp implements TimeClockService{
     }
 
     @Override
+    public List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSets(String username) {
+        User u = userService.findUserByUsername(username);
+        return timeClockPunchRepo.findByEmployee(u.getEmployee());
+    }
+
+    @Override
+    public List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSetsByDate(String username, Date date) {
+        User u = userService.findUserByUsername(username);
+        return timeClockPunchRepo.findByEmployeeAndDate(u.getEmployee(), date);
+    }
+
+    @Override
     public List<TimeClockPunchSet> findCurrentUsersPunchSetsByPayPeriod(User user, PayPeriod period) {
         return timeClockPunchRepo.findByEmployeeAndPayPeriod(user.getEmployee(), period);
     }
