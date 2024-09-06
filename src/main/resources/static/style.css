@@ -6,6 +6,9 @@
     /*background-color: cornflowerblue;*/
 }
 
+
+
+/*navigation*/
 .nav-list {
     display: flex;
     justify-content: space-around;
@@ -91,6 +94,10 @@
 }
 
 
+
+
+/*data*/
+
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
@@ -109,4 +116,138 @@ tr:nth-child(even) {
 
 .time-home-greeting {
     text-align: center;
+}
+
+.center-text {
+    text-align: center;
+}
+
+td a {
+    display: block;
+    padding: 5px;
+}
+
+
+/*search view*/
+
+.modal:before {
+    content: "";
+    display: none;
+    position: fixed;
+    background: black;
+    opacity: 0.6;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 6;
+}
+
+.opened:before { display: block; }
+
+.opened .search-wrapper {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+    top: 20%;
+}
+
+
+
+.search-wrapper {
+    width: 30%;
+    margin: auto;
+    border: 1px black solid;
+    border-radius: 5px;
+    padding: 10px;
+    background: seashell;
+
+    z-index: 9;
+    position: relative;
+    box-shadow:0 5px 10px rgba(0,0,0,0.3);
+    -webkit-transform: translate(0, -500%);
+    -ms-transform: translate(0, -500%);
+    transform: translate(0, -500%);
+    -webkit-transition: -webkit-transform 0.3s ease-out;
+    -moz-transition: -moz-transform 0.3s ease-out;
+    -o-transition: -o-transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    display: table;
+}
+
+.input-wrapper {
+    margin: 5px 0;
+}
+
+.right-input {
+    text-align: right;
+    display: table-cell;
+}
+
+
+.search-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.input-label {
+    font-size: small;
+    display: table-cell
+}
+
+.input-label-small {
+    font-size: xx-small;
+}
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+
+/*search results view*/
+
+
+.tab-container {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tab-container button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+.tab-container button:hover {
+    background-color: #ddd;
+}
+
+.tab-container button.active {
+    background-color: #ccc;
+}
+
+.tab-content {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.result-buttons-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
 }

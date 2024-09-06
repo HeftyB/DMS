@@ -3,7 +3,7 @@
 <head th:replace="~{fragments::head (page_title='My Repair Orders')}"></head>
 <body>
     <header th:insert="~{fragments::header-top (username=${username})}"></header>
-    <h1>Repair Orders!</h1>
+    <h1 class="center-text" th:text="${username} + '\'s Repair Orders'"></h1>
 
     <table>
         <tr>
@@ -28,9 +28,11 @@
 
     <div class="container">
         <button type="button">Open New</button>
-        <button type="button">Search</button>
+        <button type="button" id="open_modal">Search</button>
         <button type="button">User</button>
     </div>
+
+    <div th:replace="~{search::search}"></div>
 
 
     <footer th:replace="~{fragments::foot}"></footer>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments::head (page_title='Search Results')}"></head>
+<body>
+<header th:insert="~{fragments::header-top (username=${username})}"></header>
+
+  <h1>RESULTS</h1>
+  <div>
+    <div class="tab-container">
+      <button class="tab-links" id="customers-button">Customers</button>
+      <button class="tab-links" id="vehicles-button">Vehicles</button>
+    </div>
+
+    <div>
+      <h3>results for search criteria((</h3>
+    </div>
+
+    <div id="customers" class="tab-content">
+      <table>
+        <tr>
+          <th>Customer ID</th>
+          <th>Customer</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Address</th>
+        </tr>
+
+        <tr th:each="customer : ${customers}">
+          <td>
+            <a class="clean-link" href="#" th:href="@{'/customers/customer/'${customer.id}" th:text="${customer.id}"></a>
+          </td>
+          <td>
+            <a class="clean-link" href="#" th:href="@{'/customers/customer/'${customer.id}" th:text="${customer.getName()}"></a>
+          </td>
+          <td>
+            <a class="clean-link" href="#" th:href="@{'/customers/customer/'${customer.id}" th:text="${customer.getPrimaryPhone().number}"></a>
+          </td>
+          <td>
+            <a class="clean-link" href="#" th:href="@{'/customers/customer/'${customer.id}" th:text="${customer.email}"></a>
+          </td>
+          <td>
+            <a class="clean-link" href="#" th:href="@{'/customers/customer/'${customer.id}" th:text="${customer.mailingAddress.getAddress()}"></a>
+          </td>
+        </tr>
+
+        <tr>
+          <td>002</td>
+          <td>Lorem ipsum dolor.</td>
+          <td>904-555-555</td>
+          <td>mail@mail.com</td>
+          <td>12345 fake lane</td>
+        </tr>
+
+        <tr>
+          <td>209</td>
+          <td>John Smith</td>
+          <td>813-555-555</td>
+          <td>smails@mail.com</td>
+          <td>3423 fke la</td>
+        </tr>
+
+        <tr>
+          <td><a href="/" class="clean-link">1010</a></td>
+          <td><a href="/" class="clean-link">Hefty Burrito</a></td>
+          <td><a href="/" class="clean-link">904-813-555</a></td>
+          <td><a href="/" class="clean-link">foodmail@mail.com</a></td>
+          <td><a href="/" class="clean-link">9854 ake lane</a></td>
+        </tr>
+
+        <tr>
+          <td>402</td>
+          <td>Dan fak dolor.</td>
+          <td>904-555-342</td>
+          <td>mailas@dasmail.com</td>
+          <td>34223 sad lane</td>
+        </tr>
+
+
+
+      </table>
+    </div>
+
+    <div id="vehicles" class="tab-content">
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>INFO</th>
+          <th>VIN</th>
+          <th>Customer</th>
+          <th>Last Seen</th>
+        </tr>
+
+        <tr th:each="vehicle : ${vehicle}">
+          <td>
+            <a class="clean-link" href="#" th:href="@{'/vehicles/vehicle/'${vehicle.id}" th:text="${vehicle.id}"></a>
+          </td>
+          <td>
+            <a class="clean-link" href="#" th:href="@{'/vehicles/vehicle/'${vehicle.id}" th:text="${vehicle.getVehicleInfo()}"></a>
+          </td>
+          <td>
+            <a class="clean-link" href="#" th:href="@{'/vehicles/vehicle/'${vehicle.id}" th:text="${vehicle.vin}"></a>
+          </td>
+          <td>
+            <a class="clean-link" href="#" th:href="@{'/vehicles/vehicle/'${vehicle.id}" th:text="${vehicle.customer.getName()}"></a>
+          </td>
+          <td>
+            <a class="clean-link" href="#" th:href="@{'/vehicles/vehicle/'${vehicle.id}" th:text="${'11/21/2004'}"></a>
+          </td>
+        </tr>
+
+        <tr>
+          <td>002</td>
+          <td>1993 Honda Civic</td>
+          <td>aksjhklashksjhsakalkjs</td>
+          <td>Duke Kaboom</td>
+          <td>today</td>
+        </tr>
+
+        <tr>
+          <td>209</td>
+          <td>2013 Mini Cooper S</td>
+          <td>ueiwhnvihweihdd</td>
+          <td>Cool McNiel</td>
+          <td>11/20/2022</td>
+        </tr>
+
+        <tr>
+          <td>1010</td>
+          <td>2024 Ferrari Custom</td>
+          <td>1kajskljflskjlasd</td>
+          <td>Hefty Burrito</td>
+          <td>09/04/2024</td>
+        </tr>
+
+        <tr>
+          <td>402</td>
+          <td>2015 Chevrolet Bolt</td>
+          <td>1231jkhalkjhfdkl</td>
+          <td>Gone Jon</td>
+          <td>01/01/2001</td>
+        </tr>
+
+      </table>
+    </div>
+
+
+
+    <div class="result-buttons-wrapper">
+      <button>Back</button>
+      <button>Search</button>
+      <button>Create New</button>
+      <button>Select</button>
+    </div>
+  </div>
+
+
+<script>
+  let tabLinks, tabContents
+
+  tabLinks = document.getElementsByClassName("tab-links")
+  tabContents = document.getElementsByClassName("tab-content")
+
+  // ES5 compatible iteration
+  Array.prototype.forEach.call(tabLinks, function (element) {
+    element.addEventListener("click", e => {
+
+      Array.prototype.forEach.call(tabContents, function (el) {
+        el.style.display = "none";
+      })
+
+      // new ES6 way
+      Array.from(tabLinks).forEach(el => {
+        el.className = el.className.replace(" active", "")
+      })
+
+      let id = e.currentTarget.id.replace("-button", "");
+      document.getElementById(id).style.display = "block"
+      e.currentTarget.className += " active"
+    })
+
+  })
+  document.getElementById("customers-button").click();
+</script>
+
+<footer th:repalce="~{fragments::foot}"></footer>
+</body>
+</html>

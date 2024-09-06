@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "customers")
@@ -161,6 +162,16 @@ public class Customer extends Auditable {
     }
 
     public String getName() { return firstName + " " + lastName; }
+
+    public PhoneNumber getPrimaryPhone() {
+        Optional<PhoneNumber> primary = phoneNumbers.stream().filter(PhoneNumber::isPrimary).findFirst();
+
+        if (primary.isPresent()) {
+            return primary.get();
+        } else {
+            return phoneNumbers.getFirst();
+        }
+    }
 
     @Override
     public String toString() {

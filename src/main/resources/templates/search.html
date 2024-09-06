@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments::head (page_title='Vehicle Search')}"></head>
+<body>
+
+    <div class="modal" th:fragment="search">
+        <div class="search-wrapper a1">
+            <h2 class="center-text">Search</h2>
+            <div class="form-wrapper">
+                <form action="#" class="search-form">
+                    <div class="input-wrapper">
+                        <input type="text" id="id" class="right-input" placeholder="60120">
+                        <label for="id" class="input-label">Customer ID</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="checkbox">
+                        <label for="looking_cool" class="input-label-small">Cool Checkbox</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" id="first_name" class="right-input" placeholder="John">
+                        <label for="first_name" class="input-label">First Name</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" id="last_name" class="right-input" placeholder="Doe">
+                        <label for="last_name" class="input-label">Last Name</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" id="phone" class="right-input" placeholder="904555555"
+                        pattern="(0-9).{9,}">
+                        <label for="phone" class="input-label">Phone</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" id="email" class="right-input" placeholder="john@doe.com"
+                        pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
+                        <label for="email" class="input-label">Email</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" id="vin" class="right-input" placeholder="JH4TB2H26CC000000">
+                        <label for="vin" class="input-label">VIN</label>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <input type="checkbox" id="customer" checked class="right-input">
+                        <label for="customer" class="input-label-small">Customer Records</label>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <input type="checkbox" id="vehicle" checked class="right-input">
+                        <label for="vehicle" class="input-label-small">Vehicle Records</label>
+                    </div>
+
+                    <div class="search-button-container">
+                        <button id="close_modal">cancel</button>
+                        <button type="submit">submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            document.querySelector("#open_modal").addEventListener("click", evt => {
+                evt.preventDefault()
+                document.querySelector(".modal").classList.toggle("opened")
+            })
+
+            document.querySelector("#close_modal").addEventListener("click", evt => {
+                evt.preventDefault()
+                document.querySelector(".modal").classList.toggle("opened")
+            })
+        </script>
+    </div>
+
+
+    <div>
+        <div>
+            <p id="open_modal"><span><button class="btn">a</button></span></p>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
