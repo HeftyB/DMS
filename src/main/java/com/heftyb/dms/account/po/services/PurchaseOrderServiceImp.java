@@ -16,7 +16,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "purchaseOrderService")
-public class PurchaseOrderServiceImp implements PurchaseOrderService{
+public class PurchaseOrderServiceImp implements PurchaseOrderService {
 
     private final PurchaseOrderRepository poRepo;
     private final POItemRepository itemRepo;
@@ -97,7 +97,7 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService{
     @Override
     public POItem findPoItemById(long id) {
         return itemRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "PoItemService Error: could not find POItem id %g", id
                 ))
         );

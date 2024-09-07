@@ -155,16 +155,24 @@ public class Vehicle extends Auditable {
         this.customer = customer;
     }
 
+    public String getVehicleInfo() {
+        return String.format("%s-%s-%s - %s - %s || %s",
+                modelYear, make.getName(), model.getName(), trim != null ? "(" + trim + ")" : "", color != null ? color : "", vin);
+    }
+
     @Override
     public String toString() {
         return "Vehicle{" +
                 "id=" + id +
-                ", year=" + modelYear +
-                ", make='" + make + '\'' +
-                ", model='" + model + '\'' +
+                ", vin='" + vin + '\'' +
+                ", modelYear=" + modelYear +
+                ", make=" + make +
+                ", model=" + model +
                 ", trim='" + trim + '\'' +
                 ", engine='" + engine + '\'' +
                 ", color='" + color + '\'' +
+                ", ServiceHistory=" + ServiceHistory +
+                ", customer=" + customer +
                 '}';
     }
 }

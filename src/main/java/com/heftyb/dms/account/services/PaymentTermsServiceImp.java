@@ -11,7 +11,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "paymentTermsService")
-public class PaymentTermsServiceImp implements PaymentTermService{
+public class PaymentTermsServiceImp implements PaymentTermService {
 
     final private PaymentTermRepository termRepo;
 
@@ -29,7 +29,7 @@ public class PaymentTermsServiceImp implements PaymentTermService{
     @Override
     public PaymentTerm findById(long id) {
         return termRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "PaymentTermService Error: can not find paymentTerm id %g", id
                 ))
         );

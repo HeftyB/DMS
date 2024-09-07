@@ -12,7 +12,7 @@ import java.util.List;
 
 //@Transactional
 @Service(value = "vendorService")
-public class VendorServiceImp implements VendorService{
+public class VendorServiceImp implements VendorService {
 
     private final VendorRepository vendorRepository;
     private final ContactService contactService;
@@ -40,7 +40,7 @@ public class VendorServiceImp implements VendorService{
     @Override
     public Vendor findById(long id) {
         return vendorRepository.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "VendorService Error: can not find vendor id %g", id
                 ))
         );
@@ -58,7 +58,7 @@ public class VendorServiceImp implements VendorService{
 
         v.setAddress(contactService.saveNewMailingAddress(vendor.getAddress()));
 
-        for(PhoneNumber pn : v.getPhoneNumbers()) {
+        for (PhoneNumber pn : v.getPhoneNumbers()) {
             pn.setVendor(v);
             v.getPhoneNumbers().add(contactService.saveNewPhoneNumber(pn));
         }

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "stockedPartService")
-public class StockedPartServiceImp implements StockedPartService{
+public class StockedPartServiceImp implements StockedPartService {
 
     private final StockedPartRepository stockRepo;
     private final PartService partService;
@@ -32,7 +32,7 @@ public class StockedPartServiceImp implements StockedPartService{
     @Override
     public StockedPart findById(long id) {
         return stockRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "StockedPartSService Error: can not find stocked part id %g", id
                 ))
         );

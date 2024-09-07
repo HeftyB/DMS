@@ -14,7 +14,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "partService")
-public class PartServiceImp implements PartService{
+public class PartServiceImp implements PartService {
 
     final private PartRepository partRepo;
     final private RepairOrderService repairOrderService;
@@ -41,7 +41,7 @@ public class PartServiceImp implements PartService{
     @Override
     public Part findById(long id) {
         return partRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "PartService Error: could not find Part id %g", id
                 ))
         );

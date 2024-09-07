@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
     List<Customer> findByLastNameContainingIgnoreCase(String lastName);
+
     List<Customer> findByFirstNameContainingIgnoreCase(String firstName);
+
     List<Customer> findByLastNameContainingIgnoreCaseAndFirstNameContainingIgnoreCase(String firstName, String lastName);
 }

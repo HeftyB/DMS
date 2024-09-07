@@ -15,7 +15,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "invoiceService")
-public class InvoiceServiceImp implements InvoiceService{
+public class InvoiceServiceImp implements InvoiceService {
 
     private final InvoiceRepository invoiceRepo;
     private final CustomerService customerService;
@@ -45,7 +45,7 @@ public class InvoiceServiceImp implements InvoiceService{
     @Override
     public Invoice findById(long id) {
         return invoiceRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "InvoiceService Error: can not find Invoice id %g", id
                 ))
         );

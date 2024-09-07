@@ -12,7 +12,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "miscellaneousService")
-public class MiscellaneousItemServiceImp implements MiscellaneousItemsService{
+public class MiscellaneousItemServiceImp implements MiscellaneousItemsService {
 
     final private MiscellaneousItemRepository miscRepo;
     final private RepairOrderService repairOrderService;
@@ -36,7 +36,7 @@ public class MiscellaneousItemServiceImp implements MiscellaneousItemsService{
     @Override
     public MiscellaneousItem findById(long id) {
         return miscRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "MiscellaneousItemsService Error: could not find miscellaneousItem id %g", id
                 ))
         );

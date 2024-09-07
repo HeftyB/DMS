@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface TechnicianFlatRateHourService {
     List<TechnicianFlatRateHour> findAll();
+
     TechnicianFlatRateHour findById(long id);
+
     TechnicianFlatRateHour save(TechnicianFlatRateHour hour);
+
     void delete(long id);
 }

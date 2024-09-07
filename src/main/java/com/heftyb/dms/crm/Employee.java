@@ -2,14 +2,12 @@ package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.Auditable;
-import com.heftyb.dms.repairorder.RepairOrder;
-import com.heftyb.dms.repairorder.TechnicianFlatRateHour;
-import com.heftyb.dms.timekeeping.JobTimePunchSet;
-import com.heftyb.dms.timekeeping.TimeClockPunchSet;
+import com.heftyb.dms.users.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -48,6 +46,8 @@ public class Employee extends Auditable {
 
     private JobTitle jobTitle;
 
+    private Date hiredDate;
+
 
 //    private Employee manager;
 
@@ -67,6 +67,11 @@ public class Employee extends Auditable {
 //    @OneToMany(mappedBy = "technician", cascade = CascadeType.ALL)
 //    @JsonIgnore
 //    private List<TechnicianFlatRateHour> flatRateHours;
+
+
+    @OneToOne(mappedBy = "employee")
+    @JsonIgnore
+    private User user;
 
 
     public Employee() {
@@ -255,6 +260,14 @@ public class Employee extends Auditable {
 //        this.timeSheets = timeSheets;
 //    }
 
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public String toString() {

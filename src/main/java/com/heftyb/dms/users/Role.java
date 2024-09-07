@@ -17,12 +17,16 @@ public class Role {
 
 
     @OneToMany(mappedBy = "role",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     @JsonIgnore
     private Set<UserRole> users = new HashSet<>();
 
     public Role() {
+    }
+
+    public Role(String role) {
+        this.role = role;
     }
 
     public Role(String role, Set<UserRole> users) {
@@ -52,5 +56,13 @@ public class Role {
 
     public void setUsers(Set<UserRole> users) {
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

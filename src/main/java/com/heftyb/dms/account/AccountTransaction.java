@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "accountTransactions")
-public class AccountTransaction extends Auditable{
+public class AccountTransaction extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

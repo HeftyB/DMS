@@ -1,7 +1,6 @@
 package com.heftyb.dms.repairorder.services;
 
 import com.heftyb.dms.exceptions.DataNotFoundException;
-import com.heftyb.dms.repairorder.MiscellaneousItem;
 import com.heftyb.dms.repairorder.RepairOrderJob;
 import com.heftyb.dms.repairorder.repositories.RepairOrderJobRepository;
 import jakarta.transaction.Transactional;
@@ -12,7 +11,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "repairOrderJobService")
-public class RepairOrderJobServiceImp implements RepairOrderJobService{
+public class RepairOrderJobServiceImp implements RepairOrderJobService {
 
     final private RepairOrderJobRepository jobRepo;
     final private RepairOrderService repairOrderService;
@@ -36,7 +35,7 @@ public class RepairOrderJobServiceImp implements RepairOrderJobService{
     @Override
     public RepairOrderJob findById(long id) {
         return jobRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "RepairOrderJobService Error: could not find repairOrderJob id %g", id
                 ))
         );

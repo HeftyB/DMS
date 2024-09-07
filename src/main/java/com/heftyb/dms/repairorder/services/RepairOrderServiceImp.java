@@ -14,7 +14,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "repairOrderService")
-public class RepairOrderServiceImp implements RepairOrderService{
+public class RepairOrderServiceImp implements RepairOrderService {
 
     private final RepairOrderRepository roRepo;
     private final CustomerService customerService;
@@ -41,7 +41,7 @@ public class RepairOrderServiceImp implements RepairOrderService{
     @Override
     public RepairOrder findById(long id) {
         return roRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "RepairOrderService Error: could not find repair order id %s", id
                 ))
         );

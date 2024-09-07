@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface PTOService {
     List<PTO> findAll();
+
     PTO findById(long id);
+
     PTO save(PTO pto);
+
     void delete(long id);
 }

@@ -47,7 +47,7 @@ public class RepairOrderJob extends Auditable {
         miscItems = new ArrayList<>();
     }
 
-    public RepairOrderJob(RepairOrder repairOrder ,String concern) {
+    public RepairOrderJob(RepairOrder repairOrder, String concern) {
         this.repairOrder = repairOrder;
         this.concern = concern;
         cause = "";
@@ -58,7 +58,7 @@ public class RepairOrderJob extends Auditable {
         miscItems = new ArrayList<>();
     }
 
-    public RepairOrderJob(RepairOrder repairOrder ,String concern, String cause, String correction) {
+    public RepairOrderJob(RepairOrder repairOrder, String concern, String cause, String correction) {
         this.repairOrder = repairOrder;
         this.concern = concern;
         this.cause = cause;

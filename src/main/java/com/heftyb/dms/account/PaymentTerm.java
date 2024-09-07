@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "paymentTerms")
-public class PaymentTerm extends Auditable{
+public class PaymentTerm extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +18,6 @@ public class PaymentTerm extends Auditable{
 
     @OneToMany(mappedBy = "paymentTerm")
     private List<StatementStatusRate> statusRates;
-
 
 
     public PaymentTerm() {

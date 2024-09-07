@@ -12,7 +12,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "modelService")
-public class ModelServiceImp implements ModelService{
+public class ModelServiceImp implements ModelService {
 
     private final ModelRepository modelRepo;
     private final ManufacturerService manufacturerService;
@@ -54,7 +54,7 @@ public class ModelServiceImp implements ModelService{
     @Override
     public Model findById(long id) {
         return modelRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format("ModelService Error: could not find Model id %g", id))
+                () -> new DataNotFoundException(String.format("ModelService Error: could not find Model id %g", id))
         );
     }
 

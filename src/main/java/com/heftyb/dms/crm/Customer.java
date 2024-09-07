@@ -2,13 +2,13 @@ package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.Auditable;
-import com.heftyb.dms.account.invoice.Invoice;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "customers")
@@ -158,6 +158,20 @@ public class Customer extends Auditable {
 
     public void addPhone(PhoneNumber phoneNumber) {
         this.phoneNumbers.add(phoneNumber);
+    }
+
+    public String getName() {
+        return firstName + " " + lastName;
+    }
+
+    public PhoneNumber getPrimaryPhone() {
+        Optional<PhoneNumber> primary = phoneNumbers.stream().filter(PhoneNumber::isPrimary).findFirst();
+
+        if (primary.isPresent()) {
+            return primary.get();
+        } else {
+            return phoneNumbers.getFirst();
+        }
     }
 
     @Override

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "PurchaseOrderItems")
-public class POItem  extends Auditable {
+public class POItem extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
