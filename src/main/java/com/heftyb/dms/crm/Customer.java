@@ -2,7 +2,6 @@ package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.Auditable;
-import com.heftyb.dms.account.invoice.Invoice;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -161,7 +160,9 @@ public class Customer extends Auditable {
         this.phoneNumbers.add(phoneNumber);
     }
 
-    public String getName() { return firstName + " " + lastName; }
+    public String getName() {
+        return firstName + " " + lastName;
+    }
 
     public PhoneNumber getPrimaryPhone() {
         Optional<PhoneNumber> primary = phoneNumbers.stream().filter(PhoneNumber::isPrimary).findFirst();

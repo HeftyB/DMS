@@ -6,12 +6,10 @@ import com.heftyb.dms.crm.PhoneNumber;
 import com.heftyb.dms.crm.repositories.ContactInformationRepository;
 import com.heftyb.dms.crm.repositories.MailingAddressRepository;
 import com.heftyb.dms.crm.repositories.PhoneNumberRepository;
-import com.heftyb.dms.exceptions.DataNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
-import java.security.spec.InvalidParameterSpecException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +39,7 @@ public class ContactServiceImp implements ContactService {
     @Override
     public ContactInformation findContactInformationById(long id) {
         return contactInformationRepository.findById(id).orElseThrow(
-                ()-> new InvalidParameterException(errorString("contactInformation", id))
+                () -> new InvalidParameterException(errorString("contactInformation", id))
         );
     }
 
@@ -126,7 +124,7 @@ public class ContactServiceImp implements ContactService {
     @Override
     public PhoneNumber findPhoneNumberById(long id) {
         return phoneRepo.findById(id).orElseThrow(
-                ()-> new InvalidParameterException(errorString("PhoneNumber", id))
+                () -> new InvalidParameterException(errorString("PhoneNumber", id))
         );
     }
 

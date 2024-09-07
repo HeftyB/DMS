@@ -6,8 +6,12 @@ import java.util.List;
 
 public interface EmployeeService {
     List<Employee> findAll();
+
     Employee findById(long id);
+
     Employee save(Employee employee);
+
     void delete(long id);
+
     void setEmployeeClockedIn(long id, boolean status);
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "statementStatusService")
-public class StatementStatusServiceImp implements StatementStatusRateService{
+public class StatementStatusServiceImp implements StatementStatusRateService {
 
     private final StatementStatusRateRepository statusRepo;
     private final PaymentTermService paymentTermService;
@@ -33,7 +33,7 @@ public class StatementStatusServiceImp implements StatementStatusRateService{
     @Override
     public StatementStatusRate findById(long id) {
         return statusRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "StatementStatusService Error: can not find StatementStatus id %g", id
                 ))
         );

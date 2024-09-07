@@ -6,7 +6,6 @@ import com.heftyb.dms.account.tax.repositories.TaxChargeRepository;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.repairorder.services.RepairOrderService;
 import jakarta.transaction.Transactional;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "taxChargeService")
-public class TaxChargeServiceImp implements TaxChargeService{
+public class TaxChargeServiceImp implements TaxChargeService {
 
     private final TaxChargeRepository taxChargeRepo;
     private final TaxService taxService;
@@ -41,7 +40,7 @@ public class TaxChargeServiceImp implements TaxChargeService{
     @Override
     public TaxCharge findById(long id) {
         return taxChargeRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "TaxChargeService Error: could not find taxCharge id %g", id
                 ))
         );

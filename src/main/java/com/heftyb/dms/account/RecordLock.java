@@ -1,6 +1,5 @@
 package com.heftyb.dms.account;
 
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.MappedSuperclass;
 
 import java.util.UUID;

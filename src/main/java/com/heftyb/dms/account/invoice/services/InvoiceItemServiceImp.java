@@ -12,7 +12,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "invoiceItemService")
-public class InvoiceItemServiceImp implements InvoiceItemService{
+public class InvoiceItemServiceImp implements InvoiceItemService {
 
     final private InvoiceItemRepository itemRepo;
     final private InvoiceRepository invoiceRepo;
@@ -33,7 +33,7 @@ public class InvoiceItemServiceImp implements InvoiceItemService{
     @Override
     public InvoiceItem findById(long id) {
         return itemRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "InvoiceItemService Error: can not find InvoiceItem id %g", id
                 ))
         );
@@ -47,11 +47,11 @@ public class InvoiceItemServiceImp implements InvoiceItemService{
         i.setRate(invoiceItem.getRate());
         i.setTotal(invoiceItem.getTotal());
         i.setInvoice(invoiceRepo.findById(invoiceItem.getInvoice().getId())
-        .orElseThrow(
-                ()-> new DataNotFoundException(String.format(
-                        "Could not find invoice id %g", invoiceItem.getInvoice().getId()
-                ))
-        ));
+                .orElseThrow(
+                        () -> new DataNotFoundException(String.format(
+                                "Could not find invoice id %g", invoiceItem.getInvoice().getId()
+                        ))
+                ));
         return itemRepo.save(i);
     }
 

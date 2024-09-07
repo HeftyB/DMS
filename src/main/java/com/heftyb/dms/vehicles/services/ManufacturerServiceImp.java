@@ -71,21 +71,21 @@ public class ManufacturerServiceImp implements ManufacturerService {
 
         newManufacturer = manRepo.save(newManufacturer);
 
-        for (WMI w: manufacturer.getWmis()) {
+        for (WMI w : manufacturer.getWmis()) {
 
-            Optional<WMI > ww = wmiRepo.findById(w.getId());
+            Optional<WMI> ww = wmiRepo.findById(w.getId());
 
-            if(ww.isEmpty()) {
+            if (ww.isEmpty()) {
                 ww = Optional.of(wmiRepo.save(new WMI(w.getName(), w.getWmi(), newManufacturer)));
             }
 
             newManufacturer.addWmi(ww.get());
         }
 
-        for (Model m: manufacturer.getModels()) {
+        for (Model m : manufacturer.getModels()) {
             Optional<Model> mm = modelRepo.findById(m.getId());
 
-            if(!mm.isPresent()) {
+            if (!mm.isPresent()) {
                 mm = Optional.of(modelRepo.save(new Model(m.getName(), newManufacturer)));
             }
 

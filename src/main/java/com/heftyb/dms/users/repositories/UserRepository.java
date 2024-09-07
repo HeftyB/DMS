@@ -8,8 +8,11 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findByEmailContainingIgnoreCase(String email);
+
     Optional<User> findByEmailIgnoreCase(String email);
+
     Optional<User> findByUsernameIgnoreCase(String username);
+
     @Override
     void delete(User user);
 }

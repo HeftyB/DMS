@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface PayPeriodRepository extends CrudRepository<PayPeriod, Long> {
     Optional<PayPeriod> findByStartDate(Date date);
+
     Optional<PayPeriod> findByEndDate(Date date);
+
     List<PayPeriod> findAllByOrderByStartDateDesc();
 }

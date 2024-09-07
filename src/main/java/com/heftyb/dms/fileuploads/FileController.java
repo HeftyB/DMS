@@ -37,7 +37,7 @@ public class FileController {
         redirectAttributes.addFlashAttribute("message",
                 String.format("Successfully uploaded: %s", file.getOriginalFilename()));
 
-        return"redirect:/";
+        return "redirect:/";
     }
 
 }

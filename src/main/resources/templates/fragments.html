@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--reusable header with a page_title parameter-->
 <head th:fragment="head (page_title)">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+<!--horizontal navigation bar - inserted into a header-->
 <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header-top (username)">
     <div class="container">
         <ul class="nav-list">
@@ -36,6 +38,72 @@
     </div>
 </nav>
 
+<div th:fragment="customer-list (customers)">
+    <table>
+        <tr>
+            <th>Customer ID</th>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+        </tr>
+
+        <tr th:each="customer : ${customers}">
+            <td>
+                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.id}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.getName()}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.getPrimaryPhone().number}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.email}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.mailingAddress.getAddress()}"></a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div th:fragment="vehicle-list (vehicles)">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>INFO</th>
+            <th>VIN</th>
+            <th>Customer</th>
+            <th>Last Seen</th>
+        </tr>
+
+        <tr th:each="vehicle : ${vehicles}">
+            <td>
+                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.id}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.getVehicleInfo()}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.vin}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.customer.getName()}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${'11/21/2004'}"></a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+
+
+<!--footer to go with navigation header, this contains the needed js for the user drop down menu-->
 <footer th:fragment="foot">
     <script>
         let m = document.querySelector("#nav_user_menu")

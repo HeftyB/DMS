@@ -18,7 +18,7 @@ public class PTOServiceImp implements PTOService {
     final private EmployeeService employeeService;
 
     public PTOServiceImp(final PTORepository ptoRepo,
-                         final EmployeeService employeeService){
+                         final EmployeeService employeeService) {
         this.ptoRepo = ptoRepo;
         this.employeeService = employeeService;
     }
@@ -33,7 +33,7 @@ public class PTOServiceImp implements PTOService {
     @Override
     public PTO findById(long id) {
         return ptoRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "PTOService Error: can not find pto id %g", id
                 ))
         );

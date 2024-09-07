@@ -16,19 +16,15 @@ import com.heftyb.dms.timekeeping.repositories.TimePunchOutRepository;
 import com.heftyb.dms.users.User;
 import com.heftyb.dms.users.services.UserService;
 import jakarta.transaction.Transactional;
-import org.hibernate.type.descriptor.DateTimeUtils;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.DateUtils;
 
 import java.time.Instant;
-import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Transactional
 @Service(value = "timeClockService")
-public class TimeClockServiceImp implements TimeClockService{
+public class TimeClockServiceImp implements TimeClockService {
 
     private final TimePunchInRepository inRepo;
     private final TimePunchOutRepository outRepo;
@@ -40,7 +36,7 @@ public class TimeClockServiceImp implements TimeClockService{
     private final PayPeriodService payPeriodService;
 
 
-    public TimeClockServiceImp (
+    public TimeClockServiceImp(
             final TimePunchInRepository timePunchInRepository,
             final TimePunchOutRepository timePunchOutRepository,
             final TimeClockPunchSetRepository timeClockPunchSetRepository,
@@ -78,14 +74,14 @@ public class TimeClockServiceImp implements TimeClockService{
     @Override
     public TimePunchIn findTimePunchInById(long id) {
         return inRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(errorString("timePunchIn", id))
+                () -> new DataNotFoundException(errorString("timePunchIn", id))
         );
     }
 
     @Override
     public TimePunchOut findTimePunchOutById(long id) {
         return outRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(errorString("timePunchOut", id))
+                () -> new DataNotFoundException(errorString("timePunchOut", id))
         );
     }
 
@@ -140,7 +136,7 @@ public class TimeClockServiceImp implements TimeClockService{
     @Override
     public TimeClockPunchSet findTimeClockPunchSetById(long id) {
         return timeClockPunchRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(errorString("timeClockPunchSet", id))
+                () -> new DataNotFoundException(errorString("timeClockPunchSet", id))
         );
     }
 
@@ -156,7 +152,7 @@ public class TimeClockServiceImp implements TimeClockService{
         // Not nullable
         t.setIn(findTimePunchInById(timeClockPunchSet.getIn().getId()));
 
-        if (timeClockPunchSet.getOut() != null ) {
+        if (timeClockPunchSet.getOut() != null) {
             t.setOut(findTimePunchOutById(timeClockPunchSet.getOut().getId()));
         }
         t.setEmployee(findEmployeeById(timeClockPunchSet.getEmployee().getId()));
@@ -208,7 +204,7 @@ public class TimeClockServiceImp implements TimeClockService{
     @Override
     public TimeClockPunchSet findCurrentTimeClockPunchSetByUser(User user) {
         User u = userService.getUserByID(user.getId())
-                .orElseThrow(()-> new UserNotFoundException(
+                .orElseThrow(() -> new UserNotFoundException(
                         String.format("Error: could not find user: %s", user.getId())
                 ));
         List<TimeClockPunchSet> punchSets = timeClockPunchRepo.findByEmployee(u.getEmployee())
@@ -218,7 +214,7 @@ public class TimeClockServiceImp implements TimeClockService{
                 .collect(Collectors.toList());
         punchSets.sort(Comparator.comparing(TimeClockPunchSet::getInPunchTime).reversed());
 
-        if(punchSets.get(0).getOut() == null) {
+        if (punchSets.get(0).getOut() == null) {
             return punchSets.get(0);
         } else {
             TimeClockPunchSet timeClockPunchSet = new TimeClockPunchSet();
@@ -246,7 +242,7 @@ public class TimeClockServiceImp implements TimeClockService{
 
         TimeClockPunchSet punchSet = findCurrentTimeClockPunchSetByUser(user);
 
-        if(punchSet.getIn() == null || punchSet.getOut() != null) {
+        if (punchSet.getIn() == null || punchSet.getOut() != null) {
             throw new TimeClockException(String.format("Error: Could not clock out, no matching TimeClockPunchSet was found!"));
         } else {
             punchOut = saveTimePunchOut(punchOut);
@@ -266,7 +262,7 @@ public class TimeClockServiceImp implements TimeClockService{
     @Override
     public JobTimePunchSet findJobTimePunchSetById(long id) {
         return jobTimeRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(errorString("jobTimePunchSet", id))
+                () -> new DataNotFoundException(errorString("jobTimePunchSet", id))
         );
     }
 

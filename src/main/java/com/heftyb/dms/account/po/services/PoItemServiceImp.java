@@ -11,13 +11,13 @@ import java.util.List;
 
 @Transactional
 @Service(value = "poItemService")
-public class PoItemServiceImp implements PoItemService{
+public class PoItemServiceImp implements PoItemService {
 
     final private POItemRepository poItemRepo;
     final private PurchaseOrderService purchaseOrderService;
 
-    public PoItemServiceImp (final POItemRepository poItemRepo,
-                             final PurchaseOrderService purchaseOrderService) {
+    public PoItemServiceImp(final POItemRepository poItemRepo,
+                            final PurchaseOrderService purchaseOrderService) {
         this.poItemRepo = poItemRepo;
         this.purchaseOrderService = purchaseOrderService;
     }
@@ -32,7 +32,7 @@ public class PoItemServiceImp implements PoItemService{
     @Override
     public POItem findById(long id) {
         return poItemRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "PoItemService Error: could not find POItem id %g", id
                 ))
         );

@@ -2,18 +2,19 @@ package com.heftyb.dms.fileuploads;
 
 import com.heftyb.dms.config.StorageConfigurationProperties;
 import com.heftyb.dms.exceptions.FileStorageException;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 @Service
@@ -22,7 +23,7 @@ public class FileServiceImp implements FileService {
     final private Path rootLocation;
 
     public FileServiceImp(final StorageConfigurationProperties properties) {
-        if(properties.getLocation().trim().length() == 0) {
+        if (properties.getLocation().trim().length() == 0) {
             throw new FileStorageException("Error: File upload location can not be empty!");
         }
 
@@ -41,20 +42,19 @@ public class FileServiceImp implements FileService {
     @Override
     public void store(MultipartFile file) {
         try {
-            if(file.isEmpty()) {
+            if (file.isEmpty()) {
                 throw new FileStorageException("Error: Could not store empty file!");
             }
             Path destination = this.rootLocation.resolve(
                     Paths.get(file.getOriginalFilename())
-                    .normalize().toAbsolutePath());
-            if(!destination.getParent().equals(this.rootLocation.toAbsolutePath())) {
+                            .normalize().toAbsolutePath());
+            if (!destination.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 throw new FileStorageException("Error: Could not store file outside of directory!");
             }
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new FileStorageException("Error: Failed to store file!", e);
         }
     }
@@ -65,8 +65,7 @@ public class FileServiceImp implements FileService {
             return Files.walk(this.rootLocation, 1)
                     .filter(path -> !path.equals(this.rootLocation))
                     .map(this.rootLocation::relativize);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new FileStorageException("Error: Could not read files!", e);
         }
     }
@@ -83,12 +82,10 @@ public class FileServiceImp implements FileService {
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
-            }
-            else {
+            } else {
                 throw new FileStorageException(String.format("Error: Could not read file: %s", fileName));
             }
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             throw new FileStorageException(String.format("Error: Could not read file: %s", fileName), e);
         }
     }
@@ -97,8 +94,7 @@ public class FileServiceImp implements FileService {
     public void delete(String fileName) {
         try {
             Files.delete(rootLocation.resolve(fileName));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new FileStorageException(String.format("Error: Could not delete file: %s", fileName), e);
         }
     }

@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface PoItemService {
     List<POItem> findAll();
+
     POItem findById(long id);
+
     POItem save(POItem poItem);
+
     void delete(long id);
 }

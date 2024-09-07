@@ -16,7 +16,7 @@ import java.util.List;
 
 //@Transactional
 @Service(value = "customerService")
-public class CustomerServiceImp implements CustomerService{
+public class CustomerServiceImp implements CustomerService {
 
     final private CustomerRepository custRepo;
     final private PhoneNumberRepository phoneRepo;
@@ -24,7 +24,7 @@ public class CustomerServiceImp implements CustomerService{
     final private InvoiceRepository invoiceRepo;
     final private ContactService contactService;
 
-    public CustomerServiceImp (
+    public CustomerServiceImp(
             final CustomerRepository customerRepository,
             final PhoneNumberRepository phoneNumberRepository,
             final VehicleService vehicleService,
@@ -75,7 +75,7 @@ public class CustomerServiceImp implements CustomerService{
     public Customer findById(long id) {
 
         return custRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format("CustomerService Error: customer id %g", id))
+                () -> new DataNotFoundException(String.format("CustomerService Error: customer id %g", id))
         );
     }
 
@@ -93,7 +93,7 @@ public class CustomerServiceImp implements CustomerService{
         newCustomer.setMailingAddress(contactService.saveNewMailingAddress(customer.getMailingAddress()));
 
 
-        for(PhoneNumber pn : customer.getPhoneNumbers()) {
+        for (PhoneNumber pn : customer.getPhoneNumbers()) {
             pn.setCustomer(newCustomer);
             newCustomer.getPhoneNumbers().add(contactService.saveNewPhoneNumber(pn));
         }

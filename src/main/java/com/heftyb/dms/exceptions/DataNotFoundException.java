@@ -7,5 +7,7 @@ public class DataNotFoundException extends RuntimeException {
         super(String.format("Error: %s", message));
     }
 
-    public DataNotFoundException(String message, Throwable cause) { super(message, cause); }
+    public DataNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

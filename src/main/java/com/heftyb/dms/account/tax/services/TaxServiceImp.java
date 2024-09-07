@@ -15,11 +15,12 @@ import java.util.List;
 
 @Transactional
 @Service(value = "taxService")
-public class TaxServiceImp implements TaxService{
+public class TaxServiceImp implements TaxService {
 
     private final FederalTaxRepository fedRepo;
     private final StateTaxRepository stateRepo;
-    private final LocalTaxRepository localRepo;;
+    private final LocalTaxRepository localRepo;
+    ;
 
     public TaxServiceImp(final FederalTaxRepository fedRepo,
                          final StateTaxRepository stateRepo,
@@ -53,7 +54,7 @@ public class TaxServiceImp implements TaxService{
     @Override
     public FederalTax findFederalTaxById(long id) {
         return fedRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "TaxService Error: could not find FederalTax id %g", id
                 ))
         );
@@ -62,7 +63,7 @@ public class TaxServiceImp implements TaxService{
     @Override
     public StateTax findStateTaxById(long id) {
         return stateRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "TaxService Error: could not find StateTax id %g", id
                 ))
         );
@@ -71,7 +72,7 @@ public class TaxServiceImp implements TaxService{
     @Override
     public LocalTax findLocalTaxById(long id) {
         return localRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "TaxService Error: could not find LocalTax id %g", id
                 ))
         );

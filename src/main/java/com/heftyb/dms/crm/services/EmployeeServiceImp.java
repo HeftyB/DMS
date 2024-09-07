@@ -33,7 +33,7 @@ public class EmployeeServiceImp implements EmployeeService {
     @Override
     public Employee findById(long id) {
         return empRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format("EmployeeService Error: could not find employee id %s", id))
+                () -> new DataNotFoundException(String.format("EmployeeService Error: could not find employee id %s", id))
         );
     }
 
@@ -53,7 +53,7 @@ public class EmployeeServiceImp implements EmployeeService {
         e.setMailingAddress(contactService.saveNewMailingAddress(employee.getMailingAddress()));
 
 
-        for(PhoneNumber pn : employee.getPhoneNumbers()) {
+        for (PhoneNumber pn : employee.getPhoneNumbers()) {
             pn.setEmployee(e);
             e.getPhoneNumbers().add(contactService.saveNewPhoneNumber(pn));
         }

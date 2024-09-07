@@ -17,8 +17,8 @@ public class Role {
 
 
     @OneToMany(mappedBy = "role",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     @JsonIgnore
     private Set<UserRole> users = new HashSet<>();
 

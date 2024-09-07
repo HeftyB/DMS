@@ -4,14 +4,12 @@ import com.heftyb.dms.timekeeping.TimeClockPunchSet;
 import com.heftyb.dms.timekeeping.TimeSheet;
 import jakarta.persistence.*;
 
-import java.io.Serial;
-import java.time.Duration;
 import java.time.Period;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class PayPeriod extends Auditable{
+public class PayPeriod extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

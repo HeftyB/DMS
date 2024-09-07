@@ -3,13 +3,11 @@ package com.heftyb.dms.repairorder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.account.fee.RepairOrderFee;
-import com.heftyb.dms.account.invoice.Invoice;
 import com.heftyb.dms.account.tax.TaxCharge;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -72,7 +70,7 @@ public class RepairOrder extends Auditable {
     @NotNull
     @Size(max = 1)
     @Pattern(regexp = "/([0-9])+/g")
-    private String priority  = "0";
+    private String priority = "0";
 
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
@@ -109,6 +107,7 @@ public class RepairOrder extends Auditable {
         this.jobs = jobs;
         isActive = true;
     }
+
     public RepairOrder(Date openDate, Customer customer, Vehicle vehicle, int mileageIn, String serviceTag, Employee advisor) {
         this.openDate = openDate;
         this.customer = customer;

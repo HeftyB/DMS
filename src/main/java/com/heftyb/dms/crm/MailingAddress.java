@@ -43,7 +43,7 @@ public class MailingAddress {
     }
 
     public MailingAddress(String addressLine1, String addressLine2, String city, String state, String zip, Customer customer) {
-        this.name = customer.getFirstName() + " "  + customer.getLastName();
+        this.name = customer.getFirstName() + " " + customer.getLastName();
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.city = city;
@@ -53,7 +53,7 @@ public class MailingAddress {
     }
 
     public MailingAddress(String addressLine1, String addressLine2, String city, String state, String zip, Employee employee) {
-        this.name = employee.getPreferredName() + " "  + employee.getLastName();
+        this.name = employee.getPreferredName() + " " + employee.getLastName();
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.city = city;

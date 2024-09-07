@@ -5,7 +5,6 @@ import com.heftyb.dms.users.UserDTO;
 import com.heftyb.dms.validation.PasswordResetToken;
 import com.heftyb.dms.validation.VerificationToken;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 

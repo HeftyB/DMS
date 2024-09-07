@@ -2,10 +2,6 @@ package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.Auditable;
-import com.heftyb.dms.repairorder.RepairOrder;
-import com.heftyb.dms.repairorder.TechnicianFlatRateHour;
-import com.heftyb.dms.timekeeping.JobTimePunchSet;
-import com.heftyb.dms.timekeeping.TimeClockPunchSet;
 import com.heftyb.dms.users.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

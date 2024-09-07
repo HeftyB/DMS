@@ -4,7 +4,6 @@ import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.account.PayPeriod;
 import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.Duration;
 import java.util.Date;
@@ -111,7 +110,9 @@ public class TimeClockPunchSet extends Auditable {
         this.payPeriod = payPeriod;
     }
 
-    public Date getInPunchTime() { return in.getTime(); }
+    public Date getInPunchTime() {
+        return in.getTime();
+    }
 
     public long hoursBetweenPunches() {
         Duration d = Duration.between(in.getTime().toInstant(), out.getTime().toInstant());

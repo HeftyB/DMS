@@ -18,9 +18,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -46,7 +44,7 @@ public class TimeClockController {
     }
 
     private ModelMap addTimeClockAttributes(ModelMap model,
-                                           List<TimeClockPunchSet> punchSetList,
+                                            List<TimeClockPunchSet> punchSetList,
                                             String username,
                                             boolean clockedIn,
                                             String date,

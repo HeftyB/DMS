@@ -12,7 +12,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "technicianFlatRateHourService")
-public class TechnicianFlatRateHourServiceImp implements TechnicianFlatRateHourService{
+public class TechnicianFlatRateHourServiceImp implements TechnicianFlatRateHourService {
 
     final private TechnicianFlatRateHoursRepository techRepo;
     final private EmployeeService employeeService;
@@ -36,7 +36,7 @@ public class TechnicianFlatRateHourServiceImp implements TechnicianFlatRateHourS
     @Override
     public TechnicianFlatRateHour findById(long id) {
         return techRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "TechnicianFlatRateHourService Error: can not find technicianFlatRateHour id %g", id
                 ))
         );

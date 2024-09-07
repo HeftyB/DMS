@@ -6,7 +6,6 @@ import com.heftyb.dms.timekeeping.services.TimeClockService;
 import com.heftyb.dms.users.User;
 import com.heftyb.dms.users.services.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,7 @@ public class TimeClockRestController {
     private final TimeClockService timeClockService;
     private final UserService userService;
 
-    public TimeClockRestController(final  TimeClockService timeClockService,
+    public TimeClockRestController(final TimeClockService timeClockService,
                                    final UserService userService) {
         this.timeClockService = timeClockService;
         this.userService = userService;

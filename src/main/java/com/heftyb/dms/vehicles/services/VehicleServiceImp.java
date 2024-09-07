@@ -1,6 +1,5 @@
 package com.heftyb.dms.vehicles.services;
 
-import com.heftyb.dms.crm.services.CustomerService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.vehicles.Manufacturer;
 import com.heftyb.dms.vehicles.Model;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 
 //@Transactional
 @Service(value = "vehicleService")
-public class VehicleServiceImp implements VehicleService{
+public class VehicleServiceImp implements VehicleService {
 
     private final VehicleRepository vehicleRepo;
     private final ManufacturerService manService;
@@ -45,7 +44,7 @@ public class VehicleServiceImp implements VehicleService{
 
     @Override
     public Vehicle findById(long id) {
-        return vehicleRepo.findById(id).orElseThrow(()-> new DataNotFoundException(String.format("VehicleService Error: could not find vehicle id %g", id)));
+        return vehicleRepo.findById(id).orElseThrow(() -> new DataNotFoundException(String.format("VehicleService Error: could not find vehicle id %g", id)));
     }
 
     @Transactional

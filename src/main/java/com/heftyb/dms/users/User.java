@@ -1,7 +1,6 @@
 package com.heftyb.dms.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Employee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -39,8 +38,8 @@ public class User {
     private Employee employee;
 
     @OneToMany(mappedBy = "user",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     @JsonIgnore
     private Set<UserRole> roles;
 
@@ -117,8 +116,7 @@ public class User {
     public List<SimpleGrantedAuthority> getAuthority() {
         List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
 
-        for (UserRole r : this.roles)
-        {
+        for (UserRole r : this.roles) {
             String myRole = "ROLE_" + r.getRole()
                     .getRole()
                     .toUpperCase();

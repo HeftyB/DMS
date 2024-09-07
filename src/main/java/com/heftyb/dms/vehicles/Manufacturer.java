@@ -1,6 +1,5 @@
 package com.heftyb.dms.vehicles;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
@@ -24,6 +23,8 @@ public class Manufacturer extends Auditable {
     private List<Model> models;
 
     public Manufacturer() {
+        wmis = new ArrayList<>();
+        models = new ArrayList<>();
     }
 
     public Manufacturer(String name) {

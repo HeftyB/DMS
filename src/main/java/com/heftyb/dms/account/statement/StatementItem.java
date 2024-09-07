@@ -137,11 +137,11 @@ public class StatementItem extends Auditable {
 //
 //        }
 
-        /**
-         *
-         *
-         * TODO: calculate finance charge per interval
-         */
+    /**
+     *
+     *
+     * TODO: calculate finance charge per interval
+     */
 //        return null;
 //    }
 }

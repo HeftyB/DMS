@@ -22,7 +22,7 @@ public class InterestCharge extends Auditable {
     public InterestCharge() {
     }
 
-    public InterestCharge(StatementItem statementItem,  double previousBal, double endingBal, double interestAmount) {
+    public InterestCharge(StatementItem statementItem, double previousBal, double endingBal, double interestAmount) {
         this.statementItem = statementItem;
         this.previousBal = previousBal;
         this.endingBal = endingBal;

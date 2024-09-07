@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service(value = "payPeriodService")
 @Transactional
-public class PayPeriodServiceImp implements PayPeriodService{
+public class PayPeriodServiceImp implements PayPeriodService {
 
     private final PayPeriodRepository payPeriodRepo;
 
@@ -32,7 +32,7 @@ public class PayPeriodServiceImp implements PayPeriodService{
     @Override
     public PayPeriod findById(long id) {
         return payPeriodRepo.findById(id)
-                .orElseThrow(()-> new DataNotFoundException(String.format(
+                .orElseThrow(() -> new DataNotFoundException(String.format(
                         "Could not find PayPeriod: %s", id
                 )));
     }
@@ -40,7 +40,7 @@ public class PayPeriodServiceImp implements PayPeriodService{
     @Override
     public PayPeriod save(PayPeriod payPeriod) {
         PayPeriod p = new PayPeriod();
-        if(payPeriod.getId() != 0) {
+        if (payPeriod.getId() != 0) {
             p.setId(payPeriod.getId());
         }
         p.setPeriod(payPeriod.getPeriodAsPeriod());
@@ -70,7 +70,7 @@ public class PayPeriodServiceImp implements PayPeriodService{
         Calendar d = Calendar.getInstance();
         d.setTime(date);
         d.add(Calendar.DAY_OF_MONTH, amount);
-        return  d.getTime();
+        return d.getTime();
 
 //        return Date.from(
 //                date
@@ -87,7 +87,7 @@ public class PayPeriodServiceImp implements PayPeriodService{
         d.setTime(date);
         d.add(Calendar.DAY_OF_MONTH, amount * -1);
 
-        return  d.getTime();
+        return d.getTime();
 
 //        return Date.from(
 //                date
@@ -111,7 +111,7 @@ public class PayPeriodServiceImp implements PayPeriodService{
 //        periods = periods.stream().filter(p -> isPayPeriodCurrent(p)).collect(Collectors.toList());
 
 //        System.out.println(String.format("periods after: %s", periods));
-        if(periods.size() != 1) {
+        if (periods.size() != 1) {
             throw new ResourceFoundException("Error: Could not get current PayPeriod!");
         }
         return periods.getFirst();

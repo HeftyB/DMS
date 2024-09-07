@@ -13,17 +13,15 @@ import com.heftyb.dms.validation.VerificationToken;
 import com.heftyb.dms.validation.repositories.PasswordResetTokenRepository;
 import com.heftyb.dms.validation.repositories.VerificationTokenRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.InvalidParameterException;
 import java.util.*;
 
 @Service(value = "userService")
 @Transactional
-public class UserServiceImp implements UserService{
+public class UserServiceImp implements UserService {
     private final UserRepository userRepo;
     private final EmployeeService employeeService;
     private final RoleService roleService;
@@ -82,7 +80,7 @@ public class UserServiceImp implements UserService{
     @Override
     public User getUser(String verificationToken) {
         VerificationToken token = verificationTokenRepo.findByToken(verificationToken)
-                .orElseThrow(()-> new DataNotFoundException(String.format("", verificationToken)));
+                .orElseThrow(() -> new DataNotFoundException(String.format("", verificationToken)));
         return token.getUser();
     }
 
@@ -104,10 +102,14 @@ public class UserServiceImp implements UserService{
     @Override
     public void deleteUser(User user) {
         Optional<VerificationToken> token = verificationTokenRepo.findByUser(user);
-        if (token.isPresent()) { verificationTokenRepo.delete(token.get()); }
+        if (token.isPresent()) {
+            verificationTokenRepo.delete(token.get());
+        }
 
         Optional<PasswordResetToken> passwordResetToken = passResetRepo.findByUser(user);
-        if(passwordResetToken.isPresent()) { passResetRepo.delete(passwordResetToken.get()); }
+        if (passwordResetToken.isPresent()) {
+            passResetRepo.delete(passwordResetToken.get());
+        }
 
         userRepo.deleteById(user.getId());
     }
@@ -121,7 +123,7 @@ public class UserServiceImp implements UserService{
     @Override
     public VerificationToken getVerificationToken(String verificationToken) {
         return verificationTokenRepo.findByToken(verificationToken).orElseThrow(
-                ()-> new DataNotFoundException(String.format("Cannot find VerificationToken %s", verificationToken))
+                () -> new DataNotFoundException(String.format("Cannot find VerificationToken %s", verificationToken))
         );
     }
 
@@ -129,7 +131,7 @@ public class UserServiceImp implements UserService{
     @Override
     public VerificationToken generateNewVerificationToken(String token) {
         VerificationToken newToken = verificationTokenRepo.findByToken(token).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "VerificationToken %s can't be found!"
                 ))
         );
@@ -153,7 +155,7 @@ public class UserServiceImp implements UserService{
     @Override
     public User findUserByEmail(String email) {
         return userRepo.findByEmailIgnoreCase(email).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "Can't find user by email %s", email
                 ))
         );
@@ -167,7 +169,7 @@ public class UserServiceImp implements UserService{
     @Override
     public PasswordResetToken getPasswordResetToken(String token) {
         return passResetRepo.findByToken(token).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "Could not find PasswordResetToken %s", token
                 ))
         );
@@ -203,7 +205,7 @@ public class UserServiceImp implements UserService{
     public String validateVerificationToken(String token) {
         Optional<VerificationToken> token1 = verificationTokenRepo.findByToken(token);
 
-        if(token1.isEmpty()) {
+        if (token1.isEmpty()) {
             return TOKEN_INVALID;
         }
 
@@ -212,7 +214,7 @@ public class UserServiceImp implements UserService{
 
         if ((token1.get().getExpiryDate()
                 .getTime() - cal.getTime()
-        .getTime()) <= 0) {
+                .getTime()) <= 0) {
             verificationTokenRepo.delete(token1.get());
             return TOKEN_EXPIRED;
         }

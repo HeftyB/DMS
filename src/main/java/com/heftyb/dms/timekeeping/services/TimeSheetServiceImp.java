@@ -14,7 +14,7 @@ import java.util.List;
 
 @Transactional
 @Service(value = "timeSheetService")
-public class TimeSheetServiceImp implements TimeSheetService{
+public class TimeSheetServiceImp implements TimeSheetService {
 
     private final TimeSheetRepository tsRepo;
     private final TimeClockService timeClockService;
@@ -41,7 +41,7 @@ public class TimeSheetServiceImp implements TimeSheetService{
     @Override
     public TimeSheet findTimeSheetById(long id) {
         return tsRepo.findById(id).orElseThrow(
-                ()-> new DataNotFoundException(String.format(
+                () -> new DataNotFoundException(String.format(
                         "TimeSheetService Error: can not find timeSheet id %g", id
                 ))
         );
@@ -53,12 +53,12 @@ public class TimeSheetServiceImp implements TimeSheetService{
         t.setPayPeriod(payPeriodService.findById(timeSheet.getPayPeriod().getId()));
         t.setTimeClockPunchSets(new ArrayList<>());
 
-        for(TimeClockPunchSet tp : timeSheet.getTimeClockPunchSets()) {
+        for (TimeClockPunchSet tp : timeSheet.getTimeClockPunchSets()) {
             TimeClockPunchSet tt = timeClockService.findTimeClockPunchSetById(tp.getId());
             t.getTimeClockPunchSets().add(tt);
         }
         t.setPto(new ArrayList<>());
-        for(PTO pto : timeSheet.getPto()) {
+        for (PTO pto : timeSheet.getPto()) {
             PTO pp = ptoService.findById(pto.getId());
             t.getPto().add(pp);
         }
