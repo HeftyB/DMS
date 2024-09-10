@@ -1,7 +1,7 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.invoice.Invoice;
 import com.heftyb.dms.account.po.PurchaseOrder;
 import jakarta.persistence.*;
@@ -17,13 +17,12 @@ public class Vendor extends Auditable {
     private long id;
 
     private String companyName;
-    private String personOfContact;
 
-    @OneToOne(mappedBy = "vendor", cascade = CascadeType.ALL)
-    private MailingAddress address;
+    @Embedded
+    private Address address;
 
-    @OneToMany
-    private List<PhoneNumber> phoneNumbers;
+    @Embedded
+    private ContactInformation contactInformation;
 
     private String email;
 
@@ -43,17 +42,15 @@ public class Vendor extends Auditable {
     private List<Invoice> invoices;
 
     public Vendor() {
-        phoneNumbers = new ArrayList<>();
         sentPurchaseOrders = new ArrayList<>();
         receivedPurchaseOrders = new ArrayList<>();
         invoices = new ArrayList<>();
     }
 
-    public Vendor(String companyName, String personOfContact, MailingAddress address, List<PhoneNumber> phoneNumbers, String email, String taxId, String paymentMethod) {
+    public Vendor(String companyName, Address address, ContactInformation contactInformation, String email, String taxId, String paymentMethod) {
         this.companyName = companyName;
-        this.personOfContact = personOfContact;
         this.address = address;
-        this.phoneNumbers = phoneNumbers;
+        this.contactInformation = contactInformation;
         this.email = email;
         this.taxId = taxId;
         this.paymentMethod = paymentMethod;
@@ -78,29 +75,20 @@ public class Vendor extends Auditable {
         this.companyName = companyName;
     }
 
-    public String getPersonOfContact() {
-        return personOfContact;
-    }
-
-    public void setPersonOfContact(String personOfContact) {
-        this.personOfContact = personOfContact;
-    }
-
-    public MailingAddress getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(MailingAddress address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
-
-    public List<PhoneNumber> getPhoneNumbers() {
-        return phoneNumbers;
+    public ContactInformation getContactInformation() {
+        return contactInformation;
     }
 
-    public void setPhoneNumbers(List<PhoneNumber> phone) {
-        this.phoneNumbers = phone;
+    public void setContactInformation(ContactInformation contactInformation) {
+        this.contactInformation = contactInformation;
     }
 
     public String getEmail() {
@@ -115,23 +103,23 @@ public class Vendor extends Auditable {
         return taxId;
     }
 
-    public void setTaxId(String taxid) {
-        this.taxId = taxid;
+    public void setTaxId(String taxId) {
+        this.taxId = taxId;
     }
 
     public String getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentmethod) {
-        this.paymentMethod = paymentmethod;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public List<PurchaseOrder> getSentPurchaseOrders() {
         return sentPurchaseOrders;
     }
 
-    public void setSentPurchaseOrders(ArrayList<PurchaseOrder> sentPurchaseOrders) {
+    public void setSentPurchaseOrders(List<PurchaseOrder> sentPurchaseOrders) {
         this.sentPurchaseOrders = sentPurchaseOrders;
     }
 
@@ -139,7 +127,7 @@ public class Vendor extends Auditable {
         return receivedPurchaseOrders;
     }
 
-    public void setReceivedPurchaseOrders(ArrayList<PurchaseOrder> receivedPurchaseOrders) {
+    public void setReceivedPurchaseOrders(List<PurchaseOrder> receivedPurchaseOrders) {
         this.receivedPurchaseOrders = receivedPurchaseOrders;
     }
 
@@ -147,7 +135,23 @@ public class Vendor extends Auditable {
         return invoices;
     }
 
-    public void setInvoices(ArrayList<Invoice> invoices) {
+    public void setInvoices(List<Invoice> invoices) {
         this.invoices = invoices;
+    }
+
+    @Override
+    public String toString() {
+        return "Vendor{" +
+                "id=" + id +
+                ", companyName='" + companyName + '\'' +
+                ", address=" + address +
+                ", contactInformation=" + contactInformation +
+                ", email='" + email + '\'' +
+                ", taxId='" + taxId + '\'' +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", sentPurchaseOrders=" + sentPurchaseOrders +
+                ", receivedPurchaseOrders=" + receivedPurchaseOrders +
+                ", invoices=" + invoices +
+                '}';
     }
 }

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments::head (page_title='Customer Details')}"></head>
+<body>
+<header th:insert="~{fragments::header-top (username=${username})}"></header>
+
+<!--    <p th:text="${customer.id}"></p>-->
+<!--    <p th:text="${customer.getName()}"></p>-->
+<!--    <p th:text="${customer.email}"></p>-->
+<!--    <p th:text="${customer.address.getAddress()}"></p>-->
+
+<!--    <div th:each="number : ${customer.phoneNumbers}">-->
+<!--        <p th:text="${number.number}"></p>-->
+<!--    </div>-->
+
+
+    <style>
+
+        /*form  { display: table;      }*/
+        /*p     { display: table-row;  }*/
+        /*label { display: table-cell; }*/
+        /*input { display: table-cell; }*/
+
+
+        /*!*body {*!*/
+        /*!*    margin: 50px;*!*/
+        /*!*}*!*/
+
+        /*.detail-image-wrapper, .detail-wrapper { margin: auto; }*/
+
+        /*.flex {*/
+        /*    display: flex;*/
+        /*    justify-content: center;*/
+        /*}*/
+
+        /*.edit-button-wrapper {*/
+        /*    display: flex;*/
+        /*    justify-content: space-between;*/
+        /*}*/
+
+        /*.edit-button-wrapper button {*/
+        /*    height: 25px;*/
+        /*}*/
+
+        /*.detail-input-wrapper {*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    justify-content: space-between;*/
+        /*}*/
+
+        /*.detail-input-wrapper input {*/
+        /*    text-align: end;*/
+        /*    padding: 10px;*/
+        /*    margin: 2%;*/
+        /*    font-size: large;*/
+        /*    box-shadow: 1px 1px lightgray;*/
+        /*    background-color: antiquewhite;*/
+        /*}*/
+
+        /*.detail-input-wrapper label {*/
+        /*    font-size: small;*/
+        /*}*/
+
+        /*.input-label-wrapper {*/
+        /*    display: flex;*/
+        /*    margin: 5px;*/
+        /*    justify-content: space-around;*/
+        /*}*/
+
+        /*#email {*/
+        /*    width: 100%;*/
+        /*}*/
+
+        /*.button-container {*/
+        /*    margin-top: 30px;*/
+        /*    display: flex;*/
+        /*    justify-content: space-evenly;*/
+        /*}*/
+
+        /*.button-container button {*/
+        /*    padding: 10px 25px;*/
+        /*    box-shadow: 10px 10px #dddddd;*/
+        /*}*/
+
+        /*.hidden-submit {*/
+        /*    text-align: end;*/
+        /*}*/
+
+        /*.hidden-submit button {*/
+        /*    padding: 5px;*/
+        /*}*/
+
+        /*.user-avatar-display-wrapper{*/
+        /*    position: relative;*/
+        /*    border: 2px solid black;*/
+        /*    overflow: hidden;*/
+        /*    border-radius: 40%;*/
+        /*    box-shadow: 5px 5px lightgray;*/
+        /*}*/
+
+        /*.user-avatar-display-wrapper button {*/
+        /*    position: absolute;*/
+        /*    width: fit-content;*/
+        /*    margin-inline: auto;*/
+        /*    left: 0;*/
+        /*    right: 0;*/
+        /*    bottom: 0;*/
+        /*}*/
+
+    </style>
+
+
+    <div class="flex">
+        <div class="detail-image-wrapper">
+            <div class="user-avatar-display-wrapper">
+                <img src="/defaults/default_user.svg" alt="user_default">
+                <button>Change Photo</button>
+            </div>
+        </div>
+        <form action="#" class="detail-wrapper" th:action="@{/customers/customer(id=${customer.id})}" name="customer" method="post">
+            <div class="edit-button-wrapper">
+                <div class="detail-input-wrapper">
+                    <label for="id_edit">ID:</label>
+                    <input type="text" id="id_edit" name="id" value="60120" th:value="${customer.id}" disabled>
+                </div>
+                <button type="button" th:disabled="${editable}" onclick="getEditable()">EDIT</button>
+            </div>
+            <div class="input-label-wrapper">
+
+                <div class="detail-input-wrapper">
+                    <label for="fname">First Name:</label>
+                    <input type="text" id="fname" name="firstName" value="John" th:value="${customer.firstName}" th:disabled="!${editable}">
+                </div>
+                <div class="detail-input-wrapper">
+                    <label for="lname">Last Name:</label>
+                    <input type="text" id="lname" name="lastName" value="Smith" th:value="${customer.lastName}" th:disabled="!${editable}">
+                </div>
+            </div>
+
+<!--            <form action="#" th:object="${customer.address}">-->
+            <div class="detail-input-wrapper">
+                <label for="address_line_1">Address Line 1:</label>
+                <input type="text" id="address_line_1" name="addressLine1" value="95687 Fake Ln" th:value="${customer.address.addressLine1}" th:disabled="!${editable}">
+            </div>
+            <div class="detail-input-wrapper">
+                <label for="address_line_2">Address Line 2:</label>
+                <input type="text" id="address_line_2" value="unit 406" name="addressLine2" th:value="${customer.address.addressLine2}" th:disabled="!${editable}">
+            </div>
+
+            <div class="input-label-wrapper">
+                <div class="detail-input-wrapper">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" value="Jacksonville" name="city" th:value="${customer.address.city}" th:disabled="!${editable}">
+                </div>
+                <div class="detail-input-wrapper">
+                    <label for="state">State:</label>
+                    <input type="text" id="state" value="FL" name="state" th:value="${customer.address.state}" th:disabled="!${editable}">
+                </div>
+                <div class="detail-input-wrapper">
+                    <label for="zip">Zip:</label>
+                    <input type="text" id="zip" value="555555" name="zip" th:value="${customer.address.zip.toString()}" th:disabled="!${editable}">
+                </div>
+            </div>
+<!--            Contact start - phone & email      -->
+            <div class="input-label-wrapper">
+                <div class="detail-input-wrapper">
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" value="cool.email@mails.com" name="email" th:value="${customer.email}" th:disabled="!${editable}">
+                </div>
+                <div class="detail-input-wrapper">
+<!--                    <div th:each="phone : @{customer.phoneNumbers}">-->
+<!--                        <div>-->
+                            <label for="primary_phone">Phone:</label>
+<!--                            <label th:for="'primary_phone_type_'+@{phone.id}">Type:</label>-->
+<!--                            <label th:for="'primary_selector_'+@{phone.id}"> Primary</label>-->
+<!--                        </div>-->
+
+<!--                        <div>-->
+                            <input type="text" id="primary_phone" name="primaryPhone" value="(555) 555-5555" th:value="${customer.contactInformation.primaryPhone.number}" th:disabled="!${editable}">
+<!--                            <div>-->
+
+<!--                                <select th:if="${editable}" name="primary_phone_type" th:id="'primary_phone_type_'+@{phone.id}">-->
+<!--                                    <option th:value="${type}" th:text="${type}" th:each="type : ${phoneTypes}"></option>-->
+<!--                                </select>-->
+<!--                                <span th:unless="${editable}" th:text="${phone.type}"></span>-->
+<!--                            </div>-->
+
+<!--                            <span th:text="${phone.isPrimary}"></span>-->
+<!--                            <input type="checkbox" name="isPrimary" th:id="'primary_selector_'+@{phone.id}" th:checked="${phone.isPrimary}">-->
+<!--                        </div>-->
+
+
+<!--                    </div>-->
+
+                </div>
+            </div>
+            <div class="input-label-wrapper">
+                <div class="detail-input-wrapper">
+                    <label for="alt_phone_1">Alternate Phone:</label>
+                    <input type="text" id="alt_phone_1" value="(555) 601-2054" th:disabled="!${editable}">
+                </div>
+                <div class="detail-input-wrapper">
+                    <label for="alt_phone_2">Alternate Phone:</label>
+                    <input type="text" id="alt_phone_2" value="(555) 857-9548" th:disabled="!${editable}">
+                </div>
+            </div>
+
+            <div th:if="${editable}" class="hidden-submit">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="button-container">
+        <button th:disabled="${editable}">vehicles</button>
+        <button th:disabled="${editable}">Service History</button>
+        <button th:disabled="${editable}">Interested Sale Leads</button>
+        <button th:disabled="${editable}">Appointments</button>
+        <button th:disabled="${editable}">Add Phone</button>
+    </div>
+
+
+<script>
+    function getEditable() {
+        currentURL = window.location.href
+        window.location = currentURL+"&editable=true"
+    }
+
+    function enableIdField(){
+        document.getElementById("id_edit").disabled = false;
+    }
+</script>
+
+<footer th:insert="~{fragments::foot}"></footer>
+</body>
+</html>

@@ -1,7 +1,7 @@
 package com.heftyb.dms.repairorder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.fee.RepairOrderFee;
 import com.heftyb.dms.account.tax.TaxCharge;
 import com.heftyb.dms.crm.Customer;

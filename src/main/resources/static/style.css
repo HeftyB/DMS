@@ -251,3 +251,88 @@ td a {
     display: flex;
     justify-content: space-evenly;
 }
+
+
+
+/*customer details view*/
+
+.detail-image-wrapper, .detail-wrapper { margin: auto; }
+
+.flex {
+    display: flex;
+    justify-content: center;
+}
+
+.edit-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-button-wrapper button {
+    height: 25px;
+}
+
+.detail-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.detail-input-wrapper input {
+    text-align: end;
+    padding: 10px;
+    margin: 2%;
+    font-size: large;
+    box-shadow: 1px 1px lightgray;
+    background-color: antiquewhite;
+}
+
+.detail-input-wrapper label {
+    font-size: small;
+}
+
+.input-label-wrapper {
+    display: flex;
+    margin: 5px;
+    justify-content: space-around;
+}
+
+#email {
+    width: 100%;
+}
+
+.button-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.button-container button {
+    padding: 10px 25px;
+    box-shadow: 10px 10px #dddddd;
+}
+
+.hidden-submit {
+    text-align: end;
+}
+
+.hidden-submit button {
+    padding: 5px;
+}
+
+.user-avatar-display-wrapper{
+    position: relative;
+    border: 2px solid black;
+    overflow: hidden;
+    border-radius: 40%;
+    box-shadow: 5px 5px lightgray;
+}
+
+.user-avatar-display-wrapper button {
+    position: absolute;
+    width: fit-content;
+    margin-inline: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

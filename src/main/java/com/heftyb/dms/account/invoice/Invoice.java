@@ -1,7 +1,7 @@
 package com.heftyb.dms.account.invoice;
 
 
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.PaymentTerm;
 import com.heftyb.dms.account.Status;
 import com.heftyb.dms.crm.Customer;

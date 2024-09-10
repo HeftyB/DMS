@@ -1,11 +1,11 @@
-package com.heftyb.dms.account;
+package com.heftyb.dms.dao;
 
 import jakarta.persistence.MappedSuperclass;
 
 import java.util.UUID;
 
 @MappedSuperclass
-public abstract class RecordLock {
+public abstract class DataRecordLock {
 
     /**
      * Boolean representing lock on database record

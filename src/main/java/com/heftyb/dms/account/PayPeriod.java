@@ -1,5 +1,6 @@
 package com.heftyb.dms.account;
 
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.timekeeping.TimeClockPunchSet;
 import com.heftyb.dms.timekeeping.TimeSheet;
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
 package com.heftyb.dms.inventory;
 
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.po.PurchaseOrder;
 import com.heftyb.dms.repairorder.RepairOrder;
 import com.heftyb.dms.repairorder.RepairOrderJob;

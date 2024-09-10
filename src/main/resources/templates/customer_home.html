@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments::head (page_title='Customer Home')}"></head>
+<body>
+<header th:insert="~{fragments::header-top (username=${username})}"></header>
+
+<h1 class="center-text"> CUSTOMER HOME </h1>
+
+<div>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Address</th>
+    </tr>
+
+    <tr th:each="customer : ${customers}">
+      <td>
+        <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.id}"></a>
+      </td>
+      <td>
+        <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.getName()}"></a>
+      </td>
+      <td>
+        <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.contactInformation.getPrimaryPhone().number}">
+          <span th:if="${customer.contactInformation.getPrimaryPhone()hasExt()}" th:text="@{customer.contactInformation.getPrimaryPhone().ext}"></span>
+        </a>
+      </td>
+      <td>
+        <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.email}"></a>
+      </td>
+      <td>
+        <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.address.getAddress()}"></a>
+      </td>
+    </tr>
+  </table>
+
+  <div class="result-buttons-wrapper">
+    <button>Back</button>
+    <button>Search</button>
+    <button>Create New</button>
+    <button>Select</button>
+  </div>
+</div>
+
+<footer th:insert="~{fragments::foot}"></footer>
+</body>
+</html>

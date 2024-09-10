@@ -1,6 +1,6 @@
 package com.heftyb.dms.inventory;
 
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.repairorder.RepairOrderJob;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

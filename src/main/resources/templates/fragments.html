@@ -16,8 +16,8 @@
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#" th:href="@{/repair_orders}">Repair
                 Orders</a></li>
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Appointments</a></li>
-            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Customers</a></li>
-            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Vehicles</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#" th:href="@{/customers}">Customers</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#" th:href="@{/vehicles}">Vehicles</a></li>
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Parts</a></li>
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Support</a></li>
             <!--            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">User</a></li>-->
@@ -62,7 +62,7 @@
                 <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.email}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.mailingAddress.getAddress()}"></a>
+                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.address.getAddress()}"></a>
             </td>
         </tr>
     </table>

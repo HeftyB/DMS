@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "saleLeads")
@@ -13,8 +15,7 @@ public class SaleLead {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne
-    @JoinColumn
+    @Embedded
     private ContactInformation contactInfo;
 
     @ManyToOne
@@ -22,15 +23,19 @@ public class SaleLead {
     private Employee employee;
 
     private String message;
-    private ZonedDateTime date;
 
-    @OneToMany(mappedBy = "lead", cascade = CascadeType.ALL)
-    private ArrayList<SaleLeadNote> saleLeadNotes;
+    @Temporal(TemporalType.DATE)
+    private Date date;
+
+    @ElementCollection
+//    @OneToMany(mappedBy = "lead", cascade = CascadeType.ALL)
+//    @Embedded
+    private List<SaleLeadNote> saleLeadNotes;
 
     public SaleLead() {
     }
 
-    public SaleLead(ContactInformation contactInfo, Employee employee, String message, ZonedDateTime date) {
+    public SaleLead(ContactInformation contactInfo, Employee employee, String message, Date date) {
         this.contactInfo = contactInfo;
         this.employee = employee;
         this.message = message;
@@ -70,19 +75,31 @@ public class SaleLead {
         this.message = message;
     }
 
-    public ZonedDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public ArrayList<SaleLeadNote> getNotes() {
+    public List<SaleLeadNote> getNotes() {
         return saleLeadNotes;
     }
 
-    public void setNotes(ArrayList<SaleLeadNote> saleLeadNotes) {
+    public void setNotes(List<SaleLeadNote> saleLeadNotes) {
         this.saleLeadNotes = saleLeadNotes;
+    }
+
+    @Override
+    public String toString() {
+        return "SaleLead{" +
+                "id=" + id +
+                ", contactInfo=" + contactInfo +
+                ", employee=" + employee +
+                ", message='" + message + '\'' +
+                ", date=" + date +
+                ", saleLeadNotes=" + saleLeadNotes +
+                '}';
     }
 }

@@ -4,7 +4,6 @@ import com.heftyb.dms.account.po.POItem;
 import com.heftyb.dms.account.po.PurchaseOrder;
 import com.heftyb.dms.account.po.repositories.POItemRepository;
 import com.heftyb.dms.account.po.repositories.PurchaseOrderRepository;
-import com.heftyb.dms.crm.services.ContactService;
 import com.heftyb.dms.crm.services.EmployeeService;
 import com.heftyb.dms.crm.services.VendorService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
@@ -21,18 +20,15 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService {
     private final PurchaseOrderRepository poRepo;
     private final POItemRepository itemRepo;
     private final VendorService vendorService;
-    private final ContactService contactService;
     private final EmployeeService employeeService;
 
     public PurchaseOrderServiceImp(final PurchaseOrderRepository poRepo,
                                    final POItemRepository itemRepo,
                                    final VendorService vendorService,
-                                   final ContactService contactService,
                                    final EmployeeService employeeService) {
         this.poRepo = poRepo;
         this.itemRepo = itemRepo;
         this.vendorService = vendorService;
-        this.contactService = contactService;
         this.employeeService = employeeService;
     }
 
@@ -56,8 +52,7 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService {
         p.setDate(purchaseOrder.getDate());
         p.setFrom(vendorService.findById(purchaseOrder.getFrom().getId()));
         p.setTo(vendorService.findById(purchaseOrder.getFrom().getId()));
-        p.setFromContact(contactService.findContactInformationById(purchaseOrder.getFromContact().getId()));
-        p.setToContact(contactService.findContactInformationById(purchaseOrder.getFromContact().getId()));
+        p.setToContact(purchaseOrder.getToContact());
         p.setShippingMethod(purchaseOrder.getShippingMethod());
         p.setPaymentTerms(purchaseOrder.getPaymentTerms());
         p.setRequiredByDate(purchaseOrder.getRequiredByDate());

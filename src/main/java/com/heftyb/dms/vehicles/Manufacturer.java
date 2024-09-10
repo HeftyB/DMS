@@ -1,6 +1,6 @@
 package com.heftyb.dms.vehicles;
 
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

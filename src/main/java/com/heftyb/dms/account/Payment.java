@@ -1,6 +1,7 @@
 package com.heftyb.dms.account;
 
 import com.heftyb.dms.crm.Customer;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 

@@ -1,7 +1,7 @@
 package com.heftyb.dms.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;

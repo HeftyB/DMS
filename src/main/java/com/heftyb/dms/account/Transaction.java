@@ -1,5 +1,6 @@
 package com.heftyb.dms.account;
 
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

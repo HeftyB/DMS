@@ -4,8 +4,8 @@ import com.heftyb.dms.account.invoice.repositories.InvoiceRepository;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.PhoneNumber;
 import com.heftyb.dms.crm.repositories.CustomerRepository;
-import com.heftyb.dms.crm.repositories.PhoneNumberRepository;
 import com.heftyb.dms.exceptions.DataNotFoundException;
+import com.heftyb.dms.exceptions.ResourceFoundException;
 import com.heftyb.dms.vehicles.Vehicle;
 import com.heftyb.dms.vehicles.services.VehicleService;
 import jakarta.transaction.Transactional;
@@ -13,29 +13,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-//@Transactional
+@Transactional
 @Service(value = "customerService")
 public class CustomerServiceImp implements CustomerService {
 
     final private CustomerRepository custRepo;
-    final private PhoneNumberRepository phoneRepo;
-    final private VehicleService vehicleService;
     final private InvoiceRepository invoiceRepo;
-    final private ContactService contactService;
 
     public CustomerServiceImp(
             final CustomerRepository customerRepository,
-            final PhoneNumberRepository phoneNumberRepository,
-            final VehicleService vehicleService,
-            final InvoiceRepository invoiceRepo,
-            final ContactService contactService
+            final InvoiceRepository invoiceRepo
     ) {
         custRepo = customerRepository;
-        phoneRepo = phoneNumberRepository;
-        this.vehicleService = vehicleService;
         this.invoiceRepo = invoiceRepo;
-        this.contactService = contactService;
     }
 
     @Override
@@ -63,51 +55,65 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public List<Customer> findByPhone(String phoneNum) {
-        List<Customer> customers = new ArrayList<>();
-        List<PhoneNumber> numbers = contactService.findCustomersByPhoneNumbers(phoneNum);
-        numbers.iterator().forEachRemaining(p -> {
-            customers.add(p.getCustomer());
-        });
-        return customers;
+        List<Customer> customers = findAll()
+                .stream().filter(customer -> customer.getContactInformation().getPrimaryPhone().getNumber().contains(phoneNum)
+                            || customer.getContactInformation().getAltPhone1().getNumber().contains(phoneNum)
+                            || customer.getContactInformation().getAltPhone2().getNumber().contains(phoneNum)
+                            || customer.getContactInformation().getFax().getNumber().contains(phoneNum))
+                .collect(Collectors.toList());
+
+        return new ArrayList<>(customers);
     }
 
     @Override
     public Customer findById(long id) {
 
         return custRepo.findById(id).orElseThrow(
-                () -> new DataNotFoundException(String.format("CustomerService Error: customer id %g", id))
+                () -> new DataNotFoundException(String.format("CustomerService Error: customer id %s", id))
         );
     }
 
-    @Transactional
     @Override
-    public Customer save(Customer customer) {
+    public Customer findByIdEditable(long id) {
+        return custRepo.getById(id).orElseThrow(
+                () -> new DataNotFoundException(String.format("CustomerService Error: customer id %s", id))
+        );
+    }
+
+    @Override
+    public Customer saveNewCustomer(Customer customer) {
         Customer newCustomer = new Customer();
 
         newCustomer.setFirstName(customer.getFirstName());
         newCustomer.setLastName(customer.getLastName());
+        newCustomer.setAddress(customer.getAddress());
+        newCustomer.setContactInformation(customer.getContactInformation());
         newCustomer.setEmail(customer.getEmail());
-
-        newCustomer = custRepo.save(newCustomer);
-        customer.getMailingAddress().setCustomer(newCustomer);
-        newCustomer.setMailingAddress(contactService.saveNewMailingAddress(customer.getMailingAddress()));
-
-
-        for (PhoneNumber pn : customer.getPhoneNumbers()) {
-            pn.setCustomer(newCustomer);
-            newCustomer.getPhoneNumbers().add(contactService.saveNewPhoneNumber(pn));
-        }
-
-        for (Vehicle vehicle : customer.getVehicles()) {
-            vehicle.setCustomer(newCustomer);
-            newCustomer.getVehicles().add(vehicleService.save(vehicle));
-        }
 
         return custRepo.save(newCustomer);
     }
 
+    @Override
+    public Customer updateCustomer(Customer customer) {
 
-    @Transactional
+        Customer c = findById(customer.getId());
+
+        if (customer.getFirstName() != null) c.setFirstName(customer.getFirstName());
+        if (customer.getLastName() != null) c.setLastName(customer.getLastName());
+        if (customer.getAddress() != null) c.setAddress(customer.getAddress());
+        if (customer.getContactInformation() != null) c.setContactInformation(customer.getContactInformation());
+        if (customer.getEmail() != null) c.setEmail(customer.getEmail());
+
+        if (!customer.getVehicles().isEmpty()) {
+            throw new ResourceFoundException(
+                    "Error: Could not update customer: Vehicles are not updated through customer, null value expected!"
+            );
+        }
+        
+        return custRepo.save(c);
+    }
+
+
     @Override
     public void delete(long id) {
         findById(id);
