@@ -81,19 +81,19 @@
 
         <tr th:each="vehicle : ${vehicles}">
             <td>
-                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.id}"></a>
+                <a class="clean-link" href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}" th:text="${vehicle.id}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.getVehicleInfo()}"></a>
+                <a class="clean-link" href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}" th:text="${vehicle.getVehicleInfo()}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.vin}"></a>
+                <a class="clean-link" href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}" th:text="${vehicle.vin}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.customer.getName()}"></a>
+                <a class="clean-link" href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}" th:text="${vehicle.customer.getName()}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${'11/21/2004'}"></a>
+                <a class="clean-link" href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}" th:text="${'11/21/2004'}"></a>
             </td>
         </tr>
     </table>

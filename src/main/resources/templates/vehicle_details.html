@@ -1,0 +1,89 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments::head (page_title='Customer Details')}"></head>
+<body>
+<header th:insert="~{fragments::header-top (username=${username})}"></header>
+
+<div class="flex">
+  <div class="detail-image-wrapper">
+    <div class="vehicle-avatar-display-wrapper">
+      <img src="/defaults/default_vehicle.svg" alt="user_default">
+      <button>Change Photo</button>
+    </div>
+  </div>
+  <form action="#" class="detail-wrapper" name="vehicle" method="post">
+    <div class="edit-button-wrapper">
+      <div class="detail-input-wrapper">
+        <label for="id_edit">ID:</label>
+        <input type="text" id="id_edit" name="id" value="60120" th:value="${vehicle.id}" disabled>
+      </div>
+      <div class="detail-input-wrapper">
+        <label for="last_mileage">Last Mileage:</label>
+        <input type="text" id="last_mileage" name="last_mileage" value="460,120" th:value="${vehicle.id}" disabled>
+      </div>
+      <button type="button" disabled>EDIT</button>
+    </div>
+
+    <div class="detail-input-wrapper">
+      <label for="vin">VIN:</label>
+      <input type="text" id="vin" name="vin" value="1J4HR58N86C201586" th:value="${vehicle.vin}" th:disabled="!${editable}">
+    </div>
+
+
+    <div class="input-label-wrapper">
+
+      <div class="detail-input-wrapper">
+        <label for="make">Make:</label>
+        <input type="text" id="make" name="make" value="Honda" th:value="${vehicle.make.name}" th:disabled="!${editable}">
+      </div>
+      <div class="detail-input-wrapper">
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model" value="Civic" th:value="${vehicle.model}" th:disabled="!${editable}">
+      </div>
+      <div class="detail-input-wrapper">
+        <label for="customer">Customer Name:</label>
+        <input type="text" id="customer" name="customer" value="John Smith" th:value="${vehicle.customer.getName()}" disabled>
+      </div>
+
+
+    </div>
+
+    <div class="input-label-wrapper">
+
+      <div class="detail-input-wrapper">
+        <label for="trim">Trim:</label>
+        <input type="text" id="trim" name="trim" value="EX" th:value="${vehicle.trim}" th:disabled="!${editable}">
+      </div>
+      <div class="detail-input-wrapper">
+        <label for="engine">Engine:</label>
+        <input type="text" id="engine" name="engine" value="1.6L 4CYL VTECH" th:value="${vehicle.engine}" th:disabled="!${editable}">
+      </div>
+      <div class="detail-input-wrapper">
+        <label for="color">Color:</label>
+        <input type="text" id="color" name="color" value="White" th:value="${vehicle.color}" th:disabled="!${editable}">
+      </div>
+
+
+    </div>
+
+
+    <div th:if="${editable}" class="hidden-submit">
+      <button type="submit">Submit</button>
+    </div>
+
+  </form>
+</div>
+
+<hr>
+
+<div class="button-container">
+  <button th:disabled="${editable}">Customer's Profile</button>
+  <button th:disabled="${editable}">Service History</button>
+  <button th:disabled="${editable}">Check for recalls</button>
+  <button th:disabled="${editable}">Open Repair Order</button>
+  <button th:disabled="${editable}">Appointments</button>
+</div>
+
+<footer th:insert="~{fragments::foot}"></footer>
+</body>
+</html>

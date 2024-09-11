@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{fragment::head (page_title='Vehicles')}"></head>
+<head th:replace="~{fragments::head (page_title='Vehicles')}"></head>
 <body>
 <header th:insert="~{fragments::header-top (username=${username})}"></header>
+<style>
 
+    form  { display: table;      }
+    p     { display: table-row;  }
+    label { display: table-cell; }
+    input { display: table-cell; }
+</style>
+    <div>
+        <h1>VEHICLE HOME!</h1>
+        <div th:replace="~{fragments::vehicle-list (vehicles=${vehicles})}"></div>
+    </div>
 
+<div class="result-buttons-wrapper">
+    <button>Back</button>
+    <button>Search</button>
+    <button>Create New</button>
+    <button>Select</button>
+</div>
 
 <footer th:insert="~{fragments::foot}"></footer>
 </body>

@@ -336,3 +336,20 @@ td a {
     right: 0;
     bottom: 0;
 }
+
+.vehicle-avatar-display-wrapper{
+    position: relative;
+    border: 2px solid black;
+    box-shadow: 5px 5px lightgray;
+    padding: 20px;
+    background-color: rgba(184,164,182,0.73);
+}
+
+.vehicle-avatar-display-wrapper button {
+    position: absolute;
+    width: fit-content;
+    margin-inline: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

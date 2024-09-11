@@ -23,7 +23,7 @@ public class Vehicle extends Auditable {
     @ManyToOne
     private Manufacturer make;
 
-    @ManyToOne
+    @Embedded
     private Model model;
 
 
