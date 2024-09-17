@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments::head (page_title=${ro.id})}"></head>
+<body>
+<header th:insert="~{fragments::header-top (username=${username})}"></header>
+<div th:replace="~{fragments::forward-back}"></div>
+
+
+<div class="outer-wrapper">
+
+
+    <div class="ro-top">
+        <div class="top-wrapper">
+            <div class="address top-info">
+                <h3>CUSTOMER:</h3>
+                <h4 th:text="${ro.customer.getName()}">John Smith</h4>
+                <p th:text="${ro.customer.address.addressLine1}">1234 Fake Ln</p>
+                <p if="${ro.customer.address.addressLine2}} != null" th:text="${ro.customer.address.addressLine2}"></p>
+                <p>
+                    <span th:text="${ro.customer.address.city}">Jacksonville</span> <span th:text="${ro.customer.address.state}">Fl</span> <span th:text="${ro.customer.address.zip.zip}">35555</span>
+                </p>
+                <span>(904) 555-5555</span>
+                <span>(904) 555-5532</span>
+                <p>email@mail.com</p>
+            </div>
+            <div class="order-info top-info">
+                <h1 th:text="'RO: ' + ${ro.id}">RO: 200354</h1>
+                <h3 th:text="'STATUS :' + ${ro.status}">STATUS: OPEN</h3>
+                <h4 th:text="'OPENED BY: ' + ${ro.advisor.lastName}">OPENED BY: Burrito-60120</h4>
+            </div>
+
+            <div class="top-info">
+                <h4 th:text="'OPENED: ' + ${ro.openDate}">OPENED: 09/20/2000</h4>
+                <h4 th:text="'SERVICE TAG: ' + ${ro.serviceTag}">TAG: 201</h4>
+                <h4 th:text="'PRIORITY: ' + ${ro.priority}">PRIORITY: 1</h4>
+            </div>
+
+        </div>
+        <div class="bottom">
+            <p th:text="'VIN: ' + ${ro.vehicle.vin}">VIN: 5YFBU4EE7DP130040</p>
+            <p th:text="${ro.vehicle.getVehicleInfo()}">2012 MINI COOPER S JCW</p>
+            <p th:text="'MILEAGE IN: ' + ${ro.mileageIn}">MILEAGE IN: 654651</p>
+            <div>
+                <p th:text="'MILEAGE OUT: ' + (${ro.mileageOut} == 0 ? '- -' : ${ro.mileageOut})">MILEAGE OUT: - -</p>
+            </div>
+        </div>
+    </div>
+    <div>
+<!--        <hr>-->
+<!--        <div class="ro-button-wrapper">-->
+<!--            <button>Customer</button>-->
+<!--            <button>Vehicle History</button>-->
+<!--            <button>Cool Button</button>-->
+<!--            <button>Change priority</button>-->
+<!--        </div>-->
+        <hr>
+        <div>
+            <div class="jobs-title">
+                <H2>JOBS:</H2>
+                <div>
+
+                    <button id="myBtn">+</button>
+                </div>
+            </div>
+
+            <ol start="1">
+                <li th:each="j : ${ro.jobs}" class="job-wrapper">
+                    <div>
+                        <div class="ccc-wrapper">
+                            <span class="ccc-title">CONCERN: </span>
+                            <span th:text="${j.concern}">REPLACE FRONT BRAKE PADS AND ROTORS, CUSTOMER SUPPLIED PARTS</span>
+                        </div>
+                        <div class="ccc-wrapper">
+                            <span class="ccc-title">CAUSE: </span>
+                            <span th:text="${j.cause}">PADS & ROTORS WORN</span>
+                        </div>
+                        <div class="ccc-wrapper">
+                            <span class="ccc-title">CORRECTION:</span>
+                            <span th:text="${j.correction}">REPLACED FRONT BRAKE PAD, ROTORS, & HARDWARE
+                                WITH THE PARTS THE CUSTOMER HAD SUPPLIED Lorem ipsum dolor sit amet,
+                                consectetur adipisicing elit. A accusamus aliquid delectus enim,
+                                et illum ipsam ipsum modi nam officiis omnis placeat quam reprehenderit similique.
+                            </span>
+                        </div>
+
+
+                        <button type="button" class="job-status-info collapsible">
+                            <div>
+                                <span class="status-label">Status:</span>
+                                <span class="status-content" th:text="${j.status}">OPENED</span>
+                            </div>
+                            <div>
+                                <span class="status-label">Technician: </span>
+                                <span class="status-content" th:if="!${j.timeClockPunchSets.isEmpty()}" th:text="${j.timeClockPunchSets.getFirst().in.employee.lastName}">Doeson</span>
+                            </div>
+                            <div class="job-status-info">
+                                <div class="pts-lbr">
+                                    <span class="status-content">Parts: - - </span>
+                                    <span class="status-content">Labor: - - </span>
+                                </div>
+                                <span class="status-content">Total: - - </span>
+                            </div>
+                        </button>
+
+
+
+                        <div class="content">
+                            <section>
+    <!--                            <hr>-->
+                                <h5>Parts:</h5>
+                                <table>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Part Number: </th>
+                                        <th class="part-description">Description: </th>
+                                        <th>QTY: </th>
+                                        <th>Unit Price:</th>
+                                        <th>Line Total: </th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td>65-10-565-985-5100</td>
+                                        <td class="part-description">Gasket-Seal</td>
+                                        <td>2</td>
+                                        <td>$93.63</td>
+                                        <td>$187.26</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>64-12-465-785-3710</td>
+                                        <td class="part-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</td>
+                                        <td>1</td>
+                                        <td>$3.63</td>
+                                        <td>$3.63</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>3</td>
+                                        <td>45-30-364-285-5100</td>
+                                        <td class="part-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni, maxime.</td>
+                                        <td>2</td>
+                                        <td>$9.30</td>
+                                        <td>$187.26</td>
+                                    </tr>
+                                    <tr>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>Total:</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>$6543.45</td>
+                                    </tr>
+                                </table>
+                            </section>
+
+                            <section>
+                                <h5>Labor: </h5>
+                                <table>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Technician: </th>
+                                        <th>Total Labor Units:</th>
+                                        <th>Labor Rate: </th>
+                                        <th>Line Total: </th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Doeson - 064</td>
+                                        <td>1.1</td>
+                                        <td>$150.00</td>
+                                        <td>$165.001</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Doeson - 064</td>
+                                        <td>0.1</td>
+                                        <td>$150.00</td>
+                                        <td>$15.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>-</td>
+                                        <td>Total: </td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>$200.00</td>
+                                    </tr>
+                                </table>
+                            </section>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+
+
+    <div th:replace="~{new_wo_job::new-wo-job (ro=${ro})}"></div>
+
+
+
+</div>
+
+<script>
+    // Get all collapsible Jobs
+    var coll = document.getElementsByClassName("collapsible");
+
+    // Apply the EventListener
+    for (let i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+
+            console.log("l")
+
+            this.classList.toggle("active-job");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+<footer th:replace="~{fragments::foot}"></footer>
+</body>
+</html>

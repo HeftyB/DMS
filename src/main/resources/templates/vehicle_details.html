@@ -4,6 +4,8 @@
 <body>
 <header th:insert="~{fragments::header-top (username=${username})}"></header>
 
+<div th:replace="~{fragments::forward-back}"></div>
+
 <div class="flex">
   <div class="detail-image-wrapper">
     <div class="vehicle-avatar-display-wrapper">

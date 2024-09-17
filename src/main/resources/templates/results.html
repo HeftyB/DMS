@@ -4,6 +4,8 @@
 <body>
 <header th:insert="~{fragments::header-top (username=${username})}"></header>
 
+<div th:replace="~{fragments::forward-back}"></div>
+
   <h1>RESULTS</h1>
   <div>
     <div class="tab-container">
