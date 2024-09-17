@@ -45,17 +45,6 @@ public class StatementItem extends Auditable {
     public StatementItem() {
     }
 
-    public StatementItem(Statement statement, Invoice invoice, StatementStatus status) {
-        this.statement = statement;
-        this.invoice = invoice;
-        this.invoiceNumber = invoice.getInvoiceNumber();
-        this.description = invoice.getStatus().toString();
-        this.poNumber = invoice.getPoNumber();
-        this.total = invoice.getTotal();
-        this.status = status;
-//        this.financeFee = calculateFinanceFee();
-    }
-
     public long getId() {
         return id;
     }

@@ -15,6 +15,8 @@ public interface CustomerService {
 
     List<Customer> findByPhone(String phoneNum);
 
+    List<Customer> findByEmail(String email);
+
     Customer findById(long id);
 
     Customer findByIdEditable(long id);

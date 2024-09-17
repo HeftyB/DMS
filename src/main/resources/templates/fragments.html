@@ -38,6 +38,11 @@
     </div>
 </nav>
 
+<div th:fragment="forward-back" style="display: flex; justify-content: space-between; width: 100%;">
+    <a href="javascript:window.history.back();"><</a>
+    <a href="javascript:window.history.forward();">></a>
+</div>
+
 <div th:fragment="customer-list (customers)">
     <table>
         <tr>
@@ -56,7 +61,7 @@
                 <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.getName()}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.getPrimaryPhone().number}"></a>
+                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.contactInformation.primaryPhone}"></a>
             </td>
             <td>
                 <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.email}"></a>

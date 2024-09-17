@@ -5,6 +5,7 @@ import com.heftyb.dms.account.invoice.InvoiceItem;
 import com.heftyb.dms.account.invoice.repositories.InvoiceRepository;
 import com.heftyb.dms.account.services.PaymentTermService;
 import com.heftyb.dms.crm.services.CustomerService;
+import com.heftyb.dms.crm.services.EmployeeService;
 import com.heftyb.dms.crm.services.VendorService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import jakarta.transaction.Transactional;
@@ -21,18 +22,18 @@ public class InvoiceServiceImp implements InvoiceService {
     private final CustomerService customerService;
     private final VendorService vendorService;
     private final PaymentTermService termService;
-    private final InvoiceItemService itemService;
+    private final EmployeeService employeeService;
 
     public InvoiceServiceImp(final InvoiceRepository invoiceRepo,
                              final CustomerService customerService,
                              final VendorService vendorService,
                              final PaymentTermService termService,
-                             final InvoiceItemService itemService) {
+                             final EmployeeService employeeService) {
         this.invoiceRepo = invoiceRepo;
         this.customerService = customerService;
         this.vendorService = vendorService;
         this.termService = termService;
-        this.itemService = itemService;
+        this.employeeService = employeeService;
     }
 
     @Override
@@ -54,23 +55,17 @@ public class InvoiceServiceImp implements InvoiceService {
     @Override
     public Invoice save(Invoice invoice) {
         Invoice i = new Invoice();
-        i.setType(invoice.getType());
+
         i.setInvoiceNumber(invoice.getInvoiceNumber());
-        i.setPoNumber(invoice.getPoNumber());
+        i.setAuthorizingPONumber(invoice.getAuthorizingPONumber());
         i.setDate(invoice.getDate());
+        i.setEmployee(employeeService.findById(invoice.getEmployee().getId()));
         i.setTotal(invoice.getTotal());
-        i.setCustomer(customerService.findById(invoice.getCustomer().getId()));
-        i.setVendor(vendorService.findById(invoice.getVendor().getId()));
         i.setTerms(termService.findById(invoice.getTerms().getId()));
         i.setNotes(invoice.getNotes());
-        i.setStatus(invoice.getStatus());
-        i.setItems(new ArrayList<>());
+        i.setInvoiceStatus(invoice.getInvoiceStatus());
+        i.setItems(invoice.getItems());
 
-        for (InvoiceItem item : invoice.getItems()) {
-            item.setInvoice(i);
-            InvoiceItem ii = itemService.save(item);
-            i.getItems().add(ii);
-        }
 
         return invoiceRepo.save(i);
     }

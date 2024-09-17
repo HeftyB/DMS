@@ -4,45 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "invoiceItems")
-public class InvoiceItem extends Auditable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
+@Embeddable
+public class InvoiceItem{
 
     private String description;
-
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
-    @JsonIgnore
-    private Invoice invoice;
 
 
     private double quantity;
     private double rate;
     private double total;
 
+    private String internalReferenceId;
 
     public InvoiceItem() {
-    }
-
-    public InvoiceItem(String description, Invoice invoice, double quantity, double rate, double total) {
-        this.description = description;
-        this.invoice = invoice;
-        this.quantity = quantity;
-        this.rate = rate;
-        this.total = total;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -51,14 +25,6 @@ public class InvoiceItem extends Auditable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Invoice getInvoice() {
-        return invoice;
-    }
-
-    public void setInvoice(Invoice invoice) {
-        this.invoice = invoice;
     }
 
     public double getQuantity() {
@@ -85,15 +51,22 @@ public class InvoiceItem extends Auditable {
         this.total = total;
     }
 
+    public String getInternalReferenceId() {
+        return internalReferenceId;
+    }
+
+    public void setInternalReferenceId(String internalReferenceId) {
+        this.internalReferenceId = internalReferenceId;
+    }
+
     @Override
     public String toString() {
         return "InvoiceItem{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", invoice=" + invoice +
+                "description='" + description + '\'' +
                 ", quantity=" + quantity +
                 ", rate=" + rate +
                 ", total=" + total +
+                ", internalReferenceId=" + internalReferenceId +
                 '}';
     }
 }

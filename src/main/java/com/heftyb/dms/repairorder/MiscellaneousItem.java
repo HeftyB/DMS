@@ -5,43 +5,14 @@ import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.po.PurchaseOrder;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "miscellaneousItem")
+@Embeddable
 public class MiscellaneousItem extends Auditable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
 
     private String Description;
     private double cost;
 
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore
-    private RepairOrder repairOrder;
-
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore
-    private RepairOrderJob job;
-
-
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore
-    private PurchaseOrder purchaseOrder;
-
 
     public MiscellaneousItem() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -58,29 +29,5 @@ public class MiscellaneousItem extends Auditable {
 
     public void setCost(double cost) {
         this.cost = cost;
-    }
-
-    public RepairOrder getRepairOrder() {
-        return repairOrder;
-    }
-
-    public void setRepairOrder(RepairOrder repairOrder) {
-        this.repairOrder = repairOrder;
-    }
-
-    public PurchaseOrder getPurchaseOrder() {
-        return purchaseOrder;
-    }
-
-    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
-    }
-
-    public RepairOrderJob getJob() {
-        return job;
-    }
-
-    public void setJob(RepairOrderJob job) {
-        this.job = job;
     }
 }

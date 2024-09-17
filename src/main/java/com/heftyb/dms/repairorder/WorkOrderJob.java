@@ -1,35 +1,40 @@
 package com.heftyb.dms.repairorder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.dao.Auditable;
-import com.heftyb.dms.inventory.RepairOrderJobPart;
+import com.heftyb.dms.inventory.WorkOrderJobPart;
 import com.heftyb.dms.timekeeping.JobTimePunchSet;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "repairOrderJobs")
-public class RepairOrderJob extends Auditable {
+@Table(name = "workOrderJobs")
+public class WorkOrderJob {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Enumerated
+    private WorkOrderStatus status;
+
+    @NotNull
+    private String concern;
+
+    private String cause = "";
+
+    private String correction = "";
+
+    @NotNull
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn
     @JsonIgnore
     private RepairOrder repairOrder;
 
-    private String concern;
-
-    private String cause;
-
-    private String correction;
-
-    @OneToMany(mappedBy = "repairOrderJob", cascade = CascadeType.ALL)
-    private List<RepairOrderJobPart> parts;
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+    private List<WorkOrderJobPart> parts;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private List<JobTimePunchSet> timeClockPunchSets;
@@ -37,52 +42,29 @@ public class RepairOrderJob extends Auditable {
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private List<TechnicianFlatRateHour> labor;
 
-    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+    @ElementCollection
     private List<MiscellaneousItem> miscItems;
 
-    public RepairOrderJob() {
+    public WorkOrderJob() {
         parts = new ArrayList<>();
         timeClockPunchSets = new ArrayList<>();
         labor = new ArrayList<>();
         miscItems = new ArrayList<>();
+        status = WorkOrderStatus.ENTERED;
     }
 
-    public RepairOrderJob(RepairOrder repairOrder, String concern) {
-        this.repairOrder = repairOrder;
-        this.concern = concern;
-        cause = "";
-        correction = "";
+    public WorkOrderJob(String s) {
+        concern = s;
         parts = new ArrayList<>();
         timeClockPunchSets = new ArrayList<>();
         labor = new ArrayList<>();
         miscItems = new ArrayList<>();
+        status = WorkOrderStatus.ENTERED;
     }
 
-    public RepairOrderJob(RepairOrder repairOrder, String concern, String cause, String correction) {
-        this.repairOrder = repairOrder;
-        this.concern = concern;
-        this.cause = cause;
-        this.correction = correction;
-        this.parts = new ArrayList<>();
-        this.timeClockPunchSets = new ArrayList<>();
-        this.labor = new ArrayList<>();
-    }
+    public long getId() { return id; }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public RepairOrder getRepairOrder() {
-        return repairOrder;
-    }
-
-    public void setRepairOrder(RepairOrder repairOrder) {
-        this.repairOrder = repairOrder;
-    }
+    public void setId(long id) { this.id = id; }
 
     public String getConcern() {
         return concern;
@@ -108,11 +90,11 @@ public class RepairOrderJob extends Auditable {
         this.correction = correction;
     }
 
-    public List<RepairOrderJobPart> getParts() {
+    public List<WorkOrderJobPart> getParts() {
         return parts;
     }
 
-    public void setParts(ArrayList<RepairOrderJobPart> parts) {
+    public void setParts(ArrayList<WorkOrderJobPart> parts) {
         this.parts = parts;
     }
 
@@ -136,16 +118,44 @@ public class RepairOrderJob extends Auditable {
         return miscItems;
     }
 
-    public void setMiscItems(ArrayList<MiscellaneousItem> miscItems) {
-        this.miscItems = miscItems;
-    }
-
     public double getTotalPartsCost() {
-        return parts.stream().mapToDouble(RepairOrderJobPart::getUnitPrice).sum();
+        return parts.stream().mapToDouble(WorkOrderJobPart::getUnitPrice).sum();
     }
 
     public double getTotalLaborCost() {
         return labor.stream().mapToDouble(TechnicianFlatRateHour::getFlatRateHours).sum() * Double.parseDouble(System.getenv("LABOR_RATE"));
+    }
+
+    public void setParts(List<WorkOrderJobPart> parts) {
+        this.parts = parts;
+    }
+
+    public void setTimeClockPunchSets(List<JobTimePunchSet> timeClockPunchSets) {
+        this.timeClockPunchSets = timeClockPunchSets;
+    }
+
+    public void setLabor(List<TechnicianFlatRateHour> labor) {
+        this.labor = labor;
+    }
+
+    public void setMiscItems(List<MiscellaneousItem> miscItems) {
+        this.miscItems = miscItems;
+    }
+
+    public RepairOrder getRepairOrder() {
+        return repairOrder;
+    }
+
+    public void setRepairOrder(RepairOrder repairOrder) {
+        this.repairOrder = repairOrder;
+    }
+
+    public WorkOrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(WorkOrderStatus status) {
+        this.status = status;
     }
 
     @Override

@@ -1,7 +1,8 @@
 package com.heftyb.dms.inventory;
 
 import com.heftyb.dms.dao.Auditable;
-import com.heftyb.dms.repairorder.RepairOrderJob;
+import com.heftyb.dms.repairorder.RepairOrder;
+import com.heftyb.dms.repairorder.WorkOrderJob;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,14 +10,14 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "repairOrderJobParts")
-@IdClass(RepairOrderJobPartId.class)
-public class RepairOrderJobPart extends Auditable implements Serializable {
+@IdClass(WorkOrderJobPartId.class)
+public class WorkOrderJobPart extends Auditable implements Serializable {
 
     @NotNull
     @Id
     @ManyToOne
     @JoinColumn()
-    private RepairOrderJob repairOrderJob;
+    private WorkOrderJob job;
 
     @NotNull
     @Id
@@ -28,22 +29,15 @@ public class RepairOrderJobPart extends Auditable implements Serializable {
     private int quantity;
     private double unitPrice;
 
-    public RepairOrderJobPart() {
+    public WorkOrderJobPart() {
     }
 
-    public RepairOrderJobPart(RepairOrderJob repairOrderJob, Part part, int quantity, double unitPrice) {
-        this.repairOrderJob = repairOrderJob;
-        this.part = part;
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
+    public WorkOrderJob getJob() {
+        return job;
     }
 
-    public RepairOrderJob getRepairOrderJob() {
-        return repairOrderJob;
-    }
-
-    public void setRepairOrderJob(RepairOrderJob repairOrderJob) {
-        this.repairOrderJob = repairOrderJob;
+    public void setJob(WorkOrderJob job) {
+        this.job = job;
     }
 
     public Part getPart() {
@@ -73,9 +67,12 @@ public class RepairOrderJobPart extends Auditable implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RepairOrderJobPart)) return false;
-        RepairOrderJobPart that = (RepairOrderJobPart) o;
-        return getQuantity() == that.getQuantity() && Double.compare(that.getUnitPrice(), getUnitPrice()) == 0 && getRepairOrderJob().equals(that.getRepairOrderJob()) && getPart().equals(that.getPart());
+        if (!(o instanceof WorkOrderJobPart)) return false;
+        WorkOrderJobPart that = (WorkOrderJobPart) o;
+        return getQuantity() == that.getQuantity()
+                && Double.compare(that.getUnitPrice(), getUnitPrice()) == 0
+                && getJob().equals(that.getJob())
+                && getPart().equals(that.getPart());
     }
 
     @Override

@@ -16,6 +16,8 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
     List<Customer> findByLastNameContainingIgnoreCaseAndFirstNameContainingIgnoreCase(String firstName, String lastName);
 
+    List<Customer> findByEmailContainingIgnoreCase(String email);
+
     @Lock(LockModeType.PESSIMISTIC_READ)
     Optional<Customer> findById(long id);
 

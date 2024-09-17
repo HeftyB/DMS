@@ -130,7 +130,7 @@ td a {
 
 /*search view*/
 
-.modal:before {
+.search-modal:before, .vin-modal:before {
     content: "";
     display: none;
     position: fixed;
@@ -152,6 +152,13 @@ td a {
     top: 20%;
 }
 
+.opened .vin-search-wrapper {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+    top: -150%;
+}
+
 
 
 .search-wrapper {
@@ -168,6 +175,26 @@ td a {
     -webkit-transform: translate(0, -500%);
     -ms-transform: translate(0, -500%);
     transform: translate(0, -500%);
+    -webkit-transition: -webkit-transform 0.3s ease-out;
+    -moz-transition: -moz-transform 0.3s ease-out;
+    -o-transition: -o-transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
+}
+
+.vin-search-wrapper {
+    width: 30%;
+    margin: auto;
+    border: 1px black solid;
+    border-radius: 5px;
+    padding: 10px;
+    background: seashell;
+
+    z-index: 9;
+    position: relative;
+    box-shadow:0 5px 10px rgba(0,0,0,0.3);
+    -webkit-transform: translate(0, -600%);
+    -ms-transform: translate(0, -600%);
+    transform: translate(0, -600%);
     -webkit-transition: -webkit-transform 0.3s ease-out;
     -moz-transition: -moz-transform 0.3s ease-out;
     -o-transition: -o-transform 0.3s ease-out;
@@ -340,6 +367,7 @@ td a {
 .vehicle-avatar-display-wrapper{
     position: relative;
     border: 2px solid black;
+
     box-shadow: 5px 5px lightgray;
     padding: 20px;
     background-color: rgba(184,164,182,0.73);

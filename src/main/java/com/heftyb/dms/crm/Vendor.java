@@ -37,14 +37,10 @@ public class Vendor extends Auditable {
     @JsonIgnore
     private List<PurchaseOrder> receivedPurchaseOrders;
 
-    @OneToMany(mappedBy = "vendor")
-    @JsonIgnore
-    private List<Invoice> invoices;
 
     public Vendor() {
         sentPurchaseOrders = new ArrayList<>();
         receivedPurchaseOrders = new ArrayList<>();
-        invoices = new ArrayList<>();
     }
 
     public Vendor(String companyName, Address address, ContactInformation contactInformation, String email, String taxId, String paymentMethod) {
@@ -56,7 +52,6 @@ public class Vendor extends Auditable {
         this.paymentMethod = paymentMethod;
         this.sentPurchaseOrders = new ArrayList<>();
         this.receivedPurchaseOrders = new ArrayList<>();
-        this.invoices = new ArrayList<>();
     }
 
     public long getId() {
@@ -131,14 +126,6 @@ public class Vendor extends Auditable {
         this.receivedPurchaseOrders = receivedPurchaseOrders;
     }
 
-    public List<Invoice> getInvoices() {
-        return invoices;
-    }
-
-    public void setInvoices(List<Invoice> invoices) {
-        this.invoices = invoices;
-    }
-
     @Override
     public String toString() {
         return "Vendor{" +
@@ -151,7 +138,6 @@ public class Vendor extends Auditable {
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", sentPurchaseOrders=" + sentPurchaseOrders +
                 ", receivedPurchaseOrders=" + receivedPurchaseOrders +
-                ", invoices=" + invoices +
                 '}';
     }
 }

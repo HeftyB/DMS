@@ -45,7 +45,7 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public List<Customer> findByFirstName(String firstName) {
-        return custRepo.findByLastNameContainingIgnoreCase(firstName);
+        return custRepo.findByFirstNameContainingIgnoreCase(firstName);
     }
 
     @Override
@@ -63,6 +63,13 @@ public class CustomerServiceImp implements CustomerService {
                 .collect(Collectors.toList());
 
         return new ArrayList<>(customers);
+    }
+
+    @Override
+    public List<Customer> findByEmail(String email) {
+        List<Customer> customers = new ArrayList<>();
+        custRepo.findByEmailContainingIgnoreCase(email).iterator().forEachRemaining(customers::add);
+        return customers;
     }
 
     @Override
