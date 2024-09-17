@@ -16,8 +16,8 @@
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#" th:href="@{/repair_orders}">Repair
                 Orders</a></li>
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Appointments</a></li>
-            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Customers</a></li>
-            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Vehicles</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#" th:href="@{/customers}">Customers</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" href="#" th:href="@{/vehicles}">Vehicles</a></li>
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Parts</a></li>
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Support</a></li>
             <!--            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">User</a></li>-->
@@ -38,6 +38,11 @@
     </div>
 </nav>
 
+<div th:fragment="forward-back" style="display: flex; justify-content: space-between; width: 100%;">
+    <a href="javascript:window.history.back();"><</a>
+    <a href="javascript:window.history.forward();">></a>
+</div>
+
 <div th:fragment="customer-list (customers)">
     <table>
         <tr>
@@ -56,13 +61,13 @@
                 <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.getName()}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.getPrimaryPhone().number}"></a>
+                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.contactInformation.primaryPhone}"></a>
             </td>
             <td>
                 <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.email}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.mailingAddress.getAddress()}"></a>
+                <a class="clean-link" href="#" th:href="@{/customers/customer(id=${customer.id})}" th:text="${customer.address.getAddress()}"></a>
             </td>
         </tr>
     </table>
@@ -81,19 +86,19 @@
 
         <tr th:each="vehicle : ${vehicles}">
             <td>
-                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.id}"></a>
+                <a class="clean-link" href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}" th:text="${vehicle.id}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.getVehicleInfo()}"></a>
+                <a class="clean-link" href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}" th:text="${vehicle.getVehicleInfo()}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.vin}"></a>
+                <a class="clean-link" href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}" th:text="${vehicle.vin}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${vehicle.customer.getName()}"></a>
+                <a class="clean-link" href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}" th:text="${vehicle.customer.getName()}"></a>
             </td>
             <td>
-                <a class="clean-link" href="#" th:href="@{/vehicle/vehicle(id=${vehicle.id})}" th:text="${'11/21/2004'}"></a>
+                <a class="clean-link" href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}" th:text="${'11/21/2004'}"></a>
             </td>
         </tr>
     </table>

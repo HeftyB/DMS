@@ -1,6 +1,6 @@
 package com.heftyb.dms.account.po;
 
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 @Entity

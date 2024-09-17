@@ -1,8 +1,8 @@
 package com.heftyb.dms.account.po;
 
-import com.heftyb.dms.account.Auditable;
-import com.heftyb.dms.account.tax.TaxCharge;
 import com.heftyb.dms.crm.ContactInformation;
+import com.heftyb.dms.dao.Auditable;
+import com.heftyb.dms.account.tax.TaxCharge;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.crm.Vendor;
 import jakarta.persistence.*;
@@ -31,12 +31,7 @@ public class PurchaseOrder extends Auditable {
     @JoinColumn
     private Vendor to;
 
-    @ManyToOne
-    @JoinColumn
-    private ContactInformation fromContact;
-
-    @ManyToOne
-    @JoinColumn
+    @Embedded
     private ContactInformation toContact;
 
     private String shippingMethod;
@@ -70,7 +65,6 @@ public class PurchaseOrder extends Auditable {
         this.date = Date.from(Instant.now());
         this.from = from;
         this.to = to;
-        this.fromContact = fromContact;
         this.toContact = toContact;
         this.shippingMethod = shippingMethod;
         this.paymentTerms = paymentTerms;
@@ -107,14 +101,6 @@ public class PurchaseOrder extends Auditable {
 
     public void setTo(Vendor to) {
         this.to = to;
-    }
-
-    public ContactInformation getFromContact() {
-        return fromContact;
-    }
-
-    public void setFromContact(ContactInformation fromContact) {
-        this.fromContact = fromContact;
     }
 
     public ContactInformation getToContact() {

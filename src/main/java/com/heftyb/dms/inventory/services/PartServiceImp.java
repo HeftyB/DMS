@@ -4,7 +4,6 @@ import com.heftyb.dms.account.po.services.PurchaseOrderService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.inventory.Part;
 import com.heftyb.dms.inventory.repositories.PartRepository;
-import com.heftyb.dms.repairorder.services.RepairOrderJobService;
 import com.heftyb.dms.repairorder.services.RepairOrderService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -19,16 +18,13 @@ public class PartServiceImp implements PartService {
     final private PartRepository partRepo;
     final private RepairOrderService repairOrderService;
     final private PurchaseOrderService purchaseOrderService;
-    final private RepairOrderJobService repairOrderJobService;
 
     public PartServiceImp(final PartRepository partRepo,
                           final RepairOrderService repairOrderService,
-                          final PurchaseOrderService purchaseOrderService,
-                          final RepairOrderJobService repairOrderJobService) {
+                          final PurchaseOrderService purchaseOrderService) {
         this.partRepo = partRepo;
         this.repairOrderService = repairOrderService;
         this.purchaseOrderService = purchaseOrderService;
-        this.repairOrderJobService = repairOrderJobService;
     }
 
     @Override
@@ -62,8 +58,7 @@ public class PartServiceImp implements PartService {
         p.setCost(part.getCost());
         p.setPrice(part.getPrice());
         p.setMarkup(part.getMarkup());
-        p.setRepairOrderJob(repairOrderJobService.findById(part.getRepairOrderJob().getId()));
-        p.setPurchaseOrder(purchaseOrderService.findPurchaseOrderById(part.getPurchaseOrder().getId()));
+        p.setJobs(part.getJobs());
 
         return partRepo.save(p);
     }

@@ -1,4 +1,4 @@
-package com.heftyb.dms.account;
+package com.heftyb.dms.dao;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -15,7 +15,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-abstract public class Auditable extends RecordLock {
+abstract public class Auditable extends DataRecordLock {
     /**
      * String field containing the username of who created this row
      */

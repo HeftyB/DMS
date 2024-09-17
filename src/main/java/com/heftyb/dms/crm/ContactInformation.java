@@ -1,68 +1,100 @@
 package com.heftyb.dms.crm;
 
-import com.heftyb.dms.account.Auditable;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "contactsInformation")
-public class ContactInformation extends Auditable {
+@Embeddable
+public class ContactInformation {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String contactName;
 
-    private String name;
-    private String phone;
-    private String email;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "addressLine1", column = @Column(name = "contact_address_line_1")),
+            @AttributeOverride(name = "addressLine2", column = @Column(name = "contact_address_line_2")),
+            @AttributeOverride(name = "city", column = @Column(name = "contact_city")),
+            @AttributeOverride(name = "state", column = @Column(name = "contact_state")),
+            @AttributeOverride(name = "zip.zip", column = @Column(name = "contact_zip")),
+            @AttributeOverride(name = "zip.plus4", column = @Column(name = "contact_zip+4"))
+    })
+    private Address address;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "number", column = @Column(name = "primary_phone_number")),
+            @AttributeOverride(name = "ext", column = @Column(name = "primary_phone_ext"))
+    })
+    private PhoneNumber primaryPhone;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "number", column = @Column(name = "alt1_phone_number")),
+            @AttributeOverride(name = "ext", column = @Column(name = "alt1_phone_ext"))
+    })
+    private PhoneNumber altPhone1;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "number", column = @Column(name = "alt2_phone_number")),
+            @AttributeOverride(name = "ext", column = @Column(name = "alt2_phone_ext"))
+    })
+    private PhoneNumber altPhone2;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "number", column = @Column(name = "fax_phone_number")),
+            @AttributeOverride(name = "ext", column = @Column(name = "fax_phone_ext"))
+    })
+    private PhoneNumber fax;
+
+    @Column(name = "contact_information_notes")
     private String notes;
 
-    public ContactInformation() {
+    public String getContactName() {
+        return contactName;
     }
 
-    public ContactInformation(String name, String phone, String email) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.notes = "";
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
     }
 
-    public ContactInformation(String name, String phone, String email, String notes) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.notes = notes;
+    public Address getAddress() {
+        return address;
     }
 
-    public long getId() {
-        return id;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public PhoneNumber getPrimaryPhone() {
+        return primaryPhone;
     }
 
-    public String getName() {
-        return name;
+    public void setPrimaryPhone(PhoneNumber primaryPhone) {
+        this.primaryPhone = primaryPhone;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public PhoneNumber getAltPhone1() {
+        return altPhone1;
     }
 
-    public String getPhone() {
-        return phone;
+    public void setAltPhone1(PhoneNumber altPhone1) {
+        this.altPhone1 = altPhone1;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public PhoneNumber getAltPhone2() {
+        return altPhone2;
     }
 
-    public String getEmail() {
-        return email;
+    public void setAltPhone2(PhoneNumber altPhone2) {
+        this.altPhone2 = altPhone2;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public PhoneNumber getFax() {
+        return fax;
+    }
+
+    public void setFax(PhoneNumber fax) {
+        this.fax = fax;
     }
 
     public String getNotes() {
@@ -71,5 +103,18 @@ public class ContactInformation extends Auditable {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactInformation{" +
+                "contactName='" + contactName + '\'' +
+                ", mailingAddress=" + address +
+                ", primaryPhone=" + primaryPhone +
+                ", altPhone1=" + altPhone1 +
+                ", altPhone2=" + altPhone2 +
+                ", fax=" + fax +
+                ", notes='" + notes + '\'' +
+                '}';
     }
 }

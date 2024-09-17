@@ -7,7 +7,8 @@ import com.heftyb.dms.crm.services.EmployeeService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.exceptions.TimeClockException;
 import com.heftyb.dms.exceptions.UserNotFoundException;
-import com.heftyb.dms.repairorder.services.RepairOrderJobService;
+import com.heftyb.dms.repairorder.services.RepairOrderService;
+import com.heftyb.dms.repairorder.services.WorkOrderJobService;
 import com.heftyb.dms.timekeeping.*;
 import com.heftyb.dms.timekeeping.repositories.JobTimePunchSetRepository;
 import com.heftyb.dms.timekeeping.repositories.TimeClockPunchSetRepository;
@@ -31,7 +32,7 @@ public class TimeClockServiceImp implements TimeClockService {
     private final TimeClockPunchSetRepository timeClockPunchRepo;
     private final JobTimePunchSetRepository jobTimeRepo;
     private final EmployeeService employeeService;
-    private final RepairOrderJobService repairOrderJobService;
+    private final RepairOrderService repairOrderService;
     private final UserService userService;
     private final PayPeriodService payPeriodService;
 
@@ -42,7 +43,7 @@ public class TimeClockServiceImp implements TimeClockService {
             final TimeClockPunchSetRepository timeClockPunchSetRepository,
             final JobTimePunchSetRepository jobTimePunchSetRepository,
             final EmployeeService employeeService,
-            final RepairOrderJobService repairOrderJobService,
+            final RepairOrderService repairOrderService,
             final UserService userService,
             final PayPeriodService payPeriodService
     ) {
@@ -51,7 +52,7 @@ public class TimeClockServiceImp implements TimeClockService {
         timeClockPunchRepo = timeClockPunchSetRepository;
         jobTimeRepo = jobTimePunchSetRepository;
         this.employeeService = employeeService;
-        this.repairOrderJobService = repairOrderJobService;
+        this.repairOrderService = repairOrderService;
         this.userService = userService;
         this.payPeriodService = payPeriodService;
     }
@@ -274,7 +275,7 @@ public class TimeClockServiceImp implements TimeClockService {
         j.setIn(findTimePunchInById(jobTimePunchSet.getIn().getId()));
         j.setOut(findTimePunchOutById(jobTimePunchSet.getOut().getId()));
         j.setEmployee(employeeService.findById(jobTimePunchSet.getEmployee().getId()));
-        j.setJob(repairOrderJobService.findById(jobTimePunchSet.getJob().getId()));
+        j.setJob(jobTimePunchSet.getJob());
 
         return jobTimeRepo.save(j);
     }

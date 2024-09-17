@@ -1,9 +1,8 @@
 package com.heftyb.dms.inventory;
 
-import com.heftyb.dms.account.Auditable;
-import com.heftyb.dms.account.po.PurchaseOrder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.repairorder.RepairOrder;
-import com.heftyb.dms.repairorder.RepairOrderJob;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -25,23 +24,19 @@ public class Part extends Auditable {
     private String bin;
     private boolean inStock;
     private int qty;
-
-    @OneToMany(mappedBy = "part", cascade = CascadeType.ALL)
-    private List<StockedPart> receivedStock;
-
     private float cost;
+    private float markup;
     private float price;
 
-    private float markup;
-
-    @ManyToOne
-    @JoinColumn(name = "roJobId", referencedColumnName = "id")
-    private RepairOrderJob repairOrderJob;
 
 
-    @ManyToOne
-    @JoinColumn(name = "purchaseOrderId", referencedColumnName = "id")
-    private PurchaseOrder purchaseOrder;
+//    @OneToMany(mappedBy = "part", cascade = CascadeType.ALL)
+    @ElementCollection
+    private List<ReceivedPart> receivedStock;
+
+    @OneToMany(mappedBy = "part", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<WorkOrderJobPart> jobs;
 
 //    private CounterTicket counterTicket;
 
@@ -49,28 +44,6 @@ public class Part extends Auditable {
 
     }
 
-
-    public Part(String source, String partNumber, String OEMPartNumber, String description, float cost, float price, float markup, RepairOrderJob repairOrderJob) {
-        this.source = source;
-        this.partNumber = partNumber;
-        this.OEMPartNumber = OEMPartNumber;
-        this.description = description;
-        this.cost = cost;
-        this.price = price;
-        this.markup = markup;
-        this.repairOrderJob = repairOrderJob;
-    }
-
-    public Part(String source, String partNumber, String OEMPartNumber, String description, float cost, float price, float markup, PurchaseOrder purchaseOrder) {
-        this.source = source;
-        this.partNumber = partNumber;
-        this.OEMPartNumber = OEMPartNumber;
-        this.description = description;
-        this.cost = cost;
-        this.price = price;
-        this.markup = markup;
-        this.purchaseOrder = purchaseOrder;
-    }
 
     public long getId() {
         return id;
@@ -92,16 +65,16 @@ public class Part extends Auditable {
         return partNumber;
     }
 
-    public void setPartNumber(String partnumber) {
-        this.partNumber = partnumber;
+    public void setPartNumber(String partNumber) {
+        this.partNumber = partNumber;
     }
 
     public String getOEMPartNumber() {
         return OEMPartNumber;
     }
 
-    public void setOEMPartNumber(String oempartnumber) {
-        this.OEMPartNumber = oempartnumber;
+    public void setOEMPartNumber(String OEMPartNumber) {
+        this.OEMPartNumber = OEMPartNumber;
     }
 
     public String getDescription() {
@@ -110,46 +83,6 @@ public class Part extends Auditable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public float getCost() {
-        return cost;
-    }
-
-    public void setCost(float cost) {
-        this.cost = cost;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public float getMarkup() {
-        return markup;
-    }
-
-    public void setMarkup(float markup) {
-        this.markup = markup;
-    }
-
-    public RepairOrderJob getRepairOrderJob() {
-        return repairOrderJob;
-    }
-
-    public void setRepairOrderJob(RepairOrderJob repairOrderJob) {
-        this.repairOrderJob = repairOrderJob;
-    }
-
-    public PurchaseOrder getPurchaseOrder() {
-        return purchaseOrder;
-    }
-
-    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
     }
 
     public String getBin() {
@@ -176,15 +109,62 @@ public class Part extends Auditable {
         this.qty = qty;
     }
 
-    public List<StockedPart> getReceivedStock() {
+    public float getCost() {
+        return cost;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
+    }
+
+    public float getMarkup() {
+        return markup;
+    }
+
+    public void setMarkup(float markup) {
+        this.markup = markup;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public List<ReceivedPart> getReceivedStock() {
         return receivedStock;
     }
 
-    public void setReceivedStock(List<StockedPart> receivedStock) {
+    public void setReceivedStock(List<ReceivedPart> receivedStock) {
         this.receivedStock = receivedStock;
     }
 
-    public RepairOrder getRepairOrder() {
-        return repairOrderJob.getRepairOrder();
+    public List<WorkOrderJobPart> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<WorkOrderJobPart> jobs) {
+        this.jobs = jobs;
+    }
+
+    @Override
+    public String toString() {
+        return "Part{" +
+                "id=" + id +
+                ", source='" + source + '\'' +
+                ", partNumber='" + partNumber + '\'' +
+                ", OEMPartNumber='" + OEMPartNumber + '\'' +
+                ", description='" + description + '\'' +
+                ", bin='" + bin + '\'' +
+                ", inStock=" + inStock +
+                ", qty=" + qty +
+                ", cost=" + cost +
+                ", markup=" + markup +
+                ", price=" + price +
+                ", receivedStock=" + receivedStock +
+                ", jobs=" + jobs +
+                '}';
     }
 }

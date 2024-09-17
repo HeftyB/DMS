@@ -1,8 +1,9 @@
 package com.heftyb.dms.timekeeping;
 
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.crm.Employee;
-import com.heftyb.dms.repairorder.RepairOrderJob;
+import com.heftyb.dms.repairorder.RepairOrder;
+import com.heftyb.dms.repairorder.WorkOrderJob;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -32,7 +33,7 @@ public class JobTimePunchSet extends Auditable {
 
     @ManyToOne()
     @JoinColumn()
-    private RepairOrderJob job;
+    private WorkOrderJob job;
 
     public JobTimePunchSet() {
     }
@@ -77,11 +78,11 @@ public class JobTimePunchSet extends Auditable {
         this.employee = employee;
     }
 
-    public RepairOrderJob getJob() {
+    public WorkOrderJob getJob() {
         return job;
     }
 
-    public void setJob(RepairOrderJob job) {
+    public void setJob(WorkOrderJob job) {
         this.job = job;
     }
 }

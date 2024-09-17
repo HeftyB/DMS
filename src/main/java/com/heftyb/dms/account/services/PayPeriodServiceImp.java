@@ -111,7 +111,7 @@ public class PayPeriodServiceImp implements PayPeriodService {
 //        periods = periods.stream().filter(p -> isPayPeriodCurrent(p)).collect(Collectors.toList());
 
 //        System.out.println(String.format("periods after: %s", periods));
-        if (periods.size() != 1) {
+        if (periods.size() < 1) {
             throw new ResourceFoundException("Error: Could not get current PayPeriod!");
         }
         return periods.getFirst();

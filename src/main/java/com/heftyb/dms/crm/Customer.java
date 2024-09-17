@@ -1,7 +1,7 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -18,19 +18,17 @@ public class Customer extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @NotNull
+
     private String firstName;
 
     @NotNull
     private String lastName;
 
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-    private MailingAddress mailingAddress;
+    @Embedded
+    private Address address;
 
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<PhoneNumber> phoneNumbers;
-
+    @Embedded
+    private ContactInformation contactInformation;
 
     private String email;
 
@@ -49,47 +47,29 @@ public class Customer extends Auditable {
 //    private ArrayList<SaleLead> leads;
 
 
+
+
     public Customer() {
-        phoneNumbers = new ArrayList<>();
         vehicles = new ArrayList<>();
 //        invoices = new ArrayList<>();
     }
 
-    public Customer(String firstName, String lastName, String email) {
+    public Customer(String firstName, String lastName, Address address, ContactInformation contactInformation, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.address = address;
+        this.contactInformation = contactInformation;
         this.email = email;
-        phoneNumbers = new ArrayList<>();
         vehicles = new ArrayList<>();
-//        invoices = new ArrayList<>();
     }
 
-    public Customer(String firstName, String lastName, MailingAddress mailingAddress, ArrayList<PhoneNumber> phoneNumbers, String email) {
+    public Customer(String firstName, String lastName, Address address, ContactInformation contactInformation, String email, List<Vehicle> vehicles) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.mailingAddress = mailingAddress;
-        this.phoneNumbers = phoneNumbers;
-        this.email = email;
-        this.vehicles = new ArrayList<>();
-//        this.invoices = new ArrayList<>();
-    }
-
-    public Customer(String firstName, String lastName, MailingAddress mailingAddress, ArrayList<PhoneNumber> phoneNumbers, String email, ArrayList<Vehicle> vehicles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.mailingAddress = mailingAddress;
-        this.phoneNumbers = phoneNumbers;
+        this.address = address;
+        this.contactInformation = contactInformation;
         this.email = email;
         this.vehicles = vehicles;
-//        this.invoices = new ArrayList<>();
-    }
-
-    public Customer(String firstName, String lastName, ArrayList<PhoneNumber> phoneNumbers, ArrayList<Vehicle> vehicles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumbers = phoneNumbers;
-        this.vehicles = vehicles;
-//        this.invoices = new ArrayList<>();
     }
 
     public long getId() {
@@ -116,20 +96,20 @@ public class Customer extends Auditable {
         this.lastName = lastName;
     }
 
-    public MailingAddress getMailingAddress() {
-        return mailingAddress;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setMailingAddress(MailingAddress mailingAddress) {
-        this.mailingAddress = mailingAddress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public List<PhoneNumber> getPhoneNumbers() {
-        return phoneNumbers;
+    public ContactInformation getContactInformation() {
+        return contactInformation;
     }
 
-    public void setPhoneNumbers(ArrayList<PhoneNumber> phoneNumbers) {
-        this.phoneNumbers = phoneNumbers;
+    public void setContactInformation(ContactInformation contactInformation) {
+        this.contactInformation = contactInformation;
     }
 
     public String getEmail() {
@@ -144,34 +124,12 @@ public class Customer extends Auditable {
         return vehicles;
     }
 
-    public void setVehicles(ArrayList<Vehicle> vehicles) {
+    public void setVehicles(List<Vehicle> vehicles) {
         this.vehicles = vehicles;
     }
 
-//    public List<Invoice> getInvoices() {
-//        return invoices;
-//    }
-//
-//    public void setInvoices(ArrayList<Invoice> invoices) {
-//        this.invoices = invoices;
-//    }
-
-    public void addPhone(PhoneNumber phoneNumber) {
-        this.phoneNumbers.add(phoneNumber);
-    }
-
     public String getName() {
-        return firstName + " " + lastName;
-    }
-
-    public PhoneNumber getPrimaryPhone() {
-        Optional<PhoneNumber> primary = phoneNumbers.stream().filter(PhoneNumber::isPrimary).findFirst();
-
-        if (primary.isPresent()) {
-            return primary.get();
-        } else {
-            return phoneNumbers.getFirst();
-        }
+        return String.format("%s %s", firstName, lastName);
     }
 
     @Override
@@ -180,8 +138,8 @@ public class Customer extends Auditable {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", mailingAddress=" + mailingAddress +
-                ", phoneNumbers=" + phoneNumbers +
+                ", address=" + address +
+                ", contactInformation=" + contactInformation +
                 ", email='" + email + '\'' +
                 ", vehicles=" + vehicles +
                 '}';

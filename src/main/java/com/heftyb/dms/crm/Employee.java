@@ -1,7 +1,7 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.users.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -27,11 +27,11 @@ public class Employee extends Auditable {
     @NotNull
     private String preferredName;
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
-    private MailingAddress mailingAddress;
+    @Embedded
+    private Address address;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    private List<PhoneNumber> phoneNumbers;
+    @Embedded
+    private ContactInformation contactInformation;
 
     private String taxId;
 //
@@ -79,41 +79,19 @@ public class Employee extends Auditable {
 //        jobTimePunchSets = new ArrayList<>();
 //        repairOrders = new ArrayList<>();
 //        flatRateHours = new ArrayList<>();
-        phoneNumbers = new ArrayList<>();
         clockedIn = false;
         jobInProgress = false;
     }
 
-    public Employee(String firstName, String lastName, String preferredName, MailingAddress mailingAddress, String taxId, JobTitle jobTitle) {
+    public Employee(String firstName, String lastName, String preferredName, Address address, ContactInformation contactInformation, String taxId, JobTitle jobTitle, Date hiredDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.preferredName = preferredName;
-        this.mailingAddress = mailingAddress;
+        this.address = address;
+        this.contactInformation = contactInformation;
         this.taxId = taxId;
         this.jobTitle = jobTitle;
-        clockedIn = false;
-        jobInProgress = false;
-        phoneNumbers = new ArrayList<>();
-//        this.manager = manager;
-//        timeClockPunchSets = new ArrayList<>();
-//        jobTimePunchSets = new ArrayList<>();
-//        repairOrders = new ArrayList<>();
-//        this.timeSheets = new ArrayList<>();
-//        this.payChecks = new ArrayList<>();
-//        this.repairOrderJobs = new ArrayList<>();
-//        this.flatRateHours = new ArrayList<>();
-    }
-
-    public Employee(String firstName, String lastName, String preferredName, MailingAddress mailingAddress, List<PhoneNumber> phoneNumbers, String taxId, JobTitle jobTitle) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.preferredName = preferredName;
-        this.mailingAddress = mailingAddress;
-        this.phoneNumbers = phoneNumbers;
-        this.taxId = taxId;
-        this.jobTitle = jobTitle;
-        jobInProgress = false;
-        clockedIn = false;
+        this.hiredDate = hiredDate;
     }
 
     public long getId() {
@@ -148,45 +126,21 @@ public class Employee extends Auditable {
         this.preferredName = preferredName;
     }
 
-    public MailingAddress getMailingAddress() {
-        return mailingAddress;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setMailingAddress(MailingAddress mailingAddress) {
-        this.mailingAddress = mailingAddress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public List<PhoneNumber> getPhoneNumbers() {
-        return phoneNumbers;
+    public ContactInformation getContactInformation() {
+        return contactInformation;
     }
 
-    public void setPhoneNumbers(List<PhoneNumber> phoneNumbers) {
-        this.phoneNumbers = phoneNumbers;
+    public void setContactInformation(ContactInformation contactInformation) {
+        this.contactInformation = contactInformation;
     }
-
-    //    public List<TimeClockPunchSet> getTimeClockPunchSets() {
-//        return timeClockPunchSets;
-//    }
-//
-//    public void setTimeClockPunchSets(ArrayList<TimeClockPunchSet> timeClockPunchSets) {
-//        this.timeClockPunchSets = timeClockPunchSets;
-//    }
-//
-//    public List<JobTimePunchSet> getJobTimePunchSets() {
-//        return jobTimePunchSets;
-//    }
-//
-//    public void setJobTimePunchSets(ArrayList<JobTimePunchSet> jobTimePunchSets) {
-//        this.jobTimePunchSets = jobTimePunchSets;
-//    }
-
-//    public List<SaleLead> getLeads() {
-//        return leads;
-//    }
-//
-//    public void setLeads(ArrayList<SaleLead> leads) {
-//        this.leads = leads;
-//    }
 
     public String getTaxId() {
         return taxId;
@@ -195,14 +149,6 @@ public class Employee extends Auditable {
     public void setTaxId(String taxId) {
         this.taxId = taxId;
     }
-
-//    public List<TimeClockPunchSet> getTimePunches() {
-//        return timeClockPunchSets;
-//    }
-//
-//    public void setTimePunches(ArrayList<TimeClockPunchSet> timeClockPunchSets) {
-//        this.timeClockPunchSets = timeClockPunchSets;
-//    }
 
     public boolean isClockedIn() {
         return clockedIn;
@@ -228,38 +174,13 @@ public class Employee extends Auditable {
         this.jobTitle = jobTitle;
     }
 
-//    public List<RepairOrder> getRepairOrders() {
-//        return repairOrders;
-//    }
-//
-//    public void setRepairOrders(ArrayList<RepairOrder> repairOrders) {
-//        this.repairOrders = repairOrders;
-//    }
-//
-//    public List<TechnicianFlatRateHour> getFlatRateHours() {
-//        return flatRateHours;
-//    }
-//
-//    public void setFlatRateHours(ArrayList<TechnicianFlatRateHour> flatRateHours) {
-//        this.flatRateHours = flatRateHours;
-//    }
+    public Date getHiredDate() {
+        return hiredDate;
+    }
 
-    //    public Employee getManager() {
-//        return manager;
-//    }
-//
-//    public void setManager(Employee manager) {
-//        this.manager = manager;
-//    }
-//
-//    public ArrayList<TimeSheet> getTimeSheets() {
-//        return timeSheets;
-//    }
-//
-//    public void setTimeSheets(ArrayList<TimeSheet> timeSheets) {
-//        this.timeSheets = timeSheets;
-//    }
-
+    public void setHiredDate(Date hiredDate) {
+        this.hiredDate = hiredDate;
+    }
 
     public User getUser() {
         return user;
@@ -275,8 +196,15 @@ public class Employee extends Auditable {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", mailingAddress=" + mailingAddress +
-                ", phoneNumbers=" + phoneNumbers +
+                ", preferredName='" + preferredName + '\'' +
+                ", address=" + address +
+                ", contactInformation=" + contactInformation +
+                ", taxId='" + taxId + '\'' +
+                ", clockedIn=" + clockedIn +
+                ", jobInProgress=" + jobInProgress +
+                ", jobTitle=" + jobTitle +
+                ", hiredDate=" + hiredDate +
+                ", user=" + user +
                 '}';
     }
 }

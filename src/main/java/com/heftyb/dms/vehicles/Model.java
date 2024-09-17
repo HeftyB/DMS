@@ -1,37 +1,12 @@
 package com.heftyb.dms.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "vehicleModels")
-public class Model extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
+@Embeddable
+public class Model {
     private String name;
-
-    @ManyToOne
-    @JsonIgnore
-    private Manufacturer manufacturer;
-
-    public Model() {
-    }
-
-    public Model(String name, Manufacturer manufacturer) {
-        this.name = name;
-        this.manufacturer = manufacturer;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -41,18 +16,8 @@ public class Model extends Auditable {
         this.name = name;
     }
 
-    public Manufacturer getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
     @Override
     public String toString() {
-        return "Model{" +
-                "id=" + id +
-                ", name='" + name + "\n}";
+        return name;
     }
 }

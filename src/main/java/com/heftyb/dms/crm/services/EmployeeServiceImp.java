@@ -10,18 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Transactional
+@Transactional
 @Service(value = "employeeService")
 public class EmployeeServiceImp implements EmployeeService {
 
     final private EmployeeRepository empRepo;
-    final private ContactService contactService;
 
-    public EmployeeServiceImp(final EmployeeRepository empRepo,
-                              final ContactService contactService) {
-        this.empRepo = empRepo;
-        this.contactService = contactService;
-    }
+    public EmployeeServiceImp(final EmployeeRepository empRepo) { this.empRepo = empRepo; }
 
     @Override
     public List<Employee> findAll() {
@@ -37,31 +32,21 @@ public class EmployeeServiceImp implements EmployeeService {
         );
     }
 
-    @Transactional
     @Override
     public Employee save(Employee employee) {
         Employee e = new Employee();
         e.setFirstName(employee.getFirstName());
         e.setLastName(employee.getLastName());
         e.setPreferredName(employee.getPreferredName());
+        e.setAddress(employee.getAddress());
+        e.setContactInformation(employee.getContactInformation());
         e.setTaxId(employee.getTaxId());
         e.setJobTitle(employee.getJobTitle());
-
-
-        e = empRepo.save(e);
-        employee.getMailingAddress().setEmployee(e);
-        e.setMailingAddress(contactService.saveNewMailingAddress(employee.getMailingAddress()));
-
-
-        for (PhoneNumber pn : employee.getPhoneNumbers()) {
-            pn.setEmployee(e);
-            e.getPhoneNumbers().add(contactService.saveNewPhoneNumber(pn));
-        }
+        e.setHiredDate(employee.getHiredDate());
 
         return empRepo.save(e);
     }
 
-    @Transactional
     @Override
     public void delete(long id) {
         findById(id);

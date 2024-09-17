@@ -1,7 +1,8 @@
 package com.heftyb.dms.repairorder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.account.invoice.Invoice;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.fee.RepairOrderFee;
 import com.heftyb.dms.account.tax.TaxCharge;
 import com.heftyb.dms.crm.Customer;
@@ -24,6 +25,9 @@ public class RepairOrder extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Enumerated
+    private WorkOrderStatus status;
+
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date openDate;
@@ -35,11 +39,6 @@ public class RepairOrder extends Auditable {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore
     private Date closedDate;
-
-//    @OneToOne(mappedBy = "repairOrder")
-//    @JsonIgnore
-//    private Invoice invoice;
-
 
     @NotNull
     @ManyToOne
@@ -74,14 +73,14 @@ public class RepairOrder extends Auditable {
 
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
-    private List<RepairOrderJob> jobs;
+    private List<WorkOrderJob> jobs;
 
     private float subtotal;
 
     @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
     private List<RepairOrderFee> fees;
 
-    @OneToMany(mappedBy = "repairOrder", cascade = CascadeType.ALL)
+    @ElementCollection
     private List<MiscellaneousItem> miscItems;
 
     @OneToOne
@@ -90,6 +89,10 @@ public class RepairOrder extends Auditable {
 
     private double totalAmount;
 
+    @OneToOne
+    @JoinColumn(name = "invoice_id", referencedColumnName = "id")
+    private Invoice invoice;
+
     public RepairOrder() {
         isActive = true;
         jobs = new ArrayList<>();
@@ -97,7 +100,7 @@ public class RepairOrder extends Auditable {
         miscItems = new ArrayList<>();
     }
 
-    public RepairOrder(Date openDate, Customer customer, Vehicle vehicle, int mileageIn, String serviceTag, Employee advisor, List<RepairOrderJob> jobs) {
+    public RepairOrder(Date openDate, Customer customer, Vehicle vehicle, int mileageIn, String serviceTag, Employee advisor, List<WorkOrderJob> jobs) {
         this.openDate = openDate;
         this.customer = customer;
         this.vehicle = vehicle;
@@ -199,11 +202,11 @@ public class RepairOrder extends Auditable {
         isActive = active;
     }
 
-    public List<RepairOrderJob> getJobs() {
+    public List<WorkOrderJob> getJobs() {
         return jobs;
     }
 
-    public void setJobs(ArrayList<RepairOrderJob> jobs) {
+    public void setJobs(ArrayList<WorkOrderJob> jobs) {
         this.jobs = jobs;
     }
 
@@ -263,15 +266,15 @@ public class RepairOrder extends Auditable {
         this.priority = priority;
     }
 
-    //    public Invoice getInvoice() {
-//        return invoice;
-//    }
-//
-//    public void setInvoice(Invoice invoice) {
-//        this.invoice = invoice;
-//    }
+    public Invoice getInvoice() {
+        return invoice;
+    }
 
-    public void setJobs(List<RepairOrderJob> jobs) {
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public void setJobs(List<WorkOrderJob> jobs) {
         this.jobs = jobs;
     }
 
@@ -283,10 +286,19 @@ public class RepairOrder extends Auditable {
         this.miscItems = miscItems;
     }
 
+    public WorkOrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(WorkOrderStatus status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "RepairOrder{" +
                 "id=" + id +
+                ", status=" + status +
                 ", openDate=" + openDate +
                 ", finalizedDate=" + finalizedDate +
                 ", closedDate=" + closedDate +
@@ -297,12 +309,14 @@ public class RepairOrder extends Auditable {
                 ", serviceTag='" + serviceTag + '\'' +
                 ", advisor=" + advisor +
                 ", isActive=" + isActive +
+                ", priority='" + priority + '\'' +
                 ", jobs=" + jobs +
                 ", subtotal=" + subtotal +
                 ", fees=" + fees +
                 ", miscItems=" + miscItems +
                 ", taxes=" + taxes +
                 ", totalAmount=" + totalAmount +
+                ", invoice=" + invoice +
                 '}';
     }
 }

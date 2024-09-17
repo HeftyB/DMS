@@ -1,7 +1,7 @@
 package com.heftyb.dms.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;
@@ -23,7 +23,7 @@ public class Vehicle extends Auditable {
     @ManyToOne
     private Manufacturer make;
 
-    @ManyToOne
+    @Embedded
     private Model model;
 
 
@@ -156,7 +156,7 @@ public class Vehicle extends Auditable {
     }
 
     public String getVehicleInfo() {
-        return String.format("%s-%s-%s - %s - %s || %s",
+        return String.format("%s-%s-%s  %s  %s",
                 modelYear, make.getName(), model.getName(), trim != null ? "(" + trim + ")" : "", color != null ? color : "", vin);
     }
 

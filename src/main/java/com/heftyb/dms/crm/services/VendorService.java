@@ -11,7 +11,9 @@ public interface VendorService {
 
     Vendor findById(long id);
 
-    Vendor save(Vendor vendor);
+    Vendor saveNew(Vendor vendor);
+
+    Vendor update(Vendor vendor);
 
     void delete(long id);
 }

@@ -16,14 +16,14 @@ public class TechnicianFlatRateHourServiceImp implements TechnicianFlatRateHourS
 
     final private TechnicianFlatRateHoursRepository techRepo;
     final private EmployeeService employeeService;
-    final private RepairOrderJobService repairOrderJobService;
+    final private RepairOrderService repairOrderService;
 
     public TechnicianFlatRateHourServiceImp(final TechnicianFlatRateHoursRepository techRepo,
                                             final EmployeeService employeeService,
-                                            final RepairOrderJobService repairOrderJobService) {
+                                            final RepairOrderService repairOrderService) {
         this.techRepo = techRepo;
         this.employeeService = employeeService;
-        this.repairOrderJobService = repairOrderJobService;
+        this.repairOrderService = repairOrderService;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class TechnicianFlatRateHourServiceImp implements TechnicianFlatRateHourS
 
         t.setTechnician(employeeService.findById(hour.getTechnician().getId()));
         t.setFlatRateHours(hour.getFlatRateHours());
-        t.setJob(repairOrderJobService.findById(hour.getJob().getId()));
+        t.setJob(hour.getJob());
         return techRepo.save(t);
     }
 

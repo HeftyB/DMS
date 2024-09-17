@@ -1,40 +1,14 @@
 package com.heftyb.dms.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "worldManufacturerIdentifiers")
-public class WMI extends Auditable {
-
-    @Id
-    @GeneratedValue
-    private long id;
+@Embeddable
+public class WMI {
 
     private String name;
     private String wmi;
-
-    @ManyToOne
-    @JsonIgnore
-    private Manufacturer manufacturer;
-
-    public WMI() {
-    }
-
-    public WMI(String name, String wmi, Manufacturer manufacturer) {
-        this.name = name;
-        this.wmi = wmi;
-        this.manufacturer = manufacturer;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -52,11 +26,11 @@ public class WMI extends Auditable {
         this.wmi = wmi;
     }
 
-    public Manufacturer getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
+    @Override
+    public String toString() {
+        return "WMI{" +
+                "name='" + name + '\'' +
+                ", wmi='" + wmi + '\'' +
+                '}';
     }
 }

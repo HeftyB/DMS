@@ -16,23 +16,35 @@
         </tr>
 
         <tr th:each="r : ${ros}">
-            <td th:text="${r.id}"></td>
-            <td th:text="${r.customer.getName()}"></td>
-            <td th:text="${r.vehicle.getVehicleInfo()}"></td>
-            <td th:text="${r.openDate}"></td>
-            <td th:text="${r.id}"></td>
-            <td th:text="${r.priority}"></td>
-            <td></td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.id}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.customer.getName()}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.vehicle.getVehicleInfo()}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.openDate}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.id}"></a>
+            </td>
+            <td>
+                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.priority}"></a>
+            </td>
         </tr>
     </table>
 
     <div class="container">
-        <button type="button">Open New</button>
-        <button type="button" id="open_modal">Search</button>
+        <button type="button" id="open_vin_search_modal">Open New</button>
+        <button type="button" id="open_search_modal">Search</button>
         <button type="button">User</button>
     </div>
 
     <div th:replace="~{search::search}"></div>
+    <div th:replace="~{search::vin-search}"></div>
 
 
     <footer th:replace="~{fragments::foot}"></footer>

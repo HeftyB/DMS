@@ -1,11 +1,12 @@
 package com.heftyb.dms.account.invoice;
 
 
-import com.heftyb.dms.account.Auditable;
 import com.heftyb.dms.account.PaymentTerm;
-import com.heftyb.dms.account.Status;
+import com.heftyb.dms.account.InvoiceStatus;
 import com.heftyb.dms.crm.Customer;
+import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.crm.Vendor;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;
 
@@ -21,24 +22,18 @@ public class Invoice extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Enumerated
-    private InvoiceType type;
-
     private String invoiceNumber;
-    private String poNumber;
+    private String authorizingPONumber;
 
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    @ManyToOne
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private Employee employee;
+
     private double total;
 
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
-    private Customer customer;
-
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
-    private Vendor vendor;
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
@@ -46,32 +41,13 @@ public class Invoice extends Auditable {
 
     private String notes;
 
-//    @OneToOne
-//    @JoinColumn(name = "RO", referencedColumnName = "id")
-//    private RepairOrder repairOrder;
-
     @Enumerated
-    private Status status = Status.OPEN;
+    private InvoiceStatus invoiceStatus;
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
+    @ElementCollection
     private List<InvoiceItem> items;
 
     public Invoice() {
-    }
-
-    public Invoice(InvoiceType type, String invoiceNumber, String poNumber, Date date, double total, Customer customer, Vendor vendor, PaymentTerm terms, String notes, RepairOrder repairOrder, Status status, ArrayList<InvoiceItem> items) {
-        this.type = type;
-        this.invoiceNumber = invoiceNumber;
-        this.poNumber = poNumber;
-        this.date = date;
-        this.total = total;
-        this.customer = customer;
-        this.vendor = vendor;
-        this.terms = terms;
-        this.notes = notes;
-//        this.repairOrder = repairOrder;
-        this.status = status;
-        this.items = items;
     }
 
     public long getId() {
@@ -82,14 +58,6 @@ public class Invoice extends Auditable {
         this.id = id;
     }
 
-    public InvoiceType getType() {
-        return type;
-    }
-
-    public void setType(InvoiceType type) {
-        this.type = type;
-    }
-
     public String getInvoiceNumber() {
         return invoiceNumber;
     }
@@ -98,12 +66,12 @@ public class Invoice extends Auditable {
         this.invoiceNumber = invoiceNumber;
     }
 
-    public String getPoNumber() {
-        return poNumber;
+    public String getAuthorizingPONumber() {
+        return authorizingPONumber;
     }
 
-    public void setPoNumber(String poNumber) {
-        this.poNumber = poNumber;
+    public void setAuthorizingPONumber(String authorizingPONumber) {
+        this.authorizingPONumber = authorizingPONumber;
     }
 
     public Date getDate() {
@@ -114,28 +82,20 @@ public class Invoice extends Auditable {
         this.date = date;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     public double getTotal() {
         return total;
     }
 
-    public void setTotal(double amount) {
-        this.total = amount;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Vendor getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public PaymentTerm getTerms() {
@@ -154,27 +114,35 @@ public class Invoice extends Auditable {
         this.notes = notes;
     }
 
-//    public RepairOrder getRepairOrder() {
-//        return repairOrder;
-//    }
-//
-//    public void setRepairOrder(RepairOrder repairOrder) {
-//        this.repairOrder = repairOrder;
-//    }
-
-    public Status getStatus() {
-        return status;
+    public InvoiceStatus getInvoiceStatus() {
+        return invoiceStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setInvoiceStatus(InvoiceStatus invoiceStatus) {
+        this.invoiceStatus = invoiceStatus;
     }
 
     public List<InvoiceItem> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<InvoiceItem> items) {
+    public void setItems(List<InvoiceItem> items) {
         this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "id=" + id +
+                ", invoiceNumber='" + invoiceNumber + '\'' +
+                ", authorizingPONumber='" + authorizingPONumber + '\'' +
+                ", date=" + date +
+                ", employee=" + employee +
+                ", total=" + total +
+                ", terms=" + terms +
+                ", notes='" + notes + '\'' +
+                ", invoiceStatus=" + invoiceStatus +
+                ", items=" + items +
+                '}';
     }
 }

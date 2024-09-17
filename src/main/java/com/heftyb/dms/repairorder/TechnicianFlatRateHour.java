@@ -20,12 +20,12 @@ public class TechnicianFlatRateHour {
 
     @ManyToOne
     @JoinColumn()
-    private RepairOrderJob job;
+    private WorkOrderJob job;
 
     public TechnicianFlatRateHour() {
     }
 
-    public TechnicianFlatRateHour(Employee technician, double flatRateHours, RepairOrderJob job) {
+    public TechnicianFlatRateHour(Employee technician, double flatRateHours, WorkOrderJob job) {
         this.technician = technician;
         this.flatRateHours = flatRateHours;
         this.job = job;
@@ -55,11 +55,11 @@ public class TechnicianFlatRateHour {
         this.flatRateHours = flatRateHours;
     }
 
-    public RepairOrderJob getJob() {
+    public WorkOrderJob getJob() {
         return job;
     }
 
-    public void setJob(RepairOrderJob job) {
+    public void setJob(WorkOrderJob job) {
         this.job = job;
     }
 }

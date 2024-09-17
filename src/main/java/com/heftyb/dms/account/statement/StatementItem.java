@@ -1,7 +1,7 @@
 package com.heftyb.dms.account.statement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.Auditable;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.invoice.Invoice;
 import jakarta.persistence.*;
 
@@ -43,17 +43,6 @@ public class StatementItem extends Auditable {
 //    private double financeFee;
 
     public StatementItem() {
-    }
-
-    public StatementItem(Statement statement, Invoice invoice, StatementStatus status) {
-        this.statement = statement;
-        this.invoice = invoice;
-        this.invoiceNumber = invoice.getInvoiceNumber();
-        this.description = invoice.getStatus().toString();
-        this.poNumber = invoice.getPoNumber();
-        this.total = invoice.getTotal();
-        this.status = status;
-//        this.financeFee = calculateFinanceFee();
     }
 
     public long getId() {

@@ -1,6 +1,7 @@
 package com.heftyb.dms.account;
 
 import com.heftyb.dms.account.statement.StatementStatusRate;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.util.List;

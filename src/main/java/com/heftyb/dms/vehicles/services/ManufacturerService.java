@@ -20,6 +20,4 @@ public interface ManufacturerService {
     Manufacturer save(Manufacturer manufacturer);
 
     Manufacturer update(long id, Manufacturer manufacturer);
-
-    WMI addWMI(WMI wmi);
 }
