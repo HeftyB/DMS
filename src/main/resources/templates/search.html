@@ -78,12 +78,14 @@
 
 
 
-    <div class="vin-modal" th:fragment="vin-search">
+    <div class="vin-modal" th:fragment="vin-search (action, searching_customer_id)">
         <div class="vin-search-wrapper a1">
             <h2 class="center-text">Search</h2>
             <div class="form-wrapper">
-                <form action="#" th:action="@{/vehicles/search}" class="search-form">
-
+                <form action="#" th:action="${action}" id="vin_search_form" class="search-form" method="post">
+                    <div th:if="${searching_customer_id}">
+                        <input type="hidden" name="custId" th:value="${searching_customer_id}">
+                    </div>
                     <div class="input-wrapper">
                         <input type="text" name="vin" id="vin" class="right-input" placeholder="JH4TB2H26CC000000">
                         <label for="vin" class="input-label">VIN</label>
@@ -91,7 +93,7 @@
 
                     <div class="search-button-container">
                         <button id="close_vin_search_modal">CANCEL</button>
-                        <button type="submit">ADD NEW</button>
+                        <button th:unless="${searching_customer_id}" type="button" id="new_vehicle_button">ADD NEW</button>
                         <button type="submit">SUBMIT</button>
                     </div>
                 </form>
@@ -107,6 +109,13 @@
             document.querySelector("#close_vin_search_modal").addEventListener("click", evt => {
                 evt.preventDefault()
                 document.querySelector(".vin-modal").classList.toggle("opened")
+            })
+
+            let searchForm = document.getElementById("vin_search_form");
+            document.getElementById("new_vehicle_button").addEventListener("click", e =>  {
+                searchForm.action = "/vehicles/vehicle/create"
+                // searchForm.method = "post"
+                searchForm.submit();
             })
         </script>
     </div>

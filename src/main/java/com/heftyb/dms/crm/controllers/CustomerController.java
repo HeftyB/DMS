@@ -1,8 +1,6 @@
 package com.heftyb.dms.crm.controllers;
 
-import com.heftyb.dms.crm.Customer;
-import com.heftyb.dms.crm.Address;
-import com.heftyb.dms.crm.PhoneNumberType;
+import com.heftyb.dms.crm.*;
 import com.heftyb.dms.crm.services.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -43,24 +41,41 @@ public class CustomerController {
 
         map.addAttribute("customer", customer);
         map.addAttribute("editable", editable);
+        map.addAttribute("action", String.format("/customers/customer?id=%s", id));
+        map.addAttribute("hide_buttons", false);
         map.addAttribute("phoneTypes", PhoneNumberType.values());
 
         return "customer_details";
     }
 
-//    @PostMapping(value = {"/customer", "/customer/"},
-//    consumes = {"application/x-www-form-urlencoded;charset=UTF-8"})
-//    consumes = {"application/*"})
-//    consumes = {"application/x-www-form-urlencoded"})
 
     @PostMapping(value = "/customer", consumes = {"application/x-www-form-urlencoded"})
     public String saveEdit(@RequestParam long id, ModelMap map, @Valid Customer customer) {
-//        map.addAttribute("username", principal.getName());
         customerService.updateCustomer(customer);
-//        Customer c = customerService.saveNewCustomer(customer);
-        System.out.println(customer);
-//        map.addAttribute("customer", customer);
 
         return String.format("redirect:/customers/customer?id=%s", id);
+    }
+
+    @PostMapping({"/customer/create", "/customer/create/"})
+    public String createNew(Principal principal, @Valid Customer customer) {
+        Customer c = customerService.saveNewCustomer(customer);
+        return String.format("redirect:/customers/customer?id=%s", c.getId());
+    }
+
+    @GetMapping({"/customer/create", "/customer/create/"})
+    public String createNewForm(Principal principal, ModelMap map) {
+        map.addAttribute("username", principal.getName());
+        Customer c = new Customer();
+        c.setAddress(new Address());
+        c.getAddress().setZip(new Zipcode());
+        c.setContactInformation(new ContactInformation());
+        c.getContactInformation().setPrimaryPhone(new PhoneNumber());
+        c.getContactInformation().setAltPhone1(new PhoneNumber());
+        c.getContactInformation().setAltPhone2(new PhoneNumber());
+        c.getContactInformation().setFax(new PhoneNumber());
+        map.addAttribute("customer", c);
+        map.addAttribute("editable", true);
+        map.addAttribute("new", true);
+        return "create_customer";
     }
 }

@@ -4,11 +4,16 @@ import com.heftyb.dms.crm.services.CustomerService;
 import com.heftyb.dms.crm.services.EmployeeService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.repairorder.RepairOrder;
+import com.heftyb.dms.repairorder.WorkOrderJob;
 import com.heftyb.dms.repairorder.repositories.RepairOrderRepository;
+import com.heftyb.dms.users.User;
+import com.heftyb.dms.users.services.UserService;
+import com.heftyb.dms.vehicles.Vehicle;
 import com.heftyb.dms.vehicles.services.VehicleService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,15 +25,18 @@ public class RepairOrderServiceImp implements RepairOrderService {
     private final CustomerService customerService;
     private final VehicleService vehicleService;
     private final EmployeeService employeeService;
+    private final UserService userService;
 
     public RepairOrderServiceImp(final RepairOrderRepository roRepo,
                                  final CustomerService customerService,
                                  final VehicleService vehicleService,
-                                 final EmployeeService employeeService) {
+                                 final EmployeeService employeeService,
+                                 final UserService userService) {
         this.roRepo = roRepo;
         this.customerService = customerService;
         this.vehicleService = vehicleService;
         this.employeeService = employeeService;
+        this.userService = userService;
     }
 
     @Override
@@ -66,6 +74,58 @@ public class RepairOrderServiceImp implements RepairOrderService {
         r.setTotalAmount(repairOrder.getTotalAmount());
 
         return roRepo.save(r);
+    }
+
+    @Override
+    public void update(RepairOrder repairOrder) {
+        RepairOrder ro = findById(repairOrder.getId());
+
+        if(repairOrder.getStatus() != null)  {
+            ro.setStatus(repairOrder.getStatus());
+        }
+
+        if(repairOrder.getMileageIn() != 0) {
+            ro.setMileageIn(repairOrder.getMileageIn());
+        }
+
+
+        if(repairOrder.getServiceTag() != null) {
+            ro.setServiceTag(repairOrder.getServiceTag());
+        }
+
+        if(repairOrder.getAdvisor() != null) {
+            ro.setAdvisor(employeeService.findById(repairOrder.getAdvisor().getId()));
+        }
+
+        if(repairOrder.getPriority() != null) {
+            ro.setPriority(repairOrder.getPriority());
+        }
+
+        if(!repairOrder.getFees().isEmpty()) {
+            ro.setFees(repairOrder.getFees());
+        }
+
+        if(!repairOrder.getMiscItems().isEmpty()) {
+            ro.setMiscItems(repairOrder.getMiscItems());
+        }
+
+        roRepo.save(ro);
+    }
+
+    @Override
+    public long createNew(String username, String vin, int mileageIn, String serviceTag, String priority) {
+        User u = userService.findUserByUsername(username);
+        List<Vehicle> vehicles = vehicleService.findByVin(vin);
+
+        if (vehicles.size() != 1) {
+            throw new InvalidParameterException(String.format("Could not find unique vehicle by VIN:%s!", vin));
+        }
+
+
+        RepairOrder ro = new RepairOrder(vehicles.get(0), mileageIn, serviceTag, u.getEmployee(), priority);
+
+        ro = roRepo.save(ro);
+        return ro.getId();
     }
 
     @Override

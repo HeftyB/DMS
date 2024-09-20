@@ -44,7 +44,7 @@
     </div>
 
     <div th:replace="~{search::search}"></div>
-    <div th:replace="~{search::vin-search}"></div>
+    <div th:replace="~{search::vin-search (action='/vehicles/search')}"></div>
 
 
     <footer th:replace="~{fragments::foot}"></footer>

@@ -36,7 +36,7 @@
 
       <div class="detail-input-wrapper">
         <label for="make">Make:</label>
-        <input type="text" id="make" name="make" value="Honda" th:value="${vehicle.make.name}" th:disabled="!${editable}">
+        <input type="text" id="make" name="make" value="Honda" th:value="${vehicle.make}" th:disabled="!${editable}">
       </div>
       <div class="detail-input-wrapper">
         <label for="model">Model:</label>
@@ -44,7 +44,7 @@
       </div>
       <div class="detail-input-wrapper">
         <label for="customer">Customer Name:</label>
-        <input type="text" id="customer" name="customer" value="John Smith" th:value="${vehicle.customer.getName()}" disabled>
+        <input type="text" id="customer" name="customer" value="John Smith" th:value="${vehicle.customer?.getName()}" disabled>
       </div>
 
 
@@ -58,7 +58,7 @@
       </div>
       <div class="detail-input-wrapper">
         <label for="engine">Engine:</label>
-        <input type="text" id="engine" name="engine" value="1.6L 4CYL VTECH" th:value="${vehicle.engine}" th:disabled="!${editable}">
+        <input type="text" id="engine" name="engine" value="1.6L 4CYL VTECH" th:value="${vehicle.engineType}" th:disabled="!${editable}">
       </div>
       <div class="detail-input-wrapper">
         <label for="color">Color:</label>
@@ -78,11 +78,21 @@
 
 <hr>
 
+
+<div th:if="${vehicle.customer}" th:insert="~{customer_details::customer-details (customer=${vehicle.customer}, editable=false, action='#', hide_buttons=true)}"></div>
+
+<hr>
+
 <div class="button-container">
-  <button th:disabled="${editable}">Customer's Profile</button>
+  <a href="#" th:if="${vehicle.customer}" th:href="@{/customers/customer(id=${vehicle.customer.id})}">
+    <button>Edit Customer's Profile</button>
+  </a>
   <button th:disabled="${editable}">Service History</button>
   <button th:disabled="${editable}">Check for recalls</button>
-  <button th:disabled="${editable}">Open Repair Order</button>
+  <form action="#" th:action="@{/repair_orders/repair_order/create}">
+    <input type="hidden" name="vin" th:value="${vehicle.vin}">
+    <button type="submit" th:disabled="${editable}">Open Repair Order</button>
+  </form>
   <button th:disabled="${editable}">Appointments</button>
 </div>
 
