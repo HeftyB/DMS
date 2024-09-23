@@ -1,7 +1,6 @@
 package com.heftyb.dms.repairorder.services;
 
 import com.heftyb.dms.repairorder.RepairOrder;
-import com.heftyb.dms.repairorder.WorkOrderJob;
 
 import java.util.List;
 

@@ -4,7 +4,6 @@ import com.heftyb.dms.crm.services.CustomerService;
 import com.heftyb.dms.crm.services.EmployeeService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.repairorder.RepairOrder;
-import com.heftyb.dms.repairorder.WorkOrderJob;
 import com.heftyb.dms.repairorder.repositories.RepairOrderRepository;
 import com.heftyb.dms.users.User;
 import com.heftyb.dms.users.services.UserService;
@@ -80,32 +79,32 @@ public class RepairOrderServiceImp implements RepairOrderService {
     public void update(RepairOrder repairOrder) {
         RepairOrder ro = findById(repairOrder.getId());
 
-        if(repairOrder.getStatus() != null)  {
+        if (repairOrder.getStatus() != null) {
             ro.setStatus(repairOrder.getStatus());
         }
 
-        if(repairOrder.getMileageIn() != 0) {
+        if (repairOrder.getMileageIn() != 0) {
             ro.setMileageIn(repairOrder.getMileageIn());
         }
 
 
-        if(repairOrder.getServiceTag() != null) {
+        if (repairOrder.getServiceTag() != null) {
             ro.setServiceTag(repairOrder.getServiceTag());
         }
 
-        if(repairOrder.getAdvisor() != null) {
+        if (repairOrder.getAdvisor() != null) {
             ro.setAdvisor(employeeService.findById(repairOrder.getAdvisor().getId()));
         }
 
-        if(repairOrder.getPriority() != null) {
+        if (repairOrder.getPriority() != null) {
             ro.setPriority(repairOrder.getPriority());
         }
 
-        if(!repairOrder.getFees().isEmpty()) {
+        if (!repairOrder.getFees().isEmpty()) {
             ro.setFees(repairOrder.getFees());
         }
 
-        if(!repairOrder.getMiscItems().isEmpty()) {
+        if (!repairOrder.getMiscItems().isEmpty()) {
             ro.setMiscItems(repairOrder.getMiscItems());
         }
 

@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface VehicleRepository extends CrudRepository<Vehicle, Long> {
     List<Vehicle> findByVinContainingIgnoreCase(String vin);
+
     Optional<Vehicle> findByVin(String vin);
 }

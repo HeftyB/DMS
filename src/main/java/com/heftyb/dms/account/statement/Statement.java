@@ -1,8 +1,8 @@
 package com.heftyb.dms.account.statement;
 
-import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Vendor;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.util.Date;

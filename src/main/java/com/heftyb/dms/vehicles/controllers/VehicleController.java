@@ -18,7 +18,9 @@ public class VehicleController {
 
     private final VehicleService vehicleService;
 
-    public VehicleController (final VehicleService vehicleService) { this.vehicleService = vehicleService; }
+    public VehicleController(final VehicleService vehicleService) {
+        this.vehicleService = vehicleService;
+    }
 
     @GetMapping({"/", ""})
     public String vehicles_home(Principal principal, ModelMap map) {
@@ -58,7 +60,7 @@ public class VehicleController {
     }
 
     @PostMapping({"/vehicle/customer", "/vehicle/customer/"})
-    public String update_vehicles_customer (Principal principal, @RequestParam String vin, @RequestParam long newCustomerId) {
+    public String update_vehicles_customer(Principal principal, @RequestParam String vin, @RequestParam long newCustomerId) {
         Vehicle v = vehicleService.updateVehiclesCustomer(vin, newCustomerId);
         return String.format("redirect:/vehicles/vehicle?id=%s", v.getId());
     }

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service(value = "vehicleService")
@@ -94,38 +93,38 @@ public class VehicleServiceImp implements VehicleService {
         }
         return vehicleRepo.save(v);
     }
-    
+
     @Override
     public Vehicle update(Vehicle vehicle) {
         Vehicle v = findById(vehicle.getId());
 
-        if(vehicle.getVin() != null) v.setVin(vehicle.getVin());
-        if(vehicle.getModel() != null) v.setModelYear(vehicle.getModelYear());
-        if(vehicle.getMake() != null) v.setMake(vehicle.getMake());
-        if(vehicle.getManufacturer()!= null) v.setManufacturer(vehicle.getManufacturer());
-        if(vehicle.getPlantCompanyName() != null) v.setPlantCompanyName(vehicle.getPlantCompanyName());
-        if(vehicle.getPlantCity() != null) v.setPlantCity(vehicle.getPlantCity());
-        if(vehicle.getPlantState() != null) v.setPlantState(vehicle.getPlantState());
-        if(vehicle.getTransmissionStyle()!= null) v.setTransmissionStyle(vehicle.getTransmissionStyle());
-        if(vehicle.getDriveType() != null) v.setDriveType(vehicle.getDriveType());
-        if(vehicle.getEngineModel() != null) v.setEngineModel(vehicle.getEngineModel());
-        if(vehicle.getEngineManufacturer() != null) v.setEngineManufacturer(vehicle.getEngineManufacturer());
-        if(vehicle.getEngineType() != null) v.setEngineType(vehicle.getEngineType());
-        if(vehicle.getDisplacementL() != null) v.setDisplacementL(vehicle.getDisplacementL());
-        if(vehicle.getFuelType() != null) v.setFuelType(vehicle.getFuelType());
-        if(vehicle.getBodyClass() != null) v.setBodyClass(vehicle.getBodyClass());
-        if(vehicle.getBasePrice() != null) v.setBasePrice(vehicle.getBasePrice());
-        if(vehicle.getDoors() != null) v.setDoors(vehicle.getDoors());
-        if(vehicle.getTrim() != null) v.setTrim(vehicle.getTrim());
-        if(vehicle.getTrim2() != null) v.setTrim2(vehicle.getTrim2());
-        if(vehicle.getVehicleType() != null) v.setVehicleType(vehicle.getVehicleType());
-        if(vehicle.getColor() != null) v.setColor(vehicle.getColor());
+        if (vehicle.getVin() != null) v.setVin(vehicle.getVin());
+        if (vehicle.getModel() != null) v.setModelYear(vehicle.getModelYear());
+        if (vehicle.getMake() != null) v.setMake(vehicle.getMake());
+        if (vehicle.getManufacturer() != null) v.setManufacturer(vehicle.getManufacturer());
+        if (vehicle.getPlantCompanyName() != null) v.setPlantCompanyName(vehicle.getPlantCompanyName());
+        if (vehicle.getPlantCity() != null) v.setPlantCity(vehicle.getPlantCity());
+        if (vehicle.getPlantState() != null) v.setPlantState(vehicle.getPlantState());
+        if (vehicle.getTransmissionStyle() != null) v.setTransmissionStyle(vehicle.getTransmissionStyle());
+        if (vehicle.getDriveType() != null) v.setDriveType(vehicle.getDriveType());
+        if (vehicle.getEngineModel() != null) v.setEngineModel(vehicle.getEngineModel());
+        if (vehicle.getEngineManufacturer() != null) v.setEngineManufacturer(vehicle.getEngineManufacturer());
+        if (vehicle.getEngineType() != null) v.setEngineType(vehicle.getEngineType());
+        if (vehicle.getDisplacementL() != null) v.setDisplacementL(vehicle.getDisplacementL());
+        if (vehicle.getFuelType() != null) v.setFuelType(vehicle.getFuelType());
+        if (vehicle.getBodyClass() != null) v.setBodyClass(vehicle.getBodyClass());
+        if (vehicle.getBasePrice() != null) v.setBasePrice(vehicle.getBasePrice());
+        if (vehicle.getDoors() != null) v.setDoors(vehicle.getDoors());
+        if (vehicle.getTrim() != null) v.setTrim(vehicle.getTrim());
+        if (vehicle.getTrim2() != null) v.setTrim2(vehicle.getTrim2());
+        if (vehicle.getVehicleType() != null) v.setVehicleType(vehicle.getVehicleType());
+        if (vehicle.getColor() != null) v.setColor(vehicle.getColor());
 
         if (vehicle.getCustomer() != null) v.setCustomer(customerService.findById(vehicle.getCustomer().getId()));
 
         return vehicleRepo.save(v);
     }
-    
+
     @Override
     public void delete(long id) {
         findById(id);

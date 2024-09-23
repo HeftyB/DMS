@@ -24,8 +24,8 @@ public class SearchController {
 
     public SearchController(final VehicleService vehicleService,
                             final CustomerService customerService) {
-    this.vehicleService = vehicleService;
-    this.customerService = customerService;
+        this.vehicleService = vehicleService;
+        this.customerService = customerService;
     }
 
     @GetMapping({"/", ""})
@@ -57,7 +57,7 @@ public class SearchController {
             System.out.println("You're Cool!");
         }
 
-        if (!fname.isEmpty() && !lname.isEmpty() ) {
+        if (!fname.isEmpty() && !lname.isEmpty()) {
             List<Customer> c = customerService.findByName(fname, lname);
 
             if (custSearch) c.iterator().forEachRemaining(customers::add);
@@ -86,22 +86,22 @@ public class SearchController {
             }
         } else if (!fname.isEmpty()) {
 //            customerService.findByFirstName(fname).iterator().forEachRemaining(customers::add);
-                List<Customer> c = customerService.findByFirstName(fname);
+            List<Customer> c = customerService.findByFirstName(fname);
 
-                if (custSearch) c.iterator().forEachRemaining(customers::add);
-                final List<Vehicle> finalVehicles = vehicles;
-                c.stream().forEach(cust -> {
-                    cust.getVehicles().iterator().forEachRemaining(finalVehicles::add);
-                });
+            if (custSearch) c.iterator().forEachRemaining(customers::add);
+            final List<Vehicle> finalVehicles = vehicles;
+            c.stream().forEach(cust -> {
+                cust.getVehicles().iterator().forEachRemaining(finalVehicles::add);
+            });
 //                finalVehicles.iterator().forEachRemaining(vehicles::add);
-                vehicles = finalVehicles;
+            vehicles = finalVehicles;
         }
 
         if (!phone.isEmpty()) {
             List<Customer> customers1 = customerService.findByPhone(phone);
-            if(custSearch) customers1.iterator().forEachRemaining(customers::add);
+            if (custSearch) customers1.iterator().forEachRemaining(customers::add);
             final List<Vehicle> finalVehicles = vehicles;
-            if(vehicleSearch) {
+            if (vehicleSearch) {
                 customers1.iterator().forEachRemaining(customer -> customer.getVehicles().iterator().forEachRemaining(finalVehicles::add));
             }
             vehicles = finalVehicles;
@@ -121,10 +121,10 @@ public class SearchController {
             List<Vehicle> vehicles1 = vehicleService.findByVin(vin);
             Set<Customer> cset = new HashSet<>();
             if (custSearch) {
-                for(Vehicle v : vehicles1) {
+                for (Vehicle v : vehicles1) {
                     cset.add(v.getCustomer());
                 }
-                
+
                 cset.iterator().forEachRemaining(customers::add);
             }
             if (vehicleSearch) vehicles = vehicleService.findByVin(vin);

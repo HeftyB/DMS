@@ -1,9 +1,7 @@
 package com.heftyb.dms.repairorder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.dao.Auditable;
-import com.heftyb.dms.account.po.PurchaseOrder;
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class MiscellaneousItem extends Auditable {

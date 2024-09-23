@@ -1,7 +1,6 @@
 package com.heftyb.dms.crm.services;
 
 import com.heftyb.dms.crm.Employee;
-import com.heftyb.dms.crm.PhoneNumber;
 import com.heftyb.dms.crm.repositories.EmployeeRepository;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import jakarta.transaction.Transactional;
@@ -16,7 +15,9 @@ public class EmployeeServiceImp implements EmployeeService {
 
     final private EmployeeRepository empRepo;
 
-    public EmployeeServiceImp(final EmployeeRepository empRepo) { this.empRepo = empRepo; }
+    public EmployeeServiceImp(final EmployeeRepository empRepo) {
+        this.empRepo = empRepo;
+    }
 
     @Override
     public List<Employee> findAll() {

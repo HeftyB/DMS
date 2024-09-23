@@ -6,13 +6,12 @@ import com.github.javafaker.service.RandomService;
 import com.heftyb.dms.account.PayPeriod;
 import com.heftyb.dms.account.services.PayPeriodService;
 import com.heftyb.dms.crm.*;
-import com.heftyb.dms.crm.services.ContactService;
 import com.heftyb.dms.crm.services.CustomerService;
 import com.heftyb.dms.crm.services.EmployeeService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.repairorder.RepairOrder;
-import com.heftyb.dms.repairorder.RepairOrderJob;
-import com.heftyb.dms.repairorder.services.RepairOrderJobService;
+import com.heftyb.dms.repairorder.WorkOrderJob;
+import com.heftyb.dms.repairorder.WorkOrderStatus;
 import com.heftyb.dms.repairorder.services.RepairOrderService;
 import com.heftyb.dms.timekeeping.TimePunchCode;
 import com.heftyb.dms.timekeeping.services.TimeClockService;
@@ -22,11 +21,7 @@ import com.heftyb.dms.users.UserDTO;
 import com.heftyb.dms.users.UserRole;
 import com.heftyb.dms.users.services.RoleService;
 import com.heftyb.dms.users.services.UserService;
-import com.heftyb.dms.vehicles.Manufacturer;
-import com.heftyb.dms.vehicles.Model;
 import com.heftyb.dms.vehicles.Vehicle;
-import com.heftyb.dms.vehicles.services.ManufacturerService;
-import com.heftyb.dms.vehicles.services.ModelService;
 import com.heftyb.dms.vehicles.services.VehicleService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -45,39 +40,31 @@ import java.util.concurrent.ThreadLocalRandom;
 @Component
 public class SeedData implements CommandLineRunner {
 
-    private final ManufacturerService manufacturerService;
     private final VehicleService vehicleService;
-    private final ModelService modelService;
-    private final ContactService contactService;
     private final EmployeeService employeeService;
     private final CustomerService customerService;
     private final RepairOrderService repairOrderService;
-    private final RepairOrderJobService jobService;
     private final UserService userService;
     private final RoleService roleService;
     private final TimeClockService timeClockService;
     private final PayPeriodService payPeriodService;
+    private FakeValuesService fakeValuesService = new FakeValuesService(Locale.getDefault(), new RandomService());
+    private Faker faker = new Faker(Locale.getDefault());
 
-    public SeedData(final ManufacturerService manufacturerService,
-                    final VehicleService vehicleService,
-                    final ModelService modelService,
-                    final ContactService contactService,
+    private String vinReg = "[A-HJ-NPR-Z0-9]{17}";
+
+    public SeedData(final VehicleService vehicleService,
                     final CustomerService customerService,
                     final RepairOrderService repairOrderService,
-                    final RepairOrderJobService jobService,
                     final EmployeeService employeeService,
                     final UserService userService,
                     final RoleService roleService,
                     final TimeClockService timeClockService,
                     final PayPeriodService payPeriodService) {
-        this.manufacturerService = manufacturerService;
         this.vehicleService = vehicleService;
-        this.modelService = modelService;
-        this.contactService = contactService;
         this.customerService = customerService;
         this.repairOrderService = repairOrderService;
         this.employeeService = employeeService;
-        this.jobService = jobService;
         this.userService = userService;
         this.roleService = roleService;
         this.timeClockService = timeClockService;
@@ -88,92 +75,81 @@ public class SeedData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        System.out.println("---------------------**STARTING**---------------------");
-
-
-        Map<String, String[]> map = Map.ofEntries(
-                new AbstractMap.SimpleEntry<>("ABARTH", new String[]{"204", "205", "750", "850", "1000", "1150", "1300", "1600", "2000", "SIMCA"}),
-                new AbstractMap.SimpleEntry<>("ACURA", new String[]{"MDX", "NSX", "RL", "RSX", "TL", "TSX", "CSX", "RDX", "ZDX", "ILX", "RLX", "TLX", "INTEGRA"}),
-                new AbstractMap.SimpleEntry<>("ALFA ROMEO", new String[]{"8C", "4C", "GIULIA", "STELVIO", "TONALE"}),
-                new AbstractMap.SimpleEntry<>("ASTON MARTIN", new String[]{"DB7", "VANQUISH", "DB9", "V8 VANTAGE", "V12 VANTAGE", "DBS", "RAPIDE", "ONE-77", "VIRAGE", "VANTAGE", "RAPIDE E", "DB11", "DBX", "DBX707", "VALOUR"}),
-                new AbstractMap.SimpleEntry<>("AUDI", new String[]{"A3", "A4", "A5", "A6", "A7", "A8", "ALLROAD", "S4", "S6", "TT", "Q7", "RS4", "RS5", "RS7", "S8", "R8", "S5", "Q5", "S7", "SQ5", "Q3", "S3", "RS3", "ETRON", "Q8", "RSQ8", "SQ7", "SQ8", "Q4 ETRON", "RS3", "RS5", "RS6"}),
-                new AbstractMap.SimpleEntry<>("BENTLY", new String[]{"ARNAGE", "CONTINENTAL", "AZURE", "BROOKLANDS", "MULSANNE", "FLYING SPUR", "BENTAYGA"}),
-                new AbstractMap.SimpleEntry<>("BMW", new String[]{"325", "328", "330", "335", "525", "530", "545", "645", "745", "750", "760", "M1", "M2", "M3", "M4", "M5", "M6", "XM", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "Z3", "Z4", "Z8", "i3", "i4", "i5", "i7", "iX1", "iX2", "iX3", "ix"}),
-                new AbstractMap.SimpleEntry<>("INFINITI", new String[]{"Q50", " QX50", "QX55", "QX60", "QX80", "QX56", "G35", "MX30", "I-SERIES", "J-SERIES"})
+        System.out.println("---------------------**STARTING SEED OF TEST DATA**---------------------");
+//
+//
+//        Map<String, String[]> map = Map.ofEntries(
+//                new AbstractMap.SimpleEntry<>("ABARTH", new String[]{"204", "205", "750", "850", "1000", "1150", "1300", "1600", "2000", "SIMCA"}),
+//                new AbstractMap.SimpleEntry<>("ACURA", new String[]{"MDX", "NSX", "RL", "RSX", "TL", "TSX", "CSX", "RDX", "ZDX", "ILX", "RLX", "TLX", "INTEGRA"}),
+//                new AbstractMap.SimpleEntry<>("ALFA ROMEO", new String[]{"8C", "4C", "GIULIA", "STELVIO", "TONALE"}),
+//                new AbstractMap.SimpleEntry<>("ASTON MARTIN", new String[]{"DB7", "VANQUISH", "DB9", "V8 VANTAGE", "V12 VANTAGE", "DBS", "RAPIDE", "ONE-77", "VIRAGE", "VANTAGE", "RAPIDE E", "DB11", "DBX", "DBX707", "VALOUR"}),
+//                new AbstractMap.SimpleEntry<>("AUDI", new String[]{"A3", "A4", "A5", "A6", "A7", "A8", "ALLROAD", "S4", "S6", "TT", "Q7", "RS4", "RS5", "RS7", "S8", "R8", "S5", "Q5", "S7", "SQ5", "Q3", "S3", "RS3", "ETRON", "Q8", "RSQ8", "SQ7", "SQ8", "Q4 ETRON", "RS3", "RS5", "RS6"}),
+//                new AbstractMap.SimpleEntry<>("BENTLY", new String[]{"ARNAGE", "CONTINENTAL", "AZURE", "BROOKLANDS", "MULSANNE", "FLYING SPUR", "BENTAYGA"}),
+//                new AbstractMap.SimpleEntry<>("BMW", new String[]{"325", "328", "330", "335", "525", "530", "545", "645", "745", "750", "760", "M1", "M2", "M3", "M4", "M5", "M6", "XM", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "Z3", "Z4", "Z8", "i3", "i4", "i5", "i7", "iX1", "iX2", "iX3", "ix"}),
+//                new AbstractMap.SimpleEntry<>("INFINITI", new String[]{"Q50", " QX50", "QX55", "QX60", "QX80", "QX56", "G35", "MX30", "I-SERIES", "J-SERIES"})
 
 //                new AbstractMap.SimpleEntry<String, String[]>("ABARTH", new String[]{"", ""})
 
-        );
+//        );
+
+//
+//        map.forEach((k, v) -> {
+//            Manufacturer m = new Manufacturer(k);
+//            m = manufacturerService.save(m);
+//            m.setModels(new ArrayList<>());
+//            for (String s : v) {
+//                Model model = new Model();
+//                model.setName(s);
+//                m.getModels().add(model);
+//            }
+//        });
 
 
-        map.forEach((k, v) -> {
-            Manufacturer m = new Manufacturer(k);
-            m = manufacturerService.save(m);
-            m.setModels(new ArrayList<>());
-            for (String s : v) {
-                m.getModels().add(modelService.save(new Model(s, m)));
-            }
-        });
 
 
-        List<Manufacturer> manufacturers = manufacturerService.findAll();
-
-        MailingAddress mailingAddress = new MailingAddress("HeftyB", "123 test ln", "", "Jacksonville", "Florida", "37770");
-        MailingAddress mailingAddress1 = new MailingAddress("DanaD", "654 fast dr", "", "Jacksonville", "Florida", "37770");
 
 
-        PhoneNumber phoneNumber = new PhoneNumber("9045555555", true, PhoneNumberType.HOME);
-        PhoneNumber phoneNumber1 = new PhoneNumber("9045555432", true, PhoneNumberType.HOME);
-        PhoneNumber phoneNumber2 = new PhoneNumber("9045555431", true, PhoneNumberType.HOME);
-        PhoneNumber phoneNumber3 = new PhoneNumber("9045555455", true, PhoneNumberType.HOME);
-        PhoneNumber phoneNumber4 = new PhoneNumber("9045555955", true, PhoneNumberType.HOME);
+        Employee e = new Employee("Hefty", "Burrito", "Hefty", randomAddress(),
+                randomContactInfo(),"5555555", JobTitle.GENERAL_MANAGER, Date.from(Instant.now()));
+
+        Employee e1 = new Employee("Hefty", "Taco", "Taco", randomAddress(),
+                randomContactInfo(),"5555551", JobTitle.ACCOUNT_MANAGER, Date.from(Instant.now()));
+
+        Employee e2 = new Employee("Hefty", "System", "System", randomAddress(),
+                randomContactInfo(),"5555554", JobTitle.OFFICE_ADMIN, Date.from(Instant.now()));
+        Employee e3 = new Employee("Hefty", "User", "User", randomAddress(),
+                randomContactInfo(),"5555552", JobTitle.PORTER, Date.from(Instant.now()));
 
 
-        Employee e = new Employee("Hefty", "Burrito", "Hefty", mailingAddress, "5555555", JobTitle.GENERAL_MANAGER);
-        phoneNumber1.setEmployee(e);
-        e.getPhoneNumbers().add(phoneNumber1);
         e = employeeService.save(e);
-
-        Employee e1 = new Employee("Hefty", "Taco", "Hefty", mailingAddress, "5555551", JobTitle.ACCOUNT_MANAGER);
-        phoneNumber2.setEmployee(e1);
-        e1.getPhoneNumbers().add(phoneNumber2);
         e1 = employeeService.save(e1);
-
-        Employee e2 = new Employee("Hefty", "System", "Hefty", mailingAddress, "5555559", JobTitle.ACCOUNT_MANAGER);
-        phoneNumber3.setEmployee(e2);
-        e2.getPhoneNumbers().add(phoneNumber3);
         e2 = employeeService.save(e2);
-
-        Employee e3 = new Employee("Hefty", "User", "Hefty", mailingAddress, "5555550", JobTitle.PORTER);
-        phoneNumber4.setEmployee(e3);
-        e3.getPhoneNumbers().add(phoneNumber4);
         e3 = employeeService.save(e3);
 
 
-        Customer customer = new Customer("Dana", "Dee", "maiL@mail.com");
-        customer.setMailingAddress(mailingAddress1);
 
-        phoneNumber.setCustomer(customer);
-        customer.getPhoneNumbers().add(phoneNumber);
+        Customer customer = new Customer("Dana", "Dee", randomAddress(), randomContactInfo(), "maiL@mail.com");
 
-        customer = customerService.save(customer);
 
-        Manufacturer manufacturer = manufacturerService.findByName("INFINITI");
-        Model model = manufacturer.getModels().stream().filter((m) -> m.getName() == "QX60").findFirst().orElseThrow(
-                () -> new DataNotFoundException("couldn't find model QX60")
-        );
-        String vin = "5N1DL0MN0LC520454";
-        Vehicle vehicle = new Vehicle(vin, 2020, manufacturer, model);
+        customer = customerService.saveNewCustomer(customer);
+
+
+        String vin = "5J6YH18203L001377";
+
+
+
+
+
+        Vehicle vehicle = vehicleService.decodeVIN(vin);
 
         vehicle.setCustomer(customer);
 
-        vehicle = vehicleService.save(vehicle);
+        vehicle = vehicleService.saveNew(vehicle);
 
-
-//        RepairOrder r = new RepairOrder(Date.from(Instant.now()), customer, vehicle, 87088, "1", e);
 
         RepairOrder r = new RepairOrder();
         r.setOpenDate(Date.from(Instant.now()));
+        r.setStatus(WorkOrderStatus.ENTERED);
         r.setCustomer(customer);
         r.setVehicle(vehicle);
         r.setMileageIn(87088);
@@ -182,20 +158,18 @@ public class SeedData implements CommandLineRunner {
         r.setActive(true);
 
 
-//        System.out.println(r);
-
         r = repairOrderService.save(r);
-        RepairOrderJob[] jobs = {
-                jobService.save(new RepairOrderJob(r, "REPLACE FRONT BRAKE PADS AND ROTORS, CUSTOMER SUPPLIED PARTS")),
-                jobService.save(new RepairOrderJob(r, "REPLACE REAR BRAKE PADS AND ROTORS, CUSTOMER SUPPLIED PARTS")),
-                jobService.save(new RepairOrderJob(r, "BRAKE FLUID FLUSH, CUSTOMER SUPPLIED PARTS"))
+        WorkOrderJob[] jobs = {
+                new WorkOrderJob("REPLACE FRONT BRAKE PADS AND ROTORS, CUSTOMER SUPPLIED PARTS"),
+                new WorkOrderJob("REPLACE REAR BRAKE PADS AND ROTORS, CUSTOMER SUPPLIED PARTS"),
+                new WorkOrderJob("PERFORM BRAKE FLUID FLUSH, CUSTOMER SUPPLIED PARTS")
         };
 
-        for (RepairOrderJob j : jobs) {
+        for (WorkOrderJob j : jobs) {
+            j.setRepairOrder(r);
             r.getJobs().add(j);
         }
 
-//        r = repairOrderService.save(r);
         Role r1 = new Role("ADMIN");
         Role r2 = new Role("STAFF");
         Role r3 = new Role("USER");
@@ -215,13 +189,12 @@ public class SeedData implements CommandLineRunner {
 
         user.getRoles().add(new UserRole(user, roleService.findByRole("ADMIN")));
         user = userService.saveRegisteredUser(user);
-        System.out.println(String.format("newUser: \n %s", user));
 
         UserDTO u1 = new UserDTO();
         u1.setUsername("taco");
         u1.setPassword("taco");
         u1.setMatchingPassword("taco");
-        u1.setEmail("heftytaco@heftyb.com");
+        u1.setEmail("heftytaco@b.com");
         u1.setEmployee(e1);
         User user1 = userService.registerNewUserAccount(u1);
 
@@ -229,7 +202,7 @@ public class SeedData implements CommandLineRunner {
         u2.setUsername("system");
         u2.setPassword("system");
         u2.setMatchingPassword("system");
-        u2.setEmail("heftysystem@heftyb.com");
+        u2.setEmail("heftysystem@b.com");
         u2.setEmployee(e2);
         User user2 = userService.registerNewUserAccount(u2);
 
@@ -237,19 +210,15 @@ public class SeedData implements CommandLineRunner {
         u3.setUsername("user");
         u3.setPassword("user");
         u3.setMatchingPassword("user");
-        u3.setEmail("heftyuser@heftyb.com");
+        u3.setEmail("heftyuser@b.com");
         u3.setEmployee(e3);
         User user3 = userService.registerNewUserAccount(u3);
 
         user1.getRoles().add(new UserRole(user1, roleService.findByRole("STAFF")));
         user1 = userService.saveRegisteredUser(user1);
-        System.out.println(String.format("newUser1: \n %s", user1));
 
         user2.getRoles().add(new UserRole(user2, roleService.findByRole("SYSTEM")));
         user2 = userService.saveRegisteredUser(user2);
-        System.out.println(String.format("newUser2: \n %s", user2));
-        System.out.println(String.format("newUser3: \n %s", user3));
-        System.out.println(String.format("newUser3: \n %s", user3));
 
 
         String payStartDate = "2024-08-18";
@@ -263,6 +232,11 @@ public class SeedData implements CommandLineRunner {
         String payStartDate4 = "2024-09-01";
         String payEndDate4 = "2024-09-14";
         newPayPeriodFromString(payStartDate4, payEndDate4, sdf);
+
+
+        String payStartDate5 = "2024-09-15";
+        String payEndDate5 = "2024-09-28";
+        newPayPeriodFromString(payStartDate5, payEndDate5, sdf);
 
 
         String payStartDate1 = "2024-08-04";
@@ -288,40 +262,17 @@ public class SeedData implements CommandLineRunner {
         timeClockService.clockIn(user.getUsername(), TimePunchCode.LUNCH);
 
 
-        System.out.println(payPeriodService.findAll().size());
 
-
-        FakeValuesService fakeValuesService = new FakeValuesService(Locale.getDefault(), new RandomService());
-        Faker faker = new Faker(Locale.getDefault());
-
-        String vinReg = "[A-HJ-NPR-Z0-9]{17}";
 
         for (int i = 0; i < 100; i++) {
             String fname = faker.name().firstName();
             String lname = faker.name().lastName();
-            String addNumber = faker.address().buildingNumber();
-            String street = faker.address().streetName();
-            String city = faker.address().city();
-            String state = faker.address().state();
-            String zip = faker.address().zipCode();
             String email = faker.internet().emailAddress();
-            String phone = faker.phoneNumber().phoneNumber();
 
-            PhoneNumber newPhone = new PhoneNumber(phone, true, PhoneNumberType.HOME);
-            MailingAddress newAddress = new MailingAddress(fname + " " + lname, addNumber + " " + street, "", city, state, zip);
-            Customer newCustomer = new Customer(fname, lname, email);
+            Customer newCustomer = new Customer(fname, lname, randomAddress(), randomContactInfo(), email);
 
-            newAddress.setCustomer(newCustomer);
-            newCustomer.setMailingAddress(newAddress);
 
-            newPhone.setCustomer(newCustomer);
-            newCustomer.addPhone(newPhone);
-
-            newCustomer = customerService.save(newCustomer);
-
-            Manufacturer newManufacturer = manufacturerService.save(new Manufacturer(faker.company().name()));
-            Model newModel = modelService.save(new Model(faker.rockBand().name(), newManufacturer));
-            newManufacturer.getModels().add(newModel);
+            newCustomer = customerService.saveNewCustomer(newCustomer);
 
             LocalDate sr = LocalDate.of(1965, Month.JANUARY, 1);
             LocalDate se = LocalDate.of(2025, Month.JANUARY, 1);
@@ -329,14 +280,62 @@ public class SeedData implements CommandLineRunner {
             LocalDate vehicleManDate = between(sr, se);
 
 
-            Vehicle newVehicle = new Vehicle(faker.regexify(vinReg), vehicleManDate.getYear(), newManufacturer, newModel);
+            Vehicle newVehicle = new Vehicle();
+            newVehicle.setVin(faker.regexify(vinReg));
+            newVehicle.setModelYear(vehicleManDate.getYear());
+            newVehicle.setMake(faker.company().name());
+            newVehicle.setModel(faker.food().spice());
+
             newVehicle.setCustomer(newCustomer);
-            newVehicle = vehicleService.save(newVehicle);
+            newVehicle = vehicleService.saveNew(newVehicle);
         }
 
 
         System.out.println("---------------------**FINISHED!!!!**---------------------");
 
+    }
+
+    private Address randomAddress() {
+        String addNumber = faker.address().buildingNumber();
+        String street = faker.address().streetName();
+        String unit = faker.address().secondaryAddress();
+        String city = faker.address().city();
+        String state = faker.address().state();
+        String zip = faker.address().zipCode();
+
+        Address a = new Address();
+        a.setAddressLine1(addNumber + " " + street);
+        if(Math.random() %2 == 0) a.setAddressLine2(unit);
+        a.setCity(city);
+        a.setState(state);
+        Zipcode z = new Zipcode();
+        z.setZip(zip);
+        a.setZip(z);
+
+        return a;
+    }
+
+    private ContactInformation randomContactInfo() {
+        ContactInformation c = new ContactInformation();
+        if(Math.random() %2 == 0) {
+            c.setContactName(faker.name().name());
+            c.setAddress(randomAddress());
+        }
+
+        PhoneNumber p1 = new PhoneNumber();
+        PhoneNumber p2 = new PhoneNumber();
+        PhoneNumber p3 = new PhoneNumber();
+        PhoneNumber p4 = new PhoneNumber();
+        p1.setNumber(faker.phoneNumber().cellPhone());
+        p2.setNumber(faker.phoneNumber().cellPhone());
+        p3.setNumber(faker.phoneNumber().cellPhone());
+        p4.setNumber(faker.phoneNumber().phoneNumber());
+        c.setPrimaryPhone(p1);
+        c.setAltPhone1(p2);
+        if(Math.random() %2 == 0) c.setAltPhone2(p3);
+        if(Math.random() %2 == 0) c.setAltPhone2(p4);
+
+        return c;
     }
 
     private void newPayPeriodFromString(String payStartDate, String payEndDate, SimpleDateFormat sdf) throws ParseException {

@@ -1,16 +1,12 @@
 package com.heftyb.dms.account.invoice;
 
 
-import com.heftyb.dms.account.PaymentTerm;
 import com.heftyb.dms.account.InvoiceStatus;
-import com.heftyb.dms.crm.Customer;
+import com.heftyb.dms.account.PaymentTerm;
 import com.heftyb.dms.crm.Employee;
-import com.heftyb.dms.crm.Vendor;
 import com.heftyb.dms.dao.Auditable;
-import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

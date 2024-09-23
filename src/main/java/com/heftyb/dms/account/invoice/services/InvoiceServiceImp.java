@@ -1,7 +1,6 @@
 package com.heftyb.dms.account.invoice.services;
 
 import com.heftyb.dms.account.invoice.Invoice;
-import com.heftyb.dms.account.invoice.InvoiceItem;
 import com.heftyb.dms.account.invoice.repositories.InvoiceRepository;
 import com.heftyb.dms.account.services.PaymentTermService;
 import com.heftyb.dms.crm.services.CustomerService;

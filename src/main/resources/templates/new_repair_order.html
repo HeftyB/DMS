@@ -24,14 +24,17 @@
             <p th:text="${vehicle.customer?.getName()}"></p>
             <p th:text="${vehicle.customer?.address?.getAddress()}"></p>
             <p th:text="${vehicle.customer?.contactInformation?.primaryPhone?.number}"></p>
-            <a href="#" class="clean-link" th:href="@{/customers/customer(id=${vehicle.customer.id})}">UPDATE CUSTOMER INFORMATION</a>
-            <a href="#" class="clean-link" th:href="@{/vehicles/vehicle(id=${vehicle.id})}">UPDATE VEHICLE'S ASSOCIATED CUSTOMER</a>
+            <a href="#" class="clean-link" th:href="@{/customers/customer(id=${vehicle.customer.id})}">UPDATE CUSTOMER
+                INFORMATION</a>
+            <a href="#" class="clean-link" th:href="@{/vehicles/vehicle(id=${vehicle.id})}">UPDATE VEHICLE'S ASSOCIATED
+                CUSTOMER</a>
         </div>
 
 
-<!--        <div class="tab" th:unless="${vehicle.customer}" th:insert="~{customer_details::customer-form (customer=null, editable=true, action='/customers/customer/create')}"></div>-->
+        <!--        <div class="tab" th:unless="${vehicle.customer}" th:insert="~{customer_details::customer-form (customer=null, editable=true, action='/customers/customer/create')}"></div>-->
         <div class="tab" th:unless="${vehicle.customer}">
-            <a href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}">Add REQUIRED customer before starting repair order</a>
+            <a href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}">Add REQUIRED customer before starting repair
+                order</a>
         </div>
 
 
@@ -49,7 +52,7 @@
             <button type="button" id="add_job_button">ADD JOBS</button>
         </div>
 
-      <div class="tab"></div>
+        <div class="tab"></div>
 
 
         <div style="overflow:auto;">
@@ -87,7 +90,6 @@
     })
 
 
-
     // tabbed view
     var currentTab = 0; // Current tab is set to be the first tab (0)
     showTab(currentTab); // Display the current tab
@@ -105,9 +107,9 @@
             document.getElementById("prev_button").style.display = "inline";
         }
         if (n == (x.length - 1)) {
-          Array.prototype.forEach.call(x, function (tab) {
-              tab.style.display = "block"
-          })
+            Array.prototype.forEach.call(x, function (tab) {
+                tab.style.display = "block"
+            })
             nButton.innerHTML = "Submit"
         } else {
             document.getElementById("next_button").innerHTML = "Next";

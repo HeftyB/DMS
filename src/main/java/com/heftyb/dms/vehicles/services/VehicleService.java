@@ -3,7 +3,6 @@ package com.heftyb.dms.vehicles.services;
 import com.heftyb.dms.vehicles.Vehicle;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface VehicleService {
     List<Vehicle> findAll();

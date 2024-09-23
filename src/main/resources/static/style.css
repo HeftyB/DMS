@@ -7,7 +7,6 @@
 }
 
 
-
 /*navigation*/
 .nav-list {
     display: flex;
@@ -41,9 +40,11 @@
     width: 87.5%;
     margin: auto;
 }
+
 .admin_main {
     display: flex;
 }
+
 .side-navbar {
     display: flex;
     flex-direction: column;
@@ -51,10 +52,12 @@
     color: white;
     background-color: black;
 }
+
 .side-navbar-open {
     width: 20%;
     opacity: 30%;
 }
+
 .side-navbar-closed {
     width: 8%;
     opacity: 50%;
@@ -89,11 +92,10 @@
     border: 1px black solid;
     width: 150px;
 }
+
 .nav-user-button {
     position: relative;
 }
-
-
 
 
 /*data*/
@@ -143,7 +145,9 @@ td a {
     z-index: 6;
 }
 
-.opened:before { display: block; }
+.opened:before {
+    display: block;
+}
 
 .opened .search-wrapper {
     -webkit-transform: translate(0, 0);
@@ -160,7 +164,6 @@ td a {
 }
 
 
-
 .search-wrapper {
     width: 30%;
     margin: auto;
@@ -171,7 +174,7 @@ td a {
 
     z-index: 9;
     position: relative;
-    box-shadow:0 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
     -webkit-transform: translate(0, -500%);
     -ms-transform: translate(0, -500%);
     transform: translate(0, -500%);
@@ -191,7 +194,7 @@ td a {
 
     z-index: 9;
     position: relative;
-    box-shadow:0 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
     -webkit-transform: translate(0, -600%);
     -ms-transform: translate(0, -600%);
     transform: translate(0, -600%);
@@ -280,10 +283,11 @@ td a {
 }
 
 
-
 /*customer details view*/
 
-.detail-image-wrapper, .detail-wrapper { margin: auto; }
+.detail-image-wrapper, .detail-wrapper {
+    margin: auto;
+}
 
 .flex {
     display: flex;
@@ -347,7 +351,7 @@ td a {
     padding: 5px;
 }
 
-.user-avatar-display-wrapper{
+.user-avatar-display-wrapper {
     position: relative;
     border: 2px solid black;
     overflow: hidden;
@@ -364,13 +368,13 @@ td a {
     bottom: 0;
 }
 
-.vehicle-avatar-display-wrapper{
+.vehicle-avatar-display-wrapper {
     position: relative;
     border: 2px solid black;
 
     box-shadow: 5px 5px lightgray;
     padding: 20px;
-    background-color: rgba(184,164,182,0.73);
+    background-color: rgba(184, 164, 182, 0.73);
 }
 
 .vehicle-avatar-display-wrapper button {
@@ -381,7 +385,6 @@ td a {
     right: 0;
     bottom: 0;
 }
-
 
 
 /*ro details*/
@@ -397,8 +400,8 @@ td a {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .job-modal-content {
@@ -408,7 +411,7 @@ td a {
     padding: 0;
     border: 1px solid #888;
     width: 50%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -moz-animation-name: animatetop;
     -webkit-animation-name: animatetop;
     -moz-animation-duration: 0.4s;
@@ -418,13 +421,25 @@ td a {
 }
 
 @-webkit-keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
 }
 
 @keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
 }
 
 .close-new-job {
@@ -460,10 +475,6 @@ td a {
     color: white;
     margin: 15px;
 }
-
-
-
-
 
 
 .top-wrapper {
@@ -575,6 +586,7 @@ td a {
 .tab {
     display: none;
 }
+
 .step {
     height: 15px;
     width: 15px;
@@ -585,9 +597,11 @@ td a {
     display: inline-block;
     opacity: 0.5;
 }
+
 .step.active {
     opacity: 1;
 }
+
 .step.finish {
     background-color: #04AA6D;
 }

@@ -2,80 +2,81 @@
 <html lang="en">
 <head th:replace="~{fragments::head (page_title='Time-Clock')}"></head>
 <body>
-  <header th:insert="~{fragments::header-top (username=${username})}"></header>
+<header th:insert="~{fragments::header-top (username=${username})}"></header>
 
-  <div class="time-home-greeting">
-    <h3>Hello, <span th:utext="${username}"></span>  you are <span th:text="${clockedInStatus} ? 'CLOCKED IN' : 'CLOCKED OUT'"></span></h3>
+<div class="time-home-greeting">
+    <h3>Hello, <span th:utext="${username}"></span> you are <span
+            th:text="${clockedInStatus} ? 'CLOCKED IN' : 'CLOCKED OUT'"></span></h3>
     <p>Time Punches for: <span th:text="${currentDate}"></span></p>
     <div style="height=75px; width=100%; background: #FFFFFF; border: 1px solid black;">
-      <form action="#" th:action="@{/timeclock/punches}" method="get">
-        <label for="time_punch_date_selector"></label>
-        <input type="date" id="time_punch_date_selector" name="date" th:value="${currentDate}">
-        <button type="submit" >Change Date!</button>
-      </form>
+        <form action="#" th:action="@{/timeclock/punches}" method="get">
+            <label for="time_punch_date_selector"></label>
+            <input type="date" id="time_punch_date_selector" name="date" th:value="${currentDate}">
+            <button type="submit">Change Date!</button>
+        </form>
     </div>
-  </div>
-  <div>
+</div>
+<div>
     <h3>Time Punches</h3>
     <table>
-      <tr>
-        <th>ID</th>
-        <th>DATE</th>
-        <th>IN-TIME</th>
-        <th>OUT-TIME</th>
-      </tr>
-      <tr th:each="s : ${punchSetList}">
-        <td><span th:text="${s.id}"></span></td>
-        <td><span th:text="${s.date}"></span></td>
-        <td>
-          <p>
-            <span th:text="${s.in.time}"></span>
-            <span th:text="${s.in.code}"></span>
-          </p>
-        </td>
-        <td>
-          <p>
-            <span th:if="${s.out}" th:text="${s.out.time}"></span>
-            <span th:text="${s.out} ? ${s.out.code} : '--'"></span>
-          </p>
-        </td>
-      </tr>
+        <tr>
+            <th>ID</th>
+            <th>DATE</th>
+            <th>IN-TIME</th>
+            <th>OUT-TIME</th>
+        </tr>
+        <tr th:each="s : ${punchSetList}">
+            <td><span th:text="${s.id}"></span></td>
+            <td><span th:text="${s.date}"></span></td>
+            <td>
+                <p>
+                    <span th:text="${s.in.time}"></span>
+                    <span th:text="${s.in.code}"></span>
+                </p>
+            </td>
+            <td>
+                <p>
+                    <span th:if="${s.out}" th:text="${s.out.time}"></span>
+                    <span th:text="${s.out} ? ${s.out.code} : '--'"></span>
+                </p>
+            </td>
+        </tr>
     </table>
-  </div>
+</div>
 
-  <hr>
-  <hr>
-  <hr>
+<hr>
+<hr>
+<hr>
 
 
-  <form action="#" th:action="${clockedInStatus} ? '/timeclock/out' : '/timeclock/in' " method="post">
+<form action="#" th:action="${clockedInStatus} ? '/timeclock/out' : '/timeclock/in' " method="post">
     <div th:if="${!clockedInStatus}">
-      <input type="radio" id="in" name="code" value="IN">
-      <label for="in">IN</label>
-      <br>
+        <input type="radio" id="in" name="code" value="IN">
+        <label for="in">IN</label>
+        <br>
     </div>
 
     <div th:if="${clockedInStatus}">
-      <input type="radio" id="break" name="code" value="BREAK">
-      <label for="break">BREAK</label>
-      <br>
+        <input type="radio" id="break" name="code" value="BREAK">
+        <label for="break">BREAK</label>
+        <br>
     </div>
 
     <div th:if="${clockedInStatus}">
-    <input type="radio" id="lunch" name="code" value="LUNCH">
-    <label for="lunch">LUNCH</label>
-    <br>
+        <input type="radio" id="lunch" name="code" value="LUNCH">
+        <label for="lunch">LUNCH</label>
+        <br>
     </div>
 
     <div th:if="${clockedInStatus}">
-    <input type="radio" id="out" name="code" value="OUT">
-    <label for="out">OUT</label>
+        <input type="radio" id="out" name="code" value="OUT">
+        <label for="out">OUT</label>
     </div>
 
     <input id="submitButton" type="submit">
-  </form>
+</form>
 
-  <footer th:replace="~{fragments::foot}"></footer>
+<footer th:replace="~{fragments::foot}"></footer>
 </body>
 
 </html>

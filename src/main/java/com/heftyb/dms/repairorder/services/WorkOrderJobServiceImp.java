@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("workOrderJobService")
-public class WorkOrderJobServiceImp implements WorkOrderJobService{
+public class WorkOrderJobServiceImp implements WorkOrderJobService {
 
     private final WorkOrderJobRepository jobRepo;
     private final RepairOrderService roService;
@@ -41,7 +41,7 @@ public class WorkOrderJobServiceImp implements WorkOrderJobService{
 
     @Override
     public WorkOrderJob findById(long id) {
-        return jobRepo.findById(id).orElseThrow(()-> new DataNotFoundException(String.format(
+        return jobRepo.findById(id).orElseThrow(() -> new DataNotFoundException(String.format(
                 "Could not find WorkOrderJob id: %s", id
         )));
     }
@@ -84,7 +84,7 @@ public class WorkOrderJobServiceImp implements WorkOrderJobService{
             j.getParts().add(part);
         }
 
-        for (JobTimePunchSet punchSet: job.getTimeClockPunchSets()) {
+        for (JobTimePunchSet punchSet : job.getTimeClockPunchSets()) {
             JobTimePunchSet ps = timeClockService.findJobTimePunchSetById(punchSet.getId());
             ps.setJob(j);
             j.getTimeClockPunchSets().add(ps);

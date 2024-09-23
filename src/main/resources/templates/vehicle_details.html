@@ -7,93 +7,102 @@
 <div th:replace="~{fragments::forward-back}"></div>
 
 <div class="flex">
-  <div class="detail-image-wrapper">
-    <div class="vehicle-avatar-display-wrapper">
-      <img src="/defaults/default_vehicle.svg" alt="user_default">
-      <button>Change Photo</button>
+    <div class="detail-image-wrapper">
+        <div class="vehicle-avatar-display-wrapper">
+            <img src="/defaults/default_vehicle.svg" alt="user_default">
+            <button>Change Photo</button>
+        </div>
     </div>
-  </div>
-  <form action="#" class="detail-wrapper" name="vehicle" method="post">
-    <div class="edit-button-wrapper">
-      <div class="detail-input-wrapper">
-        <label for="id_edit">ID:</label>
-        <input type="text" id="id_edit" name="id" value="60120" th:value="${vehicle.id}" disabled>
-      </div>
-      <div class="detail-input-wrapper">
-        <label for="last_mileage">Last Mileage:</label>
-        <input type="text" id="last_mileage" name="last_mileage" value="460,120" th:value="${vehicle.id}" disabled>
-      </div>
-      <button type="button" disabled>EDIT</button>
-    </div>
+    <form action="#" class="detail-wrapper" name="vehicle" method="post">
+        <div class="edit-button-wrapper">
+            <div class="detail-input-wrapper">
+                <label for="id_edit">ID:</label>
+                <input type="text" id="id_edit" name="id" value="60120" th:value="${vehicle.id}" disabled>
+            </div>
+            <div class="detail-input-wrapper">
+                <label for="last_mileage">Last Mileage:</label>
+                <input type="text" id="last_mileage" name="last_mileage" value="460,120" th:value="${vehicle.id}"
+                       disabled>
+            </div>
+            <button type="button" disabled>EDIT</button>
+        </div>
 
-    <div class="detail-input-wrapper">
-      <label for="vin">VIN:</label>
-      <input type="text" id="vin" name="vin" value="1J4HR58N86C201586" th:value="${vehicle.vin}" th:disabled="!${editable}">
-    </div>
-
-
-    <div class="input-label-wrapper">
-
-      <div class="detail-input-wrapper">
-        <label for="make">Make:</label>
-        <input type="text" id="make" name="make" value="Honda" th:value="${vehicle.make}" th:disabled="!${editable}">
-      </div>
-      <div class="detail-input-wrapper">
-        <label for="model">Model:</label>
-        <input type="text" id="model" name="model" value="Civic" th:value="${vehicle.model}" th:disabled="!${editable}">
-      </div>
-      <div class="detail-input-wrapper">
-        <label for="customer">Customer Name:</label>
-        <input type="text" id="customer" name="customer" value="John Smith" th:value="${vehicle.customer?.getName()}" disabled>
-      </div>
+        <div class="detail-input-wrapper">
+            <label for="vin">VIN:</label>
+            <input type="text" id="vin" name="vin" value="1J4HR58N86C201586" th:value="${vehicle.vin}"
+                   th:disabled="!${editable}">
+        </div>
 
 
-    </div>
+        <div class="input-label-wrapper">
 
-    <div class="input-label-wrapper">
-
-      <div class="detail-input-wrapper">
-        <label for="trim">Trim:</label>
-        <input type="text" id="trim" name="trim" value="EX" th:value="${vehicle.trim}" th:disabled="!${editable}">
-      </div>
-      <div class="detail-input-wrapper">
-        <label for="engine">Engine:</label>
-        <input type="text" id="engine" name="engine" value="1.6L 4CYL VTECH" th:value="${vehicle.engineType}" th:disabled="!${editable}">
-      </div>
-      <div class="detail-input-wrapper">
-        <label for="color">Color:</label>
-        <input type="text" id="color" name="color" value="White" th:value="${vehicle.color}" th:disabled="!${editable}">
-      </div>
-
-
-    </div>
+            <div class="detail-input-wrapper">
+                <label for="make">Make:</label>
+                <input type="text" id="make" name="make" value="Honda" th:value="${vehicle.make}"
+                       th:disabled="!${editable}">
+            </div>
+            <div class="detail-input-wrapper">
+                <label for="model">Model:</label>
+                <input type="text" id="model" name="model" value="Civic" th:value="${vehicle.model}"
+                       th:disabled="!${editable}">
+            </div>
+            <div class="detail-input-wrapper">
+                <label for="customer">Customer Name:</label>
+                <input type="text" id="customer" name="customer" value="John Smith"
+                       th:value="${vehicle.customer?.getName()}" disabled>
+            </div>
 
 
-    <div th:if="${editable}" class="hidden-submit">
-      <button type="submit">Submit</button>
-    </div>
+        </div>
 
-  </form>
+        <div class="input-label-wrapper">
+
+            <div class="detail-input-wrapper">
+                <label for="trim">Trim:</label>
+                <input type="text" id="trim" name="trim" value="EX" th:value="${vehicle.trim}"
+                       th:disabled="!${editable}">
+            </div>
+            <div class="detail-input-wrapper">
+                <label for="engine">Engine:</label>
+                <input type="text" id="engine" name="engine" value="1.6L 4CYL VTECH" th:value="${vehicle.engineType}"
+                       th:disabled="!${editable}">
+            </div>
+            <div class="detail-input-wrapper">
+                <label for="color">Color:</label>
+                <input type="text" id="color" name="color" value="White" th:value="${vehicle.color}"
+                       th:disabled="!${editable}">
+            </div>
+
+
+        </div>
+
+
+        <div th:if="${editable}" class="hidden-submit">
+            <button type="submit">Submit</button>
+        </div>
+
+    </form>
 </div>
 
 <hr>
 
 
-<div th:if="${vehicle.customer}" th:insert="~{customer_details::customer-details (customer=${vehicle.customer}, editable=false, action='#', hide_buttons=true)}"></div>
+<div th:if="${vehicle.customer}"
+     th:insert="~{customer_details::customer-details (customer=${vehicle.customer}, editable=false, action='#', hide_buttons=true)}"></div>
 
 <hr>
 
 <div class="button-container">
-  <a href="#" th:if="${vehicle.customer}" th:href="@{/customers/customer(id=${vehicle.customer.id})}">
-    <button>Edit Customer's Profile</button>
-  </a>
-  <button th:disabled="${editable}">Service History</button>
-  <button th:disabled="${editable}">Check for recalls</button>
-  <form action="#" th:action="@{/repair_orders/repair_order/create}">
-    <input type="hidden" name="vin" th:value="${vehicle.vin}">
-    <button type="submit" th:disabled="${editable}">Open Repair Order</button>
-  </form>
-  <button th:disabled="${editable}">Appointments</button>
+    <a href="#" th:if="${vehicle.customer}" th:href="@{/customers/customer(id=${vehicle.customer.id})}">
+        <button>Edit Customer's Profile</button>
+    </a>
+    <button th:disabled="${editable}">Service History</button>
+    <button th:disabled="${editable}">Check for recalls</button>
+    <form action="#" th:action="@{/repair_orders/repair_order/create}">
+        <input type="hidden" name="vin" th:value="${vehicle.vin}">
+        <button type="submit" th:disabled="${editable}">Open Repair Order</button>
+    </form>
+    <button th:disabled="${editable}">Appointments</button>
 </div>
 
 <footer th:insert="~{fragments::foot}"></footer>

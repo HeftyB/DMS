@@ -1,8 +1,8 @@
 package com.heftyb.dms.timekeeping;
 
-import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.PayPeriod;
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.time.Duration;

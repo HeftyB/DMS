@@ -1,8 +1,8 @@
 package com.heftyb.dms.account.statement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.PaymentTerm;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 @Entity

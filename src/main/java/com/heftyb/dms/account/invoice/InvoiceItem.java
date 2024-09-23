@@ -1,11 +1,9 @@
 package com.heftyb.dms.account.invoice;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.dao.Auditable;
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class InvoiceItem{
+public class InvoiceItem {
 
     private String description;
 

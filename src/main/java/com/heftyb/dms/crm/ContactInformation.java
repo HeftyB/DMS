@@ -105,6 +105,15 @@ public class ContactInformation {
         this.notes = notes;
     }
 
+    public boolean containsMatchingContactInformation(ContactInformation contactInformation) {
+        return contactInformation.getContactName() == contactName
+                || contactInformation.getPrimaryPhone() == primaryPhone
+                || contactInformation.getAltPhone1() == altPhone1
+                || contactInformation.getAltPhone2() == altPhone2
+                || contactInformation.getFax() == fax
+                || contactInformation.getAddress() == address;
+    }
+
     @Override
     public String toString() {
         return "ContactInformation{" +

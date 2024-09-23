@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "customers")
@@ -45,8 +44,6 @@ public class Customer extends Auditable {
 //    private ArrayList<Statement> statements;
 
 //    private ArrayList<SaleLead> leads;
-
-
 
 
     public Customer() {

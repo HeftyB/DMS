@@ -1,9 +1,8 @@
 package com.heftyb.dms.crm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.dao.Auditable;
-import com.heftyb.dms.account.invoice.Invoice;
 import com.heftyb.dms.account.po.PurchaseOrder;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

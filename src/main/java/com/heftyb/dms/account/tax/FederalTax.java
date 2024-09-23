@@ -1,7 +1,7 @@
 package com.heftyb.dms.account.tax;
 
-import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.fee.FeeType;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

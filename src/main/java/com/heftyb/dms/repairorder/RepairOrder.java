@@ -1,24 +1,20 @@
 package com.heftyb.dms.repairorder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.account.invoice.Invoice;
-import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.fee.RepairOrderFee;
+import com.heftyb.dms.account.invoice.Invoice;
 import com.heftyb.dms.account.tax.TaxCharge;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import org.springframework.cglib.core.Local;
 
-import java.time.Clock;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +23,7 @@ import java.util.List;
 public class RepairOrder extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Enumerated

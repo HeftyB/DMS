@@ -1,10 +1,10 @@
 package com.heftyb.dms.account.po;
 
-import com.heftyb.dms.crm.ContactInformation;
-import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.tax.TaxCharge;
+import com.heftyb.dms.crm.ContactInformation;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.crm.Vendor;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.time.Instant;

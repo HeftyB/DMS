@@ -2,7 +2,6 @@ package com.heftyb.dms.inventory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.dao.Auditable;
-import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -29,8 +28,7 @@ public class Part extends Auditable {
     private float price;
 
 
-
-//    @OneToMany(mappedBy = "part", cascade = CascadeType.ALL)
+    //    @OneToMany(mappedBy = "part", cascade = CascadeType.ALL)
     @ElementCollection
     private List<ReceivedPart> receivedStock;
 

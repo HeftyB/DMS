@@ -1,9 +1,9 @@
 package com.heftyb.dms.account.tax;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.account.fee.FeeType;
 import com.heftyb.dms.account.po.PurchaseOrder;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;
 
