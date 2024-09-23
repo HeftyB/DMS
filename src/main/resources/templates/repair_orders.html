@@ -2,51 +2,55 @@
 <html lang="en">
 <head th:replace="~{fragments::head (page_title='My Repair Orders')}"></head>
 <body>
-    <header th:insert="~{fragments::header-top (username=${username})}"></header>
-    <h1 class="center-text" th:text="${username} + '\'s Repair Orders'"></h1>
+<header th:insert="~{fragments::header-top (username=${username})}"></header>
+<h1 class="center-text" th:text="${username} + '\'s Repair Orders'"></h1>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Customer</th>
-            <th>Vehicle info</th>
-            <th>Date Opened</th>
-            <th># of days</th>
-            <th>Priority</th>
-        </tr>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Vehicle info</th>
+        <th>Date Opened</th>
+        <th># of days</th>
+        <th>Priority</th>
+    </tr>
 
-        <tr th:each="r : ${ros}">
-            <td>
-                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.id}"></a>
-            </td>
-            <td>
-                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.customer.getName()}"></a>
-            </td>
-            <td>
-                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.vehicle.getVehicleInfo()}"></a>
-            </td>
-            <td>
-                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.openDate}"></a>
-            </td>
-            <td>
-                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.id}"></a>
-            </td>
-            <td>
-                <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.priority}"></a>
-            </td>
-        </tr>
-    </table>
+    <tr th:each="r : ${ros}">
+        <td>
+            <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.id}"></a>
+        </td>
+        <td>
+            <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}"
+               th:text="${r.customer.getName()}"></a>
+        </td>
+        <td>
+            <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}"
+               th:text="${r.vehicle.getVehicleInfo()}"></a>
+        </td>
+        <td>
+            <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}"
+               th:text="${r.openDate}"></a>
+        </td>
+        <td>
+            <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}" th:text="${r.id}"></a>
+        </td>
+        <td>
+            <a class="clean-link" href="#" th:href="@{/repair_orders/repair_order(id=${r.id})}"
+               th:text="${r.priority}"></a>
+        </td>
+    </tr>
+</table>
 
-    <div class="container">
-        <button type="button" id="open_vin_search_modal">Open New</button>
-        <button type="button" id="open_search_modal">Search</button>
-        <button type="button">User</button>
-    </div>
+<div class="container">
+    <button type="button" id="open_vin_search_modal">Open New</button>
+    <button type="button" id="open_search_modal">Search</button>
+    <button type="button">User</button>
+</div>
 
-    <div th:replace="~{search::search}"></div>
-    <div th:replace="~{search::vin-search}"></div>
+<div th:replace="~{search::search}"></div>
+<div th:replace="~{search::vin-search (action='/vehicles/search', searching_customer_id=null)}"></div>
 
 
-    <footer th:replace="~{fragments::foot}"></footer>
+<footer th:replace="~{fragments::foot}"></footer>
 </body>
 </html>

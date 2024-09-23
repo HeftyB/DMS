@@ -4,62 +4,62 @@
 <body>
 <header th:insert="~{fragments::header-top (username=${username})}"></header>
 
-  <h1>RESULTS</h1>
-  <div>
+<div th:replace="~{fragments::forward-back}"></div>
+
+<h1>RESULTS</h1>
+<div>
     <div class="tab-container">
-      <button class="tab-links" id="customers-button">Customers</button>
-      <button class="tab-links" id="vehicles-button">Vehicles</button>
+        <button class="tab-links" id="customers-button">Customers</button>
+        <button class="tab-links" id="vehicles-button">Vehicles</button>
     </div>
 
     <div>
-      <h3>results for search criteria((</h3>
+        <h3>results for search criteria((</h3>
     </div>
 
     <div id="customers" class="tab-content">
-      <div th:replace="~{fragments::customer-list (customers=${customers})}"></div>
+        <div th:replace="~{fragments::customer-list (customers=${customers})}"></div>
     </div>
     <div id="vehicles" class="tab-content">
-      <div th:replace="~{fragments::vehicle-list (vehicles=${vehicles})}"></div>
+        <div th:replace="~{fragments::vehicle-list (vehicles=${vehicles})}"></div>
     </div>
-
-
 
 
     <div class="result-buttons-wrapper">
-      <button>Back</button>
-      <button>Search</button>
-      <button>Create New</button>
-      <button>Select</button>
+        <button>Back</button>
+        <button>Search</button>
+        <button>Create New</button>
+        <button>Select</button>
     </div>
-  </div>
+</div>
 
 
 <script>
-  let tabLinks, tabContents
+    let tabLinks, tabContents
 
-  tabLinks = document.getElementsByClassName("tab-links")
-  tabContents = document.getElementsByClassName("tab-content")
+    tabLinks = document.getElementsByClassName("tab-links")
+    tabContents = document.getElementsByClassName("tab-content")
 
-  // ES5 compatible iteration
-  Array.prototype.forEach.call(tabLinks, function (element) {
-    element.addEventListener("click", e => {
+    // ES5 compatible iteration
+    Array.prototype.forEach.call(tabLinks, function (element) {
+        element.addEventListener("click", e => {
 
-      Array.prototype.forEach.call(tabContents, function (el) {
-        el.style.display = "none";
-      })
+            Array.prototype.forEach.call(tabContents, function (el) {
+                el.style.display = "none";
+            })
 
-      // new ES6 way
-      Array.from(tabLinks).forEach(el => {
-        el.className = el.className.replace(" active", "")
-      })
+            // new ES6 way
+            Array.from(tabLinks).forEach(el => {
+                el.className = el.className.replace(" active", "")
+            })
 
-      let id = e.currentTarget.id.replace("-button", "");
-      document.getElementById(id).style.display = "block"
-      e.currentTarget.className += " active"
+            let id = e.currentTarget.id.replace("-button", "");
+            document.getElementById(id).style.display = "block"
+            e.currentTarget.className += " active"
+        })
+
     })
-
-  })
-  document.getElementById("customers-button").click();
+    document.getElementById("customers-button").click();
 </script>
 
 <footer th:repalce="~{fragments::foot}"></footer>

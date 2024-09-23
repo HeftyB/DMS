@@ -1,7 +1,6 @@
 package com.heftyb.dms.inventory;
 
 import com.heftyb.dms.crm.Employee;
-import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.util.Date;

@@ -2,12 +2,9 @@ package com.heftyb.dms.crm.services;
 
 import com.heftyb.dms.account.invoice.repositories.InvoiceRepository;
 import com.heftyb.dms.crm.Customer;
-import com.heftyb.dms.crm.PhoneNumber;
 import com.heftyb.dms.crm.repositories.CustomerRepository;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.exceptions.ResourceFoundException;
-import com.heftyb.dms.vehicles.Vehicle;
-import com.heftyb.dms.vehicles.services.VehicleService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -57,9 +54,9 @@ public class CustomerServiceImp implements CustomerService {
     public List<Customer> findByPhone(String phoneNum) {
         List<Customer> customers = findAll()
                 .stream().filter(customer -> customer.getContactInformation().getPrimaryPhone().getNumber().contains(phoneNum)
-                            || customer.getContactInformation().getAltPhone1().getNumber().contains(phoneNum)
-                            || customer.getContactInformation().getAltPhone2().getNumber().contains(phoneNum)
-                            || customer.getContactInformation().getFax().getNumber().contains(phoneNum))
+                        || customer.getContactInformation().getAltPhone1().getNumber().contains(phoneNum)
+                        || customer.getContactInformation().getAltPhone2().getNumber().contains(phoneNum)
+                        || customer.getContactInformation().getFax().getNumber().contains(phoneNum))
                 .collect(Collectors.toList());
 
         return new ArrayList<>(customers);
@@ -116,7 +113,7 @@ public class CustomerServiceImp implements CustomerService {
                     "Error: Could not update customer: Vehicles are not updated through customer, null value expected!"
             );
         }
-        
+
         return custRepo.save(c);
     }
 

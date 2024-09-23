@@ -2,53 +2,53 @@
 <html lang="en">
 <head th:replace="~{fragments::head (page_title='Administration')}"></head>
 <body class="body">
-  <div class ="wrapper">
+<div class="wrapper">
 
     <nav th:insert="~{fragments::header-top (username=${username})}"></nav>
 
     <h1 class="center-title">HR Administrator</h1>
     <hr>
     <div class="admin_main">
-      <nav class="side-navbar-open">
-        <ul class="no-bullet-list side-navbar">
-          <li><a href="#" class="nav_item">Dashboard</a></li>
-          <li><a href="#" class="nav_item">Current work week</a></li>
-          <li><a href="#" class="nav_item">Employee Management</a></li>
-          <li><a href="#" class="nav_item">User Management</a></li>
-          <li><a href="#" class="nav_item">Reports & Data</a></li>
-          <li><a href="#" class="nav_item">Sales</a></li>
-          <li><a href="#" class="nav_item">Service</a></li>
-          <li><a href="#" class="nav_item">Parts</a></li>
-        </ul>
-      </nav>
-      <div class="admin-data">
-        <h3>Active Employees</h3>
-        <ul class="no-bullet-list" th:each="user : ${users}">
-          <li class="employee-card">
-            <div>
-              <p th:text="${user.username}"></p>
-              <img th:src="@{/defaults/default_user.svg}" alt="userPhoto" class="user-photo">
-              <p th:text="${user.employee.firstName}"></p>
-              <p th:text="${user.employee.lastName}"></p>
-              <p th:text="${user.roles}"></p>
-            </div>
-          </li>
-        </ul>
+        <nav class="side-navbar-open">
+            <ul class="no-bullet-list side-navbar">
+                <li><a href="#" class="nav_item">Dashboard</a></li>
+                <li><a href="#" class="nav_item">Current work week</a></li>
+                <li><a href="#" class="nav_item">Employee Management</a></li>
+                <li><a href="#" class="nav_item">User Management</a></li>
+                <li><a href="#" class="nav_item">Reports & Data</a></li>
+                <li><a href="#" class="nav_item">Sales</a></li>
+                <li><a href="#" class="nav_item">Service</a></li>
+                <li><a href="#" class="nav_item">Parts</a></li>
+            </ul>
+        </nav>
+        <div class="admin-data">
+            <h3>Active Employees</h3>
+            <ul class="no-bullet-list" th:each="user : ${users}">
+                <li class="employee-card">
+                    <div>
+                        <p th:text="${user.username}"></p>
+                        <img src="" th:src="@{/defaults/default_user.svg}" alt="userPhoto" class="user-photo">
+                        <p th:text="${user.employee.firstName}"></p>
+                        <p th:text="${user.employee.lastName}"></p>
+                        <p th:text="${user.roles}"></p>
+                    </div>
+                </li>
+            </ul>
 
-        <ul>
-          <li>
-            <p th:text="'username: ' + ${user1.username}"></p>
-            <p th:text="'password: ' + ${user1.password}"></p>
-            <p th:text="'roles: ' + ${user1.roles}"></p>
-          </li>
-        </ul>
-        <table>
-        </table>
-      </div>
+            <ul>
+                <li>
+                    <p th:text="'username: ' + ${user1.username}"></p>
+                    <p th:text="'password: ' + ${user1.password}"></p>
+                    <p th:text="'roles: ' + ${user1.roles}"></p>
+                </li>
+            </ul>
+            <table>
+            </table>
+        </div>
 
     </div>
-  </div>
+</div>
 
-  <footer th:replace="~{fragments::foot}"></footer>
+<footer th:replace="~{fragments::foot}"></footer>
 </body>
 </html>

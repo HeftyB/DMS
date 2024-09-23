@@ -5,18 +5,31 @@
 <header th:insert="~{fragments::header-top (username=${username})}"></header>
 <style>
 
-    form  { display: table;      }
-    p     { display: table-row;  }
-    label { display: table-cell; }
-    input { display: table-cell; }
+    form {
+        display: table;
+    }
+
+    p {
+        display: table-row;
+    }
+
+    label {
+        display: table-cell;
+    }
+
+    input {
+        display: table-cell;
+    }
 </style>
-    <div>
-        <h1>VEHICLE HOME!</h1>
-        <div th:replace="~{fragments::vehicle-list (vehicles=${vehicles})}"></div>
-    </div>
+<div>
+    <h1>VEHICLE HOME!</h1>
+    <div th:replace="~{fragments::vehicle-list (vehicles=${vehicles})}"></div>
+</div>
 
 <div class="result-buttons-wrapper">
-    <button>Back</button>
+    <a class="clean-link" href="javascript:window.history.back()">
+        <button>Back</button>
+    </a>
     <button>Search</button>
     <button>Create New</button>
     <button>Select</button>

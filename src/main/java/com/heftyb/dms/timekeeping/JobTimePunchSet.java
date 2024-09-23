@@ -1,8 +1,7 @@
 package com.heftyb.dms.timekeeping;
 
-import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.crm.Employee;
-import com.heftyb.dms.repairorder.RepairOrder;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.repairorder.WorkOrderJob;
 import jakarta.persistence.*;
 

@@ -9,6 +9,8 @@ public interface VehicleService {
 
     List<Vehicle> findByVin(String vin);
 
+    Vehicle findByWholeVin(String vin);
+
     Vehicle findById(long id);
 
     Vehicle saveNew(Vehicle vehicle);
@@ -16,4 +18,8 @@ public interface VehicleService {
     Vehicle update(Vehicle vehicle);
 
     void delete(long id);
+
+    Vehicle decodeVIN(String vin);
+
+    Vehicle updateVehiclesCustomer(String vin, long id);
 }

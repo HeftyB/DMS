@@ -5,6 +5,7 @@ import com.heftyb.dms.vehicles.services.VehicleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,7 +18,9 @@ public class VehicleController {
 
     private final VehicleService vehicleService;
 
-    public VehicleController (final VehicleService vehicleService) { this.vehicleService = vehicleService; }
+    public VehicleController(final VehicleService vehicleService) {
+        this.vehicleService = vehicleService;
+    }
 
     @GetMapping({"/", ""})
     public String vehicles_home(Principal principal, ModelMap map) {
@@ -46,5 +49,34 @@ public class VehicleController {
         map.addAttribute("vehicles", vehicles);
 
         return "vehicles";
+    }
+
+    @PostMapping({"/vehicle/create", "/vehicle/create/"})
+    public String create_new(String vin) {
+        Vehicle v = vehicleService.decodeVIN(vin);
+        v = vehicleService.saveNew(v);
+
+        return String.format("redirect:/vehicles/vehicle?id=%s", v.getId());
+    }
+
+    @PostMapping({"/vehicle/customer", "/vehicle/customer/"})
+    public String update_vehicles_customer(Principal principal, @RequestParam String vin, @RequestParam long newCustomerId) {
+        Vehicle v = vehicleService.updateVehiclesCustomer(vin, newCustomerId);
+        return String.format("redirect:/vehicles/vehicle?id=%s", v.getId());
+    }
+
+    @PostMapping({"/customer/new", "/customer/new/"})
+    public String save_customers_new_vehicle(Principal principal, @RequestParam String vin, @RequestParam long custId) {
+
+        List<Vehicle> vehicles = vehicleService.findByVin(vin);
+
+        if (vehicles.isEmpty()) {
+            Vehicle v = vehicleService.decodeVIN(vin);
+            v = vehicleService.saveNew(v);
+            v = vehicleService.updateVehiclesCustomer(v.getVin(), custId);
+        } else {
+            vehicleService.updateVehiclesCustomer(vehicles.get(0).getVin(), custId);
+        }
+        return String.format("redirect:/customers/customer?id=%s", custId);
     }
 }

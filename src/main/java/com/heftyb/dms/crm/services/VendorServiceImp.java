@@ -1,10 +1,8 @@
 package com.heftyb.dms.crm.services;
 
-import com.heftyb.dms.crm.PhoneNumber;
 import com.heftyb.dms.crm.Vendor;
 import com.heftyb.dms.crm.repositories.VendorRepository;
 import com.heftyb.dms.exceptions.DataNotFoundException;
-import com.heftyb.dms.exceptions.ResourceFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +15,9 @@ public class VendorServiceImp implements VendorService {
 
     private final VendorRepository vendorRepository;
 
-    public VendorServiceImp(final VendorRepository vendorRepository) { this.vendorRepository = vendorRepository; }
+    public VendorServiceImp(final VendorRepository vendorRepository) {
+        this.vendorRepository = vendorRepository;
+    }
 
     @Override
     public List<Vendor> findAll() {
@@ -59,12 +59,12 @@ public class VendorServiceImp implements VendorService {
     public Vendor update(Vendor vendor) {
         Vendor v = findById(vendor.getId());
 
-        if(vendor.getCompanyName() != null) v.setCompanyName(vendor.getCompanyName());
-        if(vendor.getAddress() != null) v.setAddress(vendor.getAddress());
-        if(vendor.getContactInformation() != null) v.setContactInformation(vendor.getContactInformation());
-        if(vendor.getEmail() != null) v.setEmail(vendor.getEmail());
-        if(vendor.getTaxId() != null) v.setTaxId(vendor.getTaxId());
-        if(vendor.getPaymentMethod() != null) v.setPaymentMethod(vendor.getPaymentMethod());
+        if (vendor.getCompanyName() != null) v.setCompanyName(vendor.getCompanyName());
+        if (vendor.getAddress() != null) v.setAddress(vendor.getAddress());
+        if (vendor.getContactInformation() != null) v.setContactInformation(vendor.getContactInformation());
+        if (vendor.getEmail() != null) v.setEmail(vendor.getEmail());
+        if (vendor.getTaxId() != null) v.setTaxId(vendor.getTaxId());
+        if (vendor.getPaymentMethod() != null) v.setPaymentMethod(vendor.getPaymentMethod());
 
 //        if (vendor.getSentPurchaseOrders() != null
 //                || vendor.getReceivedPurchaseOrders() != null

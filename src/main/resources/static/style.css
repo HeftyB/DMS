@@ -7,7 +7,6 @@
 }
 
 
-
 /*navigation*/
 .nav-list {
     display: flex;
@@ -41,9 +40,11 @@
     width: 87.5%;
     margin: auto;
 }
+
 .admin_main {
     display: flex;
 }
+
 .side-navbar {
     display: flex;
     flex-direction: column;
@@ -51,10 +52,12 @@
     color: white;
     background-color: black;
 }
+
 .side-navbar-open {
     width: 20%;
     opacity: 30%;
 }
+
 .side-navbar-closed {
     width: 8%;
     opacity: 50%;
@@ -89,11 +92,10 @@
     border: 1px black solid;
     width: 150px;
 }
+
 .nav-user-button {
     position: relative;
 }
-
-
 
 
 /*data*/
@@ -143,7 +145,9 @@ td a {
     z-index: 6;
 }
 
-.opened:before { display: block; }
+.opened:before {
+    display: block;
+}
 
 .opened .search-wrapper {
     -webkit-transform: translate(0, 0);
@@ -160,7 +164,6 @@ td a {
 }
 
 
-
 .search-wrapper {
     width: 30%;
     margin: auto;
@@ -171,7 +174,7 @@ td a {
 
     z-index: 9;
     position: relative;
-    box-shadow:0 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
     -webkit-transform: translate(0, -500%);
     -ms-transform: translate(0, -500%);
     transform: translate(0, -500%);
@@ -191,7 +194,7 @@ td a {
 
     z-index: 9;
     position: relative;
-    box-shadow:0 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
     -webkit-transform: translate(0, -600%);
     -ms-transform: translate(0, -600%);
     transform: translate(0, -600%);
@@ -280,10 +283,11 @@ td a {
 }
 
 
-
 /*customer details view*/
 
-.detail-image-wrapper, .detail-wrapper { margin: auto; }
+.detail-image-wrapper, .detail-wrapper {
+    margin: auto;
+}
 
 .flex {
     display: flex;
@@ -347,7 +351,7 @@ td a {
     padding: 5px;
 }
 
-.user-avatar-display-wrapper{
+.user-avatar-display-wrapper {
     position: relative;
     border: 2px solid black;
     overflow: hidden;
@@ -364,13 +368,13 @@ td a {
     bottom: 0;
 }
 
-.vehicle-avatar-display-wrapper{
+.vehicle-avatar-display-wrapper {
     position: relative;
     border: 2px solid black;
 
     box-shadow: 5px 5px lightgray;
     padding: 20px;
-    background-color: rgba(184,164,182,0.73);
+    background-color: rgba(184, 164, 182, 0.73);
 }
 
 .vehicle-avatar-display-wrapper button {
@@ -380,4 +384,224 @@ td a {
     left: 0;
     right: 0;
     bottom: 0;
+}
+
+
+/*ro details*/
+
+
+.job-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.job-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-animation-name: animatetop;
+    -webkit-animation-name: animatetop;
+    -moz-animation-duration: 0.4s;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+.close-new-job {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-new-job:hover,
+.close-new-job:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #000000;
+    color: white;
+    margin: 5px;
+}
+
+.modal-body {
+    padding: 2px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-footer {
+    padding: 16px;
+    background-color: #5cb85c;
+    color: white;
+    margin: 15px;
+}
+
+
+.top-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.outer-wrapper {
+    width: 80%;
+    margin: auto;
+}
+
+.job-wrapper {
+    margin: 15px 0;
+    border: 1px solid black;
+    padding: 10px;
+    position: relative;
+}
+
+.ccc-title {
+    font-size: medium;
+    font-weight: bolder;
+    margin-right: 15px;
+    background-color: lavender;
+    padding: 5px;
+}
+
+.ccc-wrapper {
+    line-height: 1.5rem;
+    /*background-color: lemonchiffon;*/
+    margin: 10px;
+}
+
+.job-status-info {
+    display: flex;
+    justify-content: space-around;
+    font-size: small;
+    width: 250px;
+}
+
+.pts-lbr {
+    display: flex;
+    flex-direction: column;
+    font-size: xx-small;
+}
+
+.status-label {
+    border-bottom: 1px solid black;
+}
+
+.part-description {
+    font-size: small;
+}
+
+.collapsible {
+    cursor: pointer;
+    width: 100%;
+}
+
+.active-job, .collapsible:hover {
+    background-color: lemonchiffon;
+}
+
+.collapsible:after {
+    content: '\002B';
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.active-job:after {
+    content: "\2212";
+}
+
+.content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.ro-button-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.ro-top {
+    font-size: large;
+}
+
+.top-info {
+    margin: auto;
+}
+
+.jobs-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.job-modal-content-wrapper {
+    width: 100%;
+}
+
+
+.tab {
+    display: none;
+}
+
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+.step.finish {
+    background-color: #04AA6D;
 }

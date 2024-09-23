@@ -1,13 +1,14 @@
 package com.heftyb.dms.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.crm.Customer;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.repairorder.RepairOrder;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Table(name = "vehicles")
@@ -16,19 +17,31 @@ public class Vehicle extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(unique = true)
     private String vin;
 
     private int modelYear;
-
-    @ManyToOne
-    private Manufacturer make;
-
-    @Embedded
-    private Model model;
-
-
+    private String make;
+    private String model;
+    private String manufacturer;
+    private String plantCompanyName;
+    private String plantCity;
+    private String plantState;
+    private String transmissionStyle;
+    private String driveType;
+    private String engineModel;
+    private String engineManufacturer;
+    private String engineType; // configuration + cylinders + valvetrain design
+    private String displacementL;
+    private String fuelType;
+    private String bodyClass;
+    private String basePrice;
+    private String doors;
     private String trim;
-    private String engine;
+    private String trim2;
+    private String vehicleType;
+
+
     private String color;
 
 //    private String stock;
@@ -40,8 +53,6 @@ public class Vehicle extends Auditable {
 //    private LienHolder lienHolder;
 //    private double apr;
 //    private AutoLoan autoLoan; /* rate, balance, principal, interest, down payment */
-//    private ArrayList<PurchaseOrder> purchaseOrders;
-//
 
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -56,24 +67,6 @@ public class Vehicle extends Auditable {
         ServiceHistory = new ArrayList<>();
     }
 
-    public Vehicle(String vin, int modelYear, Manufacturer make, Model model) {
-        this.vin = vin;
-        this.modelYear = modelYear;
-        this.make = make;
-        this.model = model;
-        ServiceHistory = new ArrayList<>();
-    }
-
-    public Vehicle(String vin, int modelYear, Manufacturer make, Model model, String trim, String engine, String color) {
-        this.vin = vin;
-        this.modelYear = modelYear;
-        this.make = make;
-        this.model = model;
-        this.trim = trim;
-        this.engine = engine;
-        this.color = color;
-        ServiceHistory = new ArrayList<>();
-    }
 
     public long getId() {
         return id;
@@ -81,6 +74,14 @@ public class Vehicle extends Auditable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        if (vin != null) this.vin = vin.toUpperCase(Locale.ROOT);
     }
 
     public int getModelYear() {
@@ -91,20 +92,132 @@ public class Vehicle extends Auditable {
         this.modelYear = modelYear;
     }
 
-    public Manufacturer getMake() {
+    public String getMake() {
         return make;
     }
 
-    public void setMake(Manufacturer make) {
-        this.make = make;
+    public void setMake(String make) {
+        if (make != null) this.make = make.toUpperCase(Locale.ROOT);
     }
 
-    public Model getModel() {
+    public String getModel() {
         return model;
     }
 
-    public void setModel(Model model) {
-        this.model = model;
+    public void setModel(String model) {
+        if (model != null) this.model = model.toUpperCase(Locale.ROOT);
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        if (manufacturer != null) this.manufacturer = manufacturer.toUpperCase(Locale.ROOT);
+    }
+
+    public String getPlantCompanyName() {
+        return plantCompanyName;
+    }
+
+    public void setPlantCompanyName(String plantCompanyName) {
+        if (plantCompanyName != null) this.plantCompanyName = plantCompanyName.toUpperCase(Locale.ROOT);
+    }
+
+    public String getPlantCity() {
+        return plantCity;
+    }
+
+    public void setPlantCity(String plantCity) {
+        if (plantCity != null) this.plantCity = plantCity.toUpperCase(Locale.ROOT);
+    }
+
+    public String getPlantState() {
+        return plantState;
+    }
+
+    public void setPlantState(String plantState) {
+        if (plantState != null) this.plantState = plantState.toUpperCase(Locale.ROOT);
+    }
+
+    public String getTransmissionStyle() {
+        return transmissionStyle;
+    }
+
+    public void setTransmissionStyle(String transmissionStyle) {
+        if (transmissionStyle != null) this.transmissionStyle = transmissionStyle.toUpperCase(Locale.ROOT);
+    }
+
+    public String getDriveType() {
+        return driveType;
+    }
+
+    public void setDriveType(String driveType) {
+        if (driveType != null) this.driveType = driveType.toUpperCase(Locale.ROOT);
+    }
+
+    public String getEngineModel() {
+        return engineModel;
+    }
+
+    public void setEngineModel(String engineModel) {
+        if (engineModel != null) this.engineModel = engineModel.toUpperCase(Locale.ROOT);
+    }
+
+    public String getEngineManufacturer() {
+        return engineManufacturer;
+    }
+
+    public void setEngineManufacturer(String engineManufacturer) {
+        if (engineManufacturer != null) this.engineManufacturer = engineManufacturer.toUpperCase(Locale.ROOT);
+    }
+
+    public String getEngineType() {
+        return engineType;
+    }
+
+    public void setEngineType(String engineType) {
+        if (engineType != null) this.engineType = engineType.toUpperCase(Locale.ROOT);
+    }
+
+    public String getDisplacementL() {
+        return displacementL;
+    }
+
+    public void setDisplacementL(String displacementL) {
+        if (displacementL != null) this.displacementL = displacementL.toUpperCase(Locale.ROOT);
+    }
+
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    public void setFuelType(String fuelType) {
+        if (fuelType != null) this.fuelType = fuelType.toUpperCase(Locale.ROOT);
+    }
+
+    public String getBodyClass() {
+        return bodyClass;
+    }
+
+    public void setBodyClass(String bodyClass) {
+        if (bodyClass != null) this.bodyClass = bodyClass.toUpperCase(Locale.ROOT);
+    }
+
+    public String getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(String basePrice) {
+        if (basePrice != null) this.basePrice = basePrice.toUpperCase(Locale.ROOT);
+    }
+
+    public String getDoors() {
+        return doors;
+    }
+
+    public void setDoors(String doors) {
+        if (doors != null) this.doors = doors.toUpperCase(Locale.ROOT);
     }
 
     public String getTrim() {
@@ -112,15 +225,23 @@ public class Vehicle extends Auditable {
     }
 
     public void setTrim(String trim) {
-        this.trim = trim;
+        if (trim != null) this.trim = trim.toUpperCase(Locale.ROOT);
     }
 
-    public String getEngine() {
-        return engine;
+    public String getTrim2() {
+        return trim2;
     }
 
-    public void setEngine(String engine) {
-        this.engine = engine;
+    public void setTrim2(String trim2) {
+        if (trim2 != null) this.trim2 = trim2.toUpperCase(Locale.ROOT);
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        if (vehicleType != null) this.vehicleType = vehicleType.toUpperCase(Locale.ROOT);
     }
 
     public String getColor() {
@@ -128,23 +249,15 @@ public class Vehicle extends Auditable {
     }
 
     public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getVin() {
-        return vin;
-    }
-
-    public void setVin(String vin) {
-        this.vin = vin;
+        if (color != null) this.color = color.toUpperCase(Locale.ROOT);
     }
 
     public List<RepairOrder> getServiceHistory() {
         return ServiceHistory;
     }
 
-    public void setServiceHistory(ArrayList<RepairOrder> repairOrders) {
-        this.ServiceHistory = repairOrders;
+    public void setServiceHistory(List<RepairOrder> serviceHistory) {
+        ServiceHistory = serviceHistory;
     }
 
     public Customer getCustomer() {
@@ -157,7 +270,7 @@ public class Vehicle extends Auditable {
 
     public String getVehicleInfo() {
         return String.format("%s-%s-%s  %s  %s",
-                modelYear, make.getName(), model.getName(), trim != null ? "(" + trim + ")" : "", color != null ? color : "", vin);
+                modelYear, make, model, color, vin);
     }
 
     @Override
@@ -166,10 +279,25 @@ public class Vehicle extends Auditable {
                 "id=" + id +
                 ", vin='" + vin + '\'' +
                 ", modelYear=" + modelYear +
-                ", make=" + make +
-                ", model=" + model +
+                ", make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", plantCompanyName='" + plantCompanyName + '\'' +
+                ", plantCity='" + plantCity + '\'' +
+                ", plantState='" + plantState + '\'' +
+                ", transmissionStyle='" + transmissionStyle + '\'' +
+                ", driveType='" + driveType + '\'' +
+                ", engineModel='" + engineModel + '\'' +
+                ", engineManufacturer='" + engineManufacturer + '\'' +
+                ", engineType='" + engineType + '\'' +
+                ", displacementL='" + displacementL + '\'' +
+                ", fuelType='" + fuelType + '\'' +
+                ", bodyClass='" + bodyClass + '\'' +
+                ", basePrice='" + basePrice + '\'' +
+                ", doors='" + doors + '\'' +
                 ", trim='" + trim + '\'' +
-                ", engine='" + engine + '\'' +
+                ", trim2='" + trim2 + '\'' +
+                ", vehicleType='" + vehicleType + '\'' +
                 ", color='" + color + '\'' +
                 ", ServiceHistory=" + ServiceHistory +
                 ", customer=" + customer +

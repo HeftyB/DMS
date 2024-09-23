@@ -1,6 +1,7 @@
 package com.heftyb.dms.crm;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 
 
 @Embeddable

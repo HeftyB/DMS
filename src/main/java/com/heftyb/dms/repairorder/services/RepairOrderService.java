@@ -11,5 +11,9 @@ public interface RepairOrderService {
 
     RepairOrder save(RepairOrder repairOrder);
 
+    void update(RepairOrder repairOrder);
+
+    long createNew(String username, String vin, int mileageIn, String serviceTag, String priority);
+
     void delete(long id);
 }

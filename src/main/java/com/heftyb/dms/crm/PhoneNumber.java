@@ -1,8 +1,6 @@
 package com.heftyb.dms.crm;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heftyb.dms.dao.Auditable;
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class PhoneNumber {
@@ -25,7 +23,9 @@ public class PhoneNumber {
         this.ext = ext;
     }
 
-    public boolean hasExt() { return ext != null; }
+    public boolean hasExt() {
+        return ext != null;
+    }
 
     @Override
     public String toString() {
