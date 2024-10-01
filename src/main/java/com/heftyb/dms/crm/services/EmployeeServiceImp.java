@@ -1,6 +1,7 @@
 package com.heftyb.dms.crm.services;
 
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.crm.JobTitle;
 import com.heftyb.dms.crm.repositories.EmployeeRepository;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import jakarta.transaction.Transactional;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service(value = "employeeService")
@@ -59,5 +61,14 @@ public class EmployeeServiceImp implements EmployeeService {
         Employee e = findById(id);
         e.setClockedIn(status);
         empRepo.save(e);
+    }
+
+    @Override
+    public List<Employee> getActiveAdvisors() {
+        List<Employee> employees = findAll()
+                .stream()
+                .filter( e -> e.getJobTitle() == JobTitle.SERVICE_WRITER && e.isActive())
+                .collect(Collectors.toList());
+        return employees;
     }
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 public class ContactInformation {
 
     private String contactName;
+    private String contactEmail;
 
     @Embedded
     @AttributeOverrides({
@@ -105,13 +106,22 @@ public class ContactInformation {
         this.notes = notes;
     }
 
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
     public boolean containsMatchingContactInformation(ContactInformation contactInformation) {
         return contactInformation.getContactName() == contactName
                 || contactInformation.getPrimaryPhone() == primaryPhone
                 || contactInformation.getAltPhone1() == altPhone1
                 || contactInformation.getAltPhone2() == altPhone2
                 || contactInformation.getFax() == fax
-                || contactInformation.getAddress() == address;
+                || contactInformation.getAddress() == address
+                || contactInformation.getContactEmail() == contactEmail;
     }
 
     @Override

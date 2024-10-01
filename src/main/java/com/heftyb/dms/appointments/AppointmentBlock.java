@@ -1,5 +1,6 @@
 package com.heftyb.dms.appointments;
 
+import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
@@ -22,6 +23,10 @@ public class AppointmentBlock extends Auditable {
 
     @ManyToOne
     @JoinColumn
+    private Employee advisor;
+
+    @ManyToOne
+    @JoinColumn
     private Appointment appointment;
 
     private boolean isAvailable;
@@ -35,7 +40,13 @@ public class AppointmentBlock extends Auditable {
         this.startDateTime = startDateTime;
         this.duration = duration;
         endDateTime = startDateTime.plusMinutes(duration.toMinutes());
-        isAvailable = true;
+    }
+
+    public AppointmentBlock(LocalDateTime startDateTime, Duration duration, Employee advisor) {
+        this.startDateTime = startDateTime;
+        this.duration = duration;
+        endDateTime = startDateTime.plusMinutes(duration.toMinutes());
+        this.advisor = advisor;
     }
 
     public long getId() {
@@ -71,7 +82,7 @@ public class AppointmentBlock extends Auditable {
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return appointment == null;
     }
 
     public void setAvailable(boolean available) {
@@ -84,5 +95,27 @@ public class AppointmentBlock extends Auditable {
 
     public void setDuration(Duration duration) {
         this.duration = duration;
+    }
+
+    public Employee getAdvisor() {
+        return advisor;
+    }
+
+    public void setAdvisor(Employee advisor) {
+        this.advisor = advisor;
+    }
+
+    public String startTimeCleanString() { return startDateTime.toLocalTime().toString().replace(":", ""); }
+    public String endTimeCleanString() { return endDateTime.toLocalTime().toString().replace(":", ""); }
+
+    @Override
+    public String toString() {
+        return "AppointmentBlock{" +
+                "id=" + id +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                ", isAvailable=" + isAvailable +
+                ", duration=" + duration +
+                '}';
     }
 }

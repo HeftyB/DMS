@@ -7,9 +7,13 @@ import com.heftyb.dms.exceptions.DataNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -19,6 +23,8 @@ public class AppointmentServiceImp implements AppointmentService {
     private final AppointmentBlockRepository blockRepo;
     private final EmployeeService employeeService;
 
+    private int defaultInterval = 15;
+
     public AppointmentServiceImp(final AppointmentRepository appointmentRepository,
                                  final AppointmentBlockRepository appointmentBlockRepository,
                                  final EmployeeService employeeService) {
@@ -27,6 +33,13 @@ public class AppointmentServiceImp implements AppointmentService {
         this.employeeService = employeeService;
     }
 
+    public int getDefaultInterval() {
+        return defaultInterval;
+    }
+
+    public void setDefaultInterval(int defaultInterval) {
+        this.defaultInterval = defaultInterval;
+    }
 
     @Override
     public List<Appointment> findAllAppointments() {
@@ -40,6 +53,14 @@ public class AppointmentServiceImp implements AppointmentService {
         return apptRepo.findById(id).orElseThrow(() -> new DataNotFoundException(
                 String.format("Could not find Appointment id: %s", id)
         ));
+    }
+
+    @Override
+    public List<Appointment> findAppointmentsByDate(LocalDate date) {
+        return findAllAppointments()
+                .stream()
+                .filter(apt -> apt.getStartDateTime().toLocalDate().isEqual(date))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -57,6 +78,14 @@ public class AppointmentServiceImp implements AppointmentService {
 
         if (appointment.getId() != 0) {
             a = findAppointmentById(appointment.getId());
+
+            // remove & free any previously held blocks
+            List<AppointmentBlock> apb = new ArrayList<>();
+            for (AppointmentBlock ap : a.getBlocks()) {
+                freeAdvisorBlock(ap);
+                apb.add(ap);
+            }
+            a.getBlocks().removeAll(apb);
         } else {
             a = new Appointment();
         }
@@ -66,12 +95,22 @@ public class AppointmentServiceImp implements AppointmentService {
         Employee e = employeeService.findById(appointment.getAdvisor().getId());
         a.setAdvisor(e);
         a.setConcerns(appointment.getConcerns());
+        ArrayList<Employee> employees = new ArrayList<>();
+        employees.add(e);
 
-        for (AppointmentBlock block : appointment.getBlocks()) {
-            AppointmentBlock b = findBlockById(block.getId());
 
-            b.setAppointment(a);
-            a.getBlocks().add(b);
+        List<AppointmentBlock> neededBlocks = findBlockByDate(appointment.getStartDateTime().toLocalDate(), employees)
+                .stream().filter(block -> (block.getStartDateTime().isAfter(appointment.getStartDateTime()) && block.getEndDateTime().isBefore(appointment.getEndDateTime()) || block.getStartDateTime().isEqual(appointment.getStartDateTime()) || block.getEndDateTime().isEqual(appointment.getEndDateTime())) && block.getAdvisor().getId() == a.getAdvisor().getId())
+                .collect(Collectors.toList());
+
+
+        for (AppointmentBlock ap : neededBlocks) {
+            if (!ap.isAvailable()) {
+                throw new RuntimeException(String.format("Error: Could not create new appointment, required AppointmentBlock is unavailable: %s", ap));
+            }
+            ap.setAppointment(a);
+            ap.setAvailable(false);
+            a.getBlocks().add(ap);
         }
 
         a.setContactInformation(appointment.getContactInformation());
@@ -82,7 +121,8 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public void deleteAppointment(long id) {
-        findAppointmentById(id);
+        Appointment a = findAppointmentById(id);
+        a.getBlocks().stream().forEach(this::freeAdvisorBlock);
         apptRepo.deleteById(id);
     }
 
@@ -94,9 +134,15 @@ public class AppointmentServiceImp implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentBlock> findBlockByDate(LocalDate date) {
-        List<AppointmentBlock> blocks = findAllBlocks();
-        blocks.stream().filter(b -> b.getStartDateTime().toLocalDate() == date);
+    public List<AppointmentBlock> findBlockByDate(LocalDate date, List<Employee> advisors) {
+        List<AppointmentBlock> blocks = findAllBlocks()
+                .stream()
+                .filter(b -> b.getStartDateTime().toLocalDate().isEqual(date) && advisors.contains(b.getAdvisor()))
+                .collect(Collectors.toList());
+
+        if (blocks.isEmpty()) {
+            blocks = createNewBlocksForDate(date, Duration.ofMinutes(defaultInterval), advisors);
+        }
         return blocks;
     }
 
@@ -122,6 +168,7 @@ public class AppointmentServiceImp implements AppointmentService {
         b.setAppointment(block.getAppointment());
         b.setAvailable(block.isAvailable());
         b.setDuration(block.getDuration());
+        b.setAdvisor(block.getAdvisor());
         return blockRepo.save(b);
     }
 
@@ -129,6 +176,81 @@ public class AppointmentServiceImp implements AppointmentService {
     public void deleteBlock(long id) {
         findBlockById(id);
         blockRepo.deleteById(id);
+    }
+
+    @Override
+    public List<AppointmentBlock> createNewBlocksForDate(LocalDate date, Duration duration, List<Employee> advisors) {
+        List<AppointmentBlock> daysBlocks = findAllBlocks()
+                .stream()
+                .filter(b -> b.getStartDateTime().toLocalDate().isEqual(date) && advisors.contains(b.getAdvisor()))
+                .collect(Collectors.toList());
+
+        // check for existing advisor blocks
+        if (!daysBlocks.isEmpty()) {
+            throw new RuntimeException(String.format("Error: Could not create AppointmentBlocks for date: %s, " +
+                    "Appointment Blocks already exist please update manually!", date));
+        }
+
+        LocalDateTime ldts = LocalDateTime.of(date, LocalTime.parse("08:00:00"));
+        LocalDateTime ldte = LocalDateTime.of(date, LocalTime.parse("19:00:00"));
+
+        AppointmentBlock ab = new AppointmentBlock(ldts, duration);
+        ab.setStartDateTime(ldts);
+
+        daysBlocks.add(ab);
+        AppointmentBlock lastBlock = ab;
+        int totalBlocks = calculateBlocks(ldts.toLocalTime(), ldte.toLocalTime(), duration);
+
+
+        for (int i = 0; i < totalBlocks - 1; i++) {
+            AppointmentBlock b = new AppointmentBlock(lastBlock.getEndDateTime(), duration);
+            daysBlocks.add(b);
+            lastBlock = b;
+        }
+
+        List<AppointmentBlock> advisorBlocks = new ArrayList<>();
+
+        for (AppointmentBlock block : daysBlocks) {
+            for (Employee ad : advisors) {
+                AppointmentBlock appointmentBlock = new AppointmentBlock();
+                appointmentBlock.setStartDateTime(block.getStartDateTime());
+                appointmentBlock.setEndDateTime(block.getEndDateTime());
+                appointmentBlock.setDuration(block.getDuration());
+                appointmentBlock.setAdvisor(ad);
+                advisorBlocks.add(saveBlock(appointmentBlock));
+            }
+        }
+
+        return advisorBlocks;
+    }
+
+    /**
+     * Finds the number of "time blocks" are needed between
+     * two LocalTimes with a given Duration
+     *
+     * @param startTime
+     * @param endTime
+     * @param apptDuration
+     * @return
+     */
+    private int calculateBlocks(LocalTime startTime, LocalTime endTime, Duration apptDuration) {
+        long totalMinutes = Duration.between(startTime, endTime).toMinutes();
+
+        return (int) (totalMinutes / apptDuration.toMinutes());
+    }
+
+    /**
+     * opens up a previously scheduled appointment block
+     *
+     * @param block AppointmentBlock to be freed
+     */
+    private void freeAdvisorBlock(AppointmentBlock block) {
+        AppointmentBlock b = findBlockById(block.getId());
+
+        b.setAvailable(true);
+        b.setAppointment(null);
+
+        blockRepo.save(b);
     }
 }
 

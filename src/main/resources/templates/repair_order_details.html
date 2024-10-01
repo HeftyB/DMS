@@ -17,8 +17,7 @@
                 <p th:text="${ro.customer.address.addressLine1}">1234 Fake Ln</p>
                 <p if="${ro.customer.address.addressLine2}} != null" th:text="${ro.customer.address.addressLine2}"></p>
                 <p>
-                    <span th:text="${ro.customer.address.city}">Jacksonville</span> <span
-                        th:text="${ro.customer.address.state}">Fl</span> <span th:text="${ro.customer.address.zip.zip}">35555</span>
+                    <span th:text="${ro.customer.address.city}">Jacksonville</span> <span th:text="${ro.customer.address.state}">Fl</span> <span th:text="${ro.customer.address.zip.zip}">35555</span>
                 </p>
                 <span>(904) 555-5555</span>
                 <span>(904) 555-5532</span>
@@ -47,13 +46,13 @@
         </div>
     </div>
     <div>
-        <!--        <hr>-->
-        <!--        <div class="ro-button-wrapper">-->
-        <!--            <button>Customer</button>-->
-        <!--            <button>Vehicle History</button>-->
-        <!--            <button>Cool Button</button>-->
-        <!--            <button>Change priority</button>-->
-        <!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="ro-button-wrapper">-->
+<!--            <button>Customer</button>-->
+<!--            <button>Vehicle History</button>-->
+<!--            <button>Cool Button</button>-->
+<!--            <button>Change priority</button>-->
+<!--        </div>-->
         <hr>
         <div>
             <div class="jobs-title">
@@ -92,8 +91,7 @@
                             </div>
                             <div>
                                 <span class="status-label">Technician: </span>
-                                <span class="status-content" th:if="!${j.timeClockPunchSets.isEmpty()}"
-                                      th:text="${j.timeClockPunchSets.getFirst().in.employee.lastName}">Doeson</span>
+                                <span class="status-content" th:if="!${j.timeClockPunchSets.isEmpty()}" th:text="${j.timeClockPunchSets.getFirst().in.employee.lastName}">Doeson</span>
                             </div>
                             <div class="job-status-info">
                                 <div class="pts-lbr">
@@ -105,18 +103,19 @@
                         </button>
 
 
+
                         <div class="content">
                             <section>
-                                <!--                            <hr>-->
+    <!--                            <hr>-->
                                 <h5>Parts:</h5>
                                 <table>
                                     <tr>
                                         <th>#</th>
-                                        <th>Part Number:</th>
-                                        <th class="part-description">Description:</th>
-                                        <th>QTY:</th>
+                                        <th>Part Number: </th>
+                                        <th class="part-description">Description: </th>
+                                        <th>QTY: </th>
                                         <th>Unit Price:</th>
-                                        <th>Line Total:</th>
+                                        <th>Line Total: </th>
                                     </tr>
 
                                     <tr>
@@ -131,9 +130,7 @@
                                     <tr>
                                         <td>2</td>
                                         <td>64-12-465-785-3710</td>
-                                        <td class="part-description">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit.
-                                        </td>
+                                        <td class="part-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</td>
                                         <td>1</td>
                                         <td>$3.63</td>
                                         <td>$3.63</td>
@@ -142,9 +139,7 @@
                                     <tr>
                                         <td>3</td>
                                         <td>45-30-364-285-5100</td>
-                                        <td class="part-description">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Magni, maxime.
-                                        </td>
+                                        <td class="part-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni, maxime.</td>
                                         <td>2</td>
                                         <td>$9.30</td>
                                         <td>$187.26</td>
@@ -165,10 +160,10 @@
                                 <table>
                                     <tr>
                                         <th>#</th>
-                                        <th>Technician:</th>
+                                        <th>Technician: </th>
                                         <th>Total Labor Units:</th>
-                                        <th>Labor Rate:</th>
-                                        <th>Line Total:</th>
+                                        <th>Labor Rate: </th>
+                                        <th>Line Total: </th>
                                     </tr>
 
                                     <tr>
@@ -187,7 +182,7 @@
                                     </tr>
                                     <tr>
                                         <td>-</td>
-                                        <td>Total:</td>
+                                        <td>Total: </td>
                                         <td>-</td>
                                         <td>-</td>
                                         <td>$200.00</td>
@@ -202,7 +197,9 @@
     </div>
 
 
+
     <div th:replace="~{new_wo_job::new-wo-job (ro=${ro})}"></div>
+
 
 
 </div>
@@ -213,13 +210,13 @@
 
     // Apply the EventListener
     for (let i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
+        coll[i].addEventListener("click", function() {
 
             console.log("l")
 
             this.classList.toggle("active-job");
             var content = this.nextElementSibling;
-            if (content.style.maxHeight) {
+            if (content.style.maxHeight){
                 content.style.maxHeight = null;
             } else {
                 content.style.maxHeight = content.scrollHeight + "px";
