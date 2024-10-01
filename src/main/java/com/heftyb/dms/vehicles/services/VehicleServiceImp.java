@@ -157,12 +157,6 @@ public class VehicleServiceImp implements VehicleService {
 
         Vehicle v = new Vehicle();
 
-
-        results.forEach((k, val) -> System.out.printf("Key: %s  : Value: %s%n", k, val));
-
-//        System.out.println(vd);
-
-
         v.setVin(vin);
         v.setModelYear(Integer.parseInt(results.get("ModelYear")));
         v.setMake(results.get("Make"));
@@ -189,9 +183,6 @@ public class VehicleServiceImp implements VehicleService {
         v.setTrim(results.get("Trim"));
         v.setTrim2(results.get("Trim2"));
         v.setVehicleType(results.get("VehicleType"));
-
-
-//        System.out.println(v);
 
         return v;
     }

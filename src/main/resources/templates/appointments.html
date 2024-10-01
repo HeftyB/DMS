@@ -10,56 +10,9 @@
         grid-gap: 1rem;
         grid-template-rows:
         [advisor] auto
-        [#
-        th: each = "block : ${tblocks}"
-        th: if = "${block.advisor.id} == ${advisors.get(0).id}" ] [t[(${block.startTimeCleanString()}) ] ] 1 fr [ # th: if = "${blockStat.last}" ];
-    [ / ] [ / ]
-
-        /*[t0800] 1fr*/
-        /*[t0815] 1fr*/
-        /*[t0830] 1fr*/
-        /*[t0845] 1fr*/
-        /*[t0900] 1fr*/
-        /*[t0915] 1fr*/
-        /*[t0930] 1fr*/
-        /*[t0945] 1fr*/
-        /*[t1000] 1fr*/
-        /*[t1015] 1fr*/
-        /*[t1030] 1fr*/
-        /*[t1045] 1fr*/
-        /*[t1100] 1fr*/
-        /*[t1115] 1fr*/
-        /*[t1130] 1fr*/
-        /*[t1145] 1fr*/
-        /*[t1200] 1fr*/
-        /*[t1215] 1fr*/
-        /*[t1230] 1fr*/
-        /*[t1245] 1fr*/
-        /*[t1300] 1fr*/
-        /*[t1315] 1fr*/
-        /*[t1330] 1fr*/
-        /*[t1345] 1fr*/
-        /*[t1400] 1fr*/
-        /*[t1415] 1fr*/
-        /*[t1430] 1fr*/
-        /*[t1445] 1fr*/
-        /*[t1500] 1fr*/
-        /*[t1515] 1fr*/
-        /*[t1530] 1fr*/
-        /*[t1545] 1fr*/
-        /*[t1600] 1fr*/
-        /*[t1615] 1fr*/
-        /*[t1630] 1fr*/
-        /*[t1645] 1fr*/
-        /*[t1700] 1fr*/
-        /*[t1715] 1fr*/
-        /*[t1730] 1fr*/
-        /*[t1745] 1fr*/
-        /*[t1800] 1fr*/
-        /*[t1815] 1fr*/
-        /*[t1830] 1fr*/
-        /*[t1845] 1fr*/
-        /*[t1900] 1fr;*/
+        [#  th:each="block : ${tblocks}"  th:if="${block.advisor.id} == ${advisors.get(0).id}"]
+            [t[(${block.startTimeCleanString()})]] 1fr [# th:if="${blockStat.last}"];[/]
+        [/]
     }
 
     .dtime {
@@ -170,7 +123,6 @@
     }
 
     #new_date, #total_time, #advisor_name {
-        /*opacity: 0.65;*/
         background: rgba(215, 215, 215, 0.66);
         pointer-events: none;
     }
@@ -178,31 +130,8 @@
 
 
 <h1 class="center-text">APPOINTMENTS for [[${{date}}]]</h1>
-
-<!--table for appt data, just for testing-->
-<!--<table>-->
-<!--    <tr>-->
-<!--        <th>ID</th>-->
-<!--        <th>Start Date-Time</th>-->
-<!--        <th>End Date-Time</th>-->
-<!--        <th>Appointment</th>-->
-<!--        <th>Is Available</th>-->
-<!--        <th>Duration</th>-->
-<!--    </tr>-->
-
-<!--    <tr th:each="b : ${blocks}">-->
-<!--        <td th:text="${b.id}"></td>-->
-<!--        <td th:text="${{b.startDateTime}}"></td>-->
-<!--        <td th:text="${{b.endDateTime.toLocalTime()}}"></td>-->
-<!--        <td th:text="${b.appointment?.getAppointmentInfo()}"></td>-->
-<!--        <td th:text="${b.isAvailable}"></td>-->
-<!--        <td th:text="${b.duration}"></td>-->
-<!--    </tr>-->
-
-<!--</table>-->
-
+<!-- date changer-->
 <div>
-
     <hr>
     <div class="date-change">
         <form action="" id="date_changer">
@@ -215,6 +144,7 @@
     <hr>
 </div>
 
+<!--schedule-->
 <div class="schedule" th:style="${columns}">
 
     <!--  advisor-info(top  row)-->
@@ -223,51 +153,6 @@
     <!--    time slot column values-->
     <h4 th:each="block : ${blocks}" th:if="${block.advisor.id} == ${advisors.get(0).id}" class="dtime"
         th:style="|grid-row: t${block.startTimeCleanString()};|">[[${{block.startDateTime.toLocalTime()}}]]</h4>
-    <!--    <h4 class="dtime" style="grid-row: t0800;">8:00 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0815;">8:15 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0830;">8:30 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0845;">8:45 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0900">9:00 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0915">9:15 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0930">9:30 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0945">9:45 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1000;">10:00 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1015;">10:15 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1030;">10:30 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1045;">10:45 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1100;">11:00 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1115;">11:15 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1130;">11:30 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1145;">11:45 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1200;">12:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1215;">12:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1230;">12:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1245;">12:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1300;">1:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1315;">1:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1330;">1:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1345;">1:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1400;">2:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1415;">2:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1430;">2:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1445;">2:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1500;">3:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1515;">3:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1530;">3:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1545;">3:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1600;">4:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1615;">4:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1630;">4:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1645;">4:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1700;">5:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1715;">5:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1730;">5:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1745;">5:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1800;">6:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1815;">6:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1830;">6:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1845;">6:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1900;">7:00 PM</h4>-->
 
     <!--  alternating colored backing for each advisor column-->
     <div th:each="advisor: ${advisors}" class="advisor-back" th:style="|grid-column: advisor${advisor.id};|"></div>
