@@ -16,6 +16,8 @@ public class Employee extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    private boolean isActive = true;
+
     @NotNull
     private String firstName;
 
@@ -188,6 +190,18 @@ public class Employee extends Auditable {
         this.user = user;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public String getName() {
+        return String.format("%s %s", (preferredName != null ? preferredName : firstName), lastName);
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -198,11 +212,11 @@ public class Employee extends Auditable {
                 ", address=" + address +
                 ", contactInformation=" + contactInformation +
                 ", taxId='" + taxId + '\'' +
+                ", isActive='" + isActive + '\'' +
                 ", clockedIn=" + clockedIn +
                 ", jobInProgress=" + jobInProgress +
                 ", jobTitle=" + jobTitle +
                 ", hiredDate=" + hiredDate +
-                ", user=" + user +
                 '}';
     }
 }

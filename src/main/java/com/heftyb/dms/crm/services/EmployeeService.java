@@ -14,4 +14,6 @@ public interface EmployeeService {
     void delete(long id);
 
     void setEmployeeClockedIn(long id, boolean status);
+
+    List<Employee> getActiveAdvisors();
 }

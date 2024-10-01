@@ -30,7 +30,7 @@ public class Appointment extends Auditable {
     @ElementCollection
     private List<String> concerns;
 
-    @OneToMany(mappedBy = "appointment")
+    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL)
     private List<AppointmentBlock> blocks;
 
     @Embedded
@@ -104,5 +104,29 @@ public class Appointment extends Auditable {
 
     public void setConfirmationCode(String confirmationCode) {
         this.confirmationCode = confirmationCode;
+    }
+
+    public String startTimeCleanString() { return startDateTime.toLocalTime().toString().replace(":", ""); }
+    public String endTimeCleanString() { return endDateTime.toLocalTime().toString().replace(":", ""); }
+
+    public String getAppointmentInfo() {
+        return String.format(
+                "#: %s Start: %s, End: %s \n Name: %s",
+                id, startDateTime.toLocalTime(), endDateTime.toLocalTime(), contactInformation.getContactName()
+        );
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                ", advisor=" + advisor +
+                ", concerns=" + concerns +
+                ", blocks=" + blocks +
+                ", contactInformation=" + contactInformation +
+                ", confirmationCode='" + confirmationCode + '\'' +
+                '}';
     }
 }
