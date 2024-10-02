@@ -14,7 +14,7 @@ import java.util.Locale;
 @Table(name = "vehicles")
 public class Vehicle extends Auditable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(unique = true)

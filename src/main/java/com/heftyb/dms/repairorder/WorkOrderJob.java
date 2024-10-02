@@ -1,6 +1,7 @@
 package com.heftyb.dms.repairorder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.inventory.WorkOrderJobPart;
 import com.heftyb.dms.timekeeping.JobTimePunchSet;
 import jakarta.persistence.*;
@@ -11,10 +12,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "workOrderJobs")
-public class WorkOrderJob {
+public class WorkOrderJob extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Enumerated

@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "fees")
 public class Fee extends Auditable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull

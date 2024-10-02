@@ -1,17 +1,14 @@
 package com.heftyb.dms.appointments;
 
 import com.heftyb.dms.dao.Auditable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "serviceMenuItems")
 public class ServiceMenuItem extends Auditable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String item;

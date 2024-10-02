@@ -2,6 +2,7 @@ package com.heftyb.dms.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,9 +14,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends Auditable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false, unique = true)

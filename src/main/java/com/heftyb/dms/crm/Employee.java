@@ -13,7 +13,7 @@ import java.util.Date;
 public class Employee extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private boolean isActive = true;

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class AppointmentBlock extends Auditable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Basic

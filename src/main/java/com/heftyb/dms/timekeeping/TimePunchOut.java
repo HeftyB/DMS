@@ -1,17 +1,18 @@
 package com.heftyb.dms.timekeeping;
 
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "timepunchout")
-public class TimePunchOut {
+@Table(name = "timePunchOut")
+public class TimePunchOut extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull

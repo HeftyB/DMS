@@ -14,7 +14,7 @@ import java.util.List;
 public class Appointment extends Auditable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Basic
