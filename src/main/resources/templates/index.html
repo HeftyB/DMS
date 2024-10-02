@@ -2,13 +2,13 @@
 <html lang="en">
 <head th:replace="~{fragments::head (page_title='Home')}"></head>
 <body>
-
-<nav th:insert="~{fragments::header-top (username=${username})}"></nav>
-
-<div>
-    <h1>Welcome to Hefty's dealer management software suite</h1>
+<div class="page-wrapper">
+    <header th:insert="~{fragments::header-top (username=${username})}"></header>
+    <div>
+        <h1>Welcome to Hefty's dealer management software suite</h1>
+        Welcome [(${principal})]!
+    </div>
 </div>
-
 <footer th:replace="~{fragments::foot}"></footer>
 </body>
 </html>

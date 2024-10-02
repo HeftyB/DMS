@@ -214,7 +214,7 @@ public class TimeClockServiceImp implements TimeClockService {
                 .collect(Collectors.toList());
         punchSets.sort(Comparator.comparing(TimeClockPunchSet::getInPunchTime).reversed());
 
-        if (punchSets.get(0).getOut() == null) {
+        if (!punchSets.isEmpty() && punchSets.get(0).getOut() == null) {
             return punchSets.get(0);
         } else {
             TimeClockPunchSet timeClockPunchSet = new TimeClockPunchSet();

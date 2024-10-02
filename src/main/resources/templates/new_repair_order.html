@@ -3,152 +3,154 @@
 <head th:replace="~{fragments::head (page_title='New RO')}">
 </head>
 <body>
-<header th:insert="~{fragments::header-top (username=${username})}"></header>
-<div th:replace="~{fragments::forward-back}"></div>
-<div class="ro-intake-wrapper" th:fragment="ro-intake (vehicle)">
-    <form class="ro-intake-form" action="#" th:action="@{/repair_orders/repair_order/create}" method="post">
-        <h3>NEW REPAIR ORDER</h3>
-        <h6 th:text="${vehicle.vin}"></h6>
-        <div class="tab">
-            <input type="hidden" name="vin" th:value="${vehicle.vin}">
-            <label for="mileage_in">Mileage In: </label>
-            <input type="number" id="mileage_in" name="mileageIn">
-            <label for="service_tag">Service Tag:</label>
-            <input type="number" id="service_tag" name="serviceTag">
-            <label for="priority">Priority#</label>
-            <input type="text" id="priority" name="priority" value="5">
-        </div>
-
-        <div class="tab" th:if="${vehicle.customer}">
-            <h4>Confirm Customer Information: </h4>
-            <p th:text="${vehicle.customer?.getName()}"></p>
-            <p th:text="${vehicle.customer?.address?.getAddress()}"></p>
-            <p th:text="${vehicle.customer?.contactInformation?.primaryPhone?.number}"></p>
-            <a href="#" class="clean-link" th:href="@{/customers/customer(id=${vehicle.customer.id})}">UPDATE CUSTOMER
-                INFORMATION</a>
-            <a href="#" class="clean-link" th:href="@{/vehicles/vehicle(id=${vehicle.id})}">UPDATE VEHICLE'S ASSOCIATED
-                CUSTOMER</a>
-        </div>
-
-
-        <!--        <div class="tab" th:unless="${vehicle.customer}" th:insert="~{customer_details::customer-form (customer=null, editable=true, action='/customers/customer/create')}"></div>-->
-        <div class="tab" th:unless="${vehicle.customer}">
-            <a href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}">Add REQUIRED customer before starting repair
-                order</a>
-        </div>
-
-
-        <div class="tab">
-            <div class="concern-list">
-                <h3>Concerns:</h3>
-                <ol id="concerns">
-                    <li>
-                        <label for="new_concern">New Concern: </label>
-                        <input type="text" name="concerns" id="new_concern">
-                    </li>
-                </ol>
+<div class="page-wrapper">
+    <header th:insert="~{fragments::header-top (username=${username})}"></header>
+    <div th:replace="~{fragments::forward-back}"></div>
+    <div class="ro-intake-wrapper" th:fragment="ro-intake (vehicle)">
+        <form class="ro-intake-form" action="#" th:action="@{/repair_orders/repair_order/create}" method="post">
+            <h3>NEW REPAIR ORDER</h3>
+            <h6 th:text="${vehicle.vin}"></h6>
+            <div class="tab">
+                <input type="hidden" name="vin" th:value="${vehicle.vin}">
+                <label for="mileage_in">Mileage In: </label>
+                <input type="number" id="mileage_in" name="mileageIn">
+                <label for="service_tag">Service Tag:</label>
+                <input type="number" id="service_tag" name="serviceTag">
+                <label for="priority">Priority#</label>
+                <input type="text" id="priority" name="priority" value="5">
             </div>
 
-            <button type="button" id="add_job_button">ADD JOBS</button>
-        </div>
-
-        <div class="tab"></div>
-
-
-        <div style="overflow:auto;">
-            <div style="float:right;">
-                <button type="button" id="prev_button" onclick="nextPrev(-1)">Previous</button>
-                <button type="button" id="next_button" onclick="nextPrev(1)">Next</button>
-                <button type="submit" id="submit_button" style="display: none">SUBMIT</button>
+            <div class="tab" th:if="${vehicle.customer}">
+                <h4>Confirm Customer Information: </h4>
+                <p th:text="${vehicle.customer?.getName()}"></p>
+                <p th:text="${vehicle.customer?.address?.getAddress()}"></p>
+                <p th:text="${vehicle.customer?.contactInformation?.primaryPhone?.number}"></p>
+                <a href="#" class="clean-link" th:href="@{/customers/customer(id=${vehicle.customer.id})}">UPDATE CUSTOMER
+                    INFORMATION</a>
+                <a href="#" class="clean-link" th:href="@{/vehicles/vehicle(id=${vehicle.id})}">UPDATE VEHICLE'S ASSOCIATED
+                    CUSTOMER</a>
             </div>
-        </div>
 
 
-        <div style="text-align:center;margin-top:40px;">
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
-        </div>
-    </form>
+            <!--        <div class="tab" th:unless="${vehicle.customer}" th:insert="~{customer_details::customer-form (customer=null, editable=true, action='/customers/customer/create')}"></div>-->
+            <div class="tab" th:unless="${vehicle.customer}">
+                <a href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}">Add REQUIRED customer before starting repair
+                    order</a>
+            </div>
+
+
+            <div class="tab">
+                <div class="concern-list">
+                    <h3>Concerns:</h3>
+                    <ol id="concerns">
+                        <li>
+                            <label for="new_concern">New Concern: </label>
+                            <input type="text" name="concerns" id="new_concern">
+                        </li>
+                    </ol>
+                </div>
+
+                <button type="button" id="add_job_button">ADD JOBS</button>
+            </div>
+
+            <div class="tab"></div>
+
+
+            <div style="overflow:auto;">
+                <div style="float:right;">
+                    <button type="button" id="prev_button" onclick="nextPrev(-1)">Previous</button>
+                    <button type="button" id="next_button" onclick="nextPrev(1)">Next</button>
+                    <button type="submit" id="submit_button" style="display: none">SUBMIT</button>
+                </div>
+            </div>
+
+
+            <div style="text-align:center;margin-top:40px;">
+                <span class="step"></span>
+                <span class="step"></span>
+                <span class="step"></span>
+                <span class="step"></span>
+            </div>
+        </form>
+    </div>
+
+    <script>
+
+        // new ro concern list
+        let clist = document.getElementById("concerns")
+
+        document.getElementById("add_job_button").addEventListener("click", e => {
+            e.preventDefault()
+
+            let input = document.createElement("input")
+            input.name = "concerns"
+            input.placeholder = "new concern"
+            let li = document.createElement("li")
+            li.appendChild(input)
+            clist.appendChild(li)
+        })
+
+
+        // tabbed view
+        var currentTab = 0; // Current tab is set to be the first tab (0)
+        showTab(currentTab); // Display the current tab
+
+        let nButton = document.getElementById("next_button")
+
+        function showTab(n) {
+            // This function will display the specified tab of the form ...
+            var x = document.getElementsByClassName("tab");
+            x[n].style.display = "block";
+            // ... and fix the Previous/Next buttons:
+            if (n == 0) {
+                document.getElementById("prev_button").style.display = "none";
+            } else {
+                document.getElementById("prev_button").style.display = "inline";
+            }
+            if (n == (x.length - 1)) {
+                Array.prototype.forEach.call(x, function (tab) {
+                    tab.style.display = "block"
+                })
+                nButton.innerHTML = "Submit"
+            } else {
+                document.getElementById("next_button").innerHTML = "Next";
+            }
+            // ... and run a function that displays the correct step indicator:
+            fixStepIndicator(n)
+        }
+
+        function nextPrev(n) {
+            // This function will figure out which tab to display
+            var x = document.getElementsByClassName("tab");
+            // mark step as finished
+            document.getElementsByClassName("step")[currentTab].className += " finish";
+            // Hide the current tab:
+            x[currentTab].style.display = "none";
+            // Increase or decrease the current tab by 1:
+            currentTab = currentTab + n;
+            // if you have reached the end of the form... :
+            if (currentTab >= x.length) {
+                //...the form gets submitted:
+                document.querySelector(".ro-intake-form").submit();
+                return false;
+            }
+            // Otherwise, display the correct tab:
+            showTab(currentTab);
+
+        }
+
+        function fixStepIndicator(n) {
+            // This function removes the "active" class of all steps...
+            var i, x = document.getElementsByClassName("step");
+            for (i = 0; i < x.length; i++) {
+                x[i].className = x[i].className.replace(" active", "");
+            }
+            //... and adds the "active" class to the current step:
+            x[n].className += " active";
+        }
+    </script>
+
+    <footer th:insert="~{fragments::foot}"></footer>
 </div>
-
-<script>
-
-    // new ro concern list
-    let clist = document.getElementById("concerns")
-
-    document.getElementById("add_job_button").addEventListener("click", e => {
-        e.preventDefault()
-
-        let input = document.createElement("input")
-        input.name = "concerns"
-        input.placeholder = "new concern"
-        let li = document.createElement("li")
-        li.appendChild(input)
-        clist.appendChild(li)
-    })
-
-
-    // tabbed view
-    var currentTab = 0; // Current tab is set to be the first tab (0)
-    showTab(currentTab); // Display the current tab
-
-    let nButton = document.getElementById("next_button")
-
-    function showTab(n) {
-        // This function will display the specified tab of the form ...
-        var x = document.getElementsByClassName("tab");
-        x[n].style.display = "block";
-        // ... and fix the Previous/Next buttons:
-        if (n == 0) {
-            document.getElementById("prev_button").style.display = "none";
-        } else {
-            document.getElementById("prev_button").style.display = "inline";
-        }
-        if (n == (x.length - 1)) {
-            Array.prototype.forEach.call(x, function (tab) {
-                tab.style.display = "block"
-            })
-            nButton.innerHTML = "Submit"
-        } else {
-            document.getElementById("next_button").innerHTML = "Next";
-        }
-        // ... and run a function that displays the correct step indicator:
-        fixStepIndicator(n)
-    }
-
-    function nextPrev(n) {
-        // This function will figure out which tab to display
-        var x = document.getElementsByClassName("tab");
-        // mark step as finished
-        document.getElementsByClassName("step")[currentTab].className += " finish";
-        // Hide the current tab:
-        x[currentTab].style.display = "none";
-        // Increase or decrease the current tab by 1:
-        currentTab = currentTab + n;
-        // if you have reached the end of the form... :
-        if (currentTab >= x.length) {
-            //...the form gets submitted:
-            document.querySelector(".ro-intake-form").submit();
-            return false;
-        }
-        // Otherwise, display the correct tab:
-        showTab(currentTab);
-
-    }
-
-    function fixStepIndicator(n) {
-        // This function removes the "active" class of all steps...
-        var i, x = document.getElementsByClassName("step");
-        for (i = 0; i < x.length; i++) {
-            x[i].className = x[i].className.replace(" active", "");
-        }
-        //... and adds the "active" class to the current step:
-        x[n].className += " active";
-    }
-</script>
-
-<footer th:insert="~{fragments::foot}"></footer>
 </body>
 </html>

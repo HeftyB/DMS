@@ -2,661 +2,548 @@
 <html lang="en">
 <head th:replace="~{fragments::head (page_title='Appointments')}"></head>
 <body>
-<header th:insert="~{fragments::header-top (username = username)}"></header>
-<style th:inline="css">
+<div class="page-wrapper">
+    <header th:insert="~{fragments::header-top (username = username)}"></header>
+    <style th:inline="css">
 
-    .schedule {
-        display: grid;
-        grid-gap: 1rem;
-        grid-template-rows:
-        [advisor] auto
-        [#
-        th: each = "block : ${tblocks}"
-        th: if = "${block.advisor.id} == ${advisors.get(0).id}" ] [t[(${block.startTimeCleanString()}) ] ] 1 fr [ # th: if = "${blockStat.last}" ];
-    [ / ] [ / ]
+        .schedule {
+            display: grid;
+            grid-gap: 1rem;
+            grid-template-rows:
+            [advisor] auto
+            [#  th:each="block : ${tblocks}"  th:if="${block.advisor.id} == ${advisors.get(0).id}"]
+                [t[(${block.startTimeCleanString()})]] 1fr [# th:if="${blockStat.last}"];[/]
+            [/]
+        }
 
-        /*[t0800] 1fr*/
-        /*[t0815] 1fr*/
-        /*[t0830] 1fr*/
-        /*[t0845] 1fr*/
-        /*[t0900] 1fr*/
-        /*[t0915] 1fr*/
-        /*[t0930] 1fr*/
-        /*[t0945] 1fr*/
-        /*[t1000] 1fr*/
-        /*[t1015] 1fr*/
-        /*[t1030] 1fr*/
-        /*[t1045] 1fr*/
-        /*[t1100] 1fr*/
-        /*[t1115] 1fr*/
-        /*[t1130] 1fr*/
-        /*[t1145] 1fr*/
-        /*[t1200] 1fr*/
-        /*[t1215] 1fr*/
-        /*[t1230] 1fr*/
-        /*[t1245] 1fr*/
-        /*[t1300] 1fr*/
-        /*[t1315] 1fr*/
-        /*[t1330] 1fr*/
-        /*[t1345] 1fr*/
-        /*[t1400] 1fr*/
-        /*[t1415] 1fr*/
-        /*[t1430] 1fr*/
-        /*[t1445] 1fr*/
-        /*[t1500] 1fr*/
-        /*[t1515] 1fr*/
-        /*[t1530] 1fr*/
-        /*[t1545] 1fr*/
-        /*[t1600] 1fr*/
-        /*[t1615] 1fr*/
-        /*[t1630] 1fr*/
-        /*[t1645] 1fr*/
-        /*[t1700] 1fr*/
-        /*[t1715] 1fr*/
-        /*[t1730] 1fr*/
-        /*[t1745] 1fr*/
-        /*[t1800] 1fr*/
-        /*[t1815] 1fr*/
-        /*[t1830] 1fr*/
-        /*[t1845] 1fr*/
-        /*[t1900] 1fr;*/
-    }
+        .dtime {
+            grid-column: times;
+            margin: 0;
+        }
 
-    .dtime {
-        grid-column: times;
-        margin: 0;
-    }
+        .advisor-slot {
+            text-align: center;
+            grid-row: advisor;
+        }
 
-    .advisor-slot {
-        text-align: center;
-        grid-row: advisor;
-    }
+        .appt-block-time {
+            text-align: center;
+            color: white;
+            pointer-events: none;
+        }
 
-    .appt-block-time {
-        text-align: center;
-        color: white;
-        pointer-events: none;
-    }
+        .date-change {
+            display: flex;
+            justify-content: center;
+        }
 
-    .date-change {
-        display: flex;
-        justify-content: center;
-    }
+        .appt-block {
+            background-color: rgba(0, 0, 0, 0.72);
+            z-index: 4;
+            border: 2px solid white;
+            border-radius: 20px;
+            box-shadow: 5px 5px lightslategrey;
+        }
 
-    .appt-block {
-        background-color: rgba(0, 0, 0, 0.72);
-        z-index: 4;
-        border: 2px solid white;
-        border-radius: 20px;
-        box-shadow: 5px 5px lightslategrey;
-    }
+        .appt-block:hover {
+            transform: scale(1.01);
+        }
 
-    .appt-block:hover {
-        transform: scale(1.01);
-    }
+        .appointment {
+            border: 1px solid black;
+            background-color: #5cb85c;
+            text-align: center;
+            z-index: 5;
+            border-radius: 20px;
+            box-shadow: 5px 5px lightslategrey;
+        }
 
-    .appointment {
-        border: 1px solid black;
-        background-color: #5cb85c;
-        text-align: center;
-        z-index: 5;
-        border-radius: 20px;
-        box-shadow: 5px 5px lightslategrey;
-    }
-
-    .new-appt form {
-        display: table;
-        margin: auto;
-    }
-
-    .new-appt * {
-        margin: 10px;
-    }
-
-    .new-appt p {
-        display: table-row;
-    }
-
-    .new-appt input {
-        display: table-cell;
-    }
-
-
-    @media screen and (min-device-width: 750px) {
-        .new-appt {
-            border: 2px solid black;
-            width: 60%;
+        .new-appt form {
+            display: table;
             margin: auto;
         }
-    }
 
-
-    .address {
-        width: 100%;
-    }
-
-    .advisor-back {
-        grid-row: 2 / -1;
-        opacity: 0.5;
-        z-index: 1;
-        padding: 15px;
-    }
-
-    .advisor-back:nth-child(odd) {
-        background-color: deepskyblue;
-    }
-
-    .advisor-back:nth-child(even) {
-        background-color: yellowgreen;
-    }
-
-    .close-new-appt:hover,
-    .close-new-appt:focus {
-        cursor: pointer;
-        transform: scale(1.02);
-    }
-
-    .close-new-appt {
-        color: #000;
-        text-decoration: none;
-        box-shadow: 3px 3px lightslategrey;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        border: 1px solid black;
-        background-color: lightpink;
-        padding: 5px;
-        border-radius: 10px;
-    }
-
-    #new_date, #total_time, #advisor_name {
-        /*opacity: 0.65;*/
-        background: rgba(215, 215, 215, 0.66);
-        pointer-events: none;
-    }
-</style>
-
-
-<h1 class="center-text">APPOINTMENTS for [[${{date}}]]</h1>
-
-<!--table for appt data, just for testing-->
-<!--<table>-->
-<!--    <tr>-->
-<!--        <th>ID</th>-->
-<!--        <th>Start Date-Time</th>-->
-<!--        <th>End Date-Time</th>-->
-<!--        <th>Appointment</th>-->
-<!--        <th>Is Available</th>-->
-<!--        <th>Duration</th>-->
-<!--    </tr>-->
-
-<!--    <tr th:each="b : ${blocks}">-->
-<!--        <td th:text="${b.id}"></td>-->
-<!--        <td th:text="${{b.startDateTime}}"></td>-->
-<!--        <td th:text="${{b.endDateTime.toLocalTime()}}"></td>-->
-<!--        <td th:text="${b.appointment?.getAppointmentInfo()}"></td>-->
-<!--        <td th:text="${b.isAvailable}"></td>-->
-<!--        <td th:text="${b.duration}"></td>-->
-<!--    </tr>-->
-
-<!--</table>-->
-
-<div>
-
-    <hr>
-    <div class="date-change">
-        <form action="" id="date_changer">
-            <label for="date">Change Date: </label>
-            <input type="date" id="date" name="date">
-            <button type="submit">Submit</button>
-        </form>
-
-    </div>
-    <hr>
-</div>
-
-<div class="schedule" th:style="${columns}">
-
-    <!--  advisor-info(top  row)-->
-    <span th:each="a : ${advisors}" class="advisor-slot" aria-hidden="true" th:style="|grid-column: advisor${a.id};|">[[${a.getName()}]]</span>
-
-    <!--    time slot column values-->
-    <h4 th:each="block : ${blocks}" th:if="${block.advisor.id} == ${advisors.get(0).id}" class="dtime"
-        th:style="|grid-row: t${block.startTimeCleanString()};|">[[${{block.startDateTime.toLocalTime()}}]]</h4>
-    <!--    <h4 class="dtime" style="grid-row: t0800;">8:00 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0815;">8:15 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0830;">8:30 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0845;">8:45 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0900">9:00 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0915">9:15 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0930">9:30 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t0945">9:45 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1000;">10:00 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1015;">10:15 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1030;">10:30 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1045;">10:45 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1100;">11:00 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1115;">11:15 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1130;">11:30 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1145;">11:45 AM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1200;">12:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1215;">12:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1230;">12:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1245;">12:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1300;">1:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1315;">1:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1330;">1:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1345;">1:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1400;">2:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1415;">2:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1430;">2:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1445;">2:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1500;">3:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1515;">3:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1530;">3:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1545;">3:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1600;">4:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1615;">4:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1630;">4:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1645;">4:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1700;">5:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1715;">5:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1730;">5:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1745;">5:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1800;">6:00 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1815;">6:15 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1830;">6:30 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1845;">6:45 PM</h4>-->
-    <!--    <h4 class="dtime" style="grid-row: t1900;">7:00 PM</h4>-->
-
-    <!--  alternating colored backing for each advisor column-->
-    <div th:each="advisor: ${advisors}" class="advisor-back" th:style="|grid-column: advisor${advisor.id};|"></div>
-
-    <!--  open appointment blocks-->
-    <div th:each="ab : ${blocks}" th:if="${ab.isAvailable()}"
-         th:id="|${ab.advisor?.id}_${ab.startDateTime.toLocalTime()}_${ab.startDateTime}|" class="appt-block"
-         th:style="|grid-column: advisor${ab.advisor.id}; grid-row:t${ab.startTimeCleanString()} / t${ab.endTimeCleanString()};|">
-        <h4 class="appt-block-time">[[${{ab.startDateTime.toLocalTime()}}]]</h4>
-    </div>
-
-
-    <!--  saved appointments-->
-    <div th:each="appt : ${appointments}" class="appointment" th:id="|appt_${appt.id}|"
-         th:style="|grid-column: advisor${appt.advisor.id}; grid-row: t${appt.startTimeCleanString()} / t${appt.endTimeCleanString()};|">
-
-        <h3 th:id="|appt_${appt.id}_name|">[[${appt.contactInformation.contactName}]]</h3>
-        <p th:id="|appt_${appt.id}_phone|">[[${appt.contactInformation.primaryPhone.number}]]</p>
-        <p th:each="c : ${appt.concerns}" th:id="|appt_${appt.id}_concern_${cStat.count}|"
-           th:class="|appt_${appt.id}_concerns|">[[${{c}}]]</p>
-        <form action="#" th:action="@{/appointments/delete}" class="appt-del-button-form" method="post">
-            <input type="hidden" th:id="|appt_${appt.id}_id|" th:value="${appt.id}" name="appt_id">
-            <button type="submit" class="appt-del-button">DELETE APPT</button>
-        </form>
-        <input type="hidden" th:id="|appt_${appt.id}_date|" th:value="${appt.startDateTime.toLocalDate()}">
-        <input type="hidden" th:id="|appt_${appt.id}_start|" th:value="${appt.startDateTime.toLocalTime()}">
-        <input type="hidden" th:id="|appt_${appt.id}_startDT|" th:value="${appt.startDateTime}">
-        <input type="hidden" th:id="|appt_${appt.id}_endDT|" th:value="${appt.endDateTime}">
-        <input type="hidden" th:id="|appt_${appt.id}_advisor|" th:value="${appt.advisor.id}">
-        <input type="hidden" th:id="|appt_${appt.id}_email|" th:value="${appt.contactInformation.contactEmail}">
-        <input type="hidden" th:id="|appt_${appt.id}_address1|"
-               th:value="${appt.contactInformation.address.addressLine1}">
-        <input type="hidden" th:id="|appt_${appt.id}_address2|"
-               th:value="${appt.contactInformation.address.addressLine2}">
-        <input type="hidden" th:id="|appt_${appt.id}_city|" th:value="${appt.contactInformation.address.city}">
-        <input type="hidden" th:id="|appt_${appt.id}_state|" th:value="${appt.contactInformation.address.state}">
-        <input type="hidden" th:id="|appt_${appt.id}_zip|" th:value="${appt.contactInformation.address.zip.zip}">
-    </div>
-
-
-</div>
-
-
-<!--  appointment form modal-->
-<div class="job-modal">
-    <div class="new-appt job-modal-content">
-        <form action="#" th:action="@{/appointments/create}" method="post">
-            <span class="close-new-appt">&times;</span>
-            <p>
-                <label for="new_date">Date: </label>
-                <input type="date" id="new_date" name="date" th:value="${date}">
-                <input type="hidden" id="appt_id" value="0" name="id">
-            </p>
-
-            <p>
-                <label for="advisor_start_time">Appointment Time:</label>
-                <select name="advisor_start_time" id="advisor_start_time">
-                    <option th:each="ab : ${blocks}"
-                            th:disabled="!${ab.isAvailable}"
-                            value=""
-                            th:value="|${ab.advisor.id}_${ab.startDateTime.toLocalTime()}|">
-                        [[${{ab.startDateTime.toLocalTime()}}]] [[${ab.advisor?.getName()}]]
-                    </option>
-                </select>
-                <input type="hidden" id="start_time" name="start_time">
-                <input type="hidden" id="start_DT" name="startDateTime">
-
-                <label for="advisor_name">Advisor: </label>
-                <input type="text" id="advisor_name" th:value="${advisors[0].getName()}">
-                <input type="hidden" id="advisor_id" name="advisor.id" th:value="${advisors[0].id}">
-            </p>
-
-
-            <p style="display: flex; justify-content: space-between">
-                <label for="contact_name">Contact Name:</label>
-                <input type="text" id="contact_name" name="contactInformation.contactName">
-
-                <label for="contact_phone">Phone:</label>
-                <input type="text" id="contact_phone" name="contactInformation.primaryPhone.number">
-            </p>
-
-            <p>
-                <label for="contact_email">Email Address:</label>
-                <input type="text" id="contact_email" name="contactInformation.contactEmail" class="address">
-            </p>
-
-            <p>
-                <label for="contact_address_line_1">Address Line 1:</label>
-                <input type="text" id="contact_address_line_1" name="contactInformation.address.addressLine1"
-                       class="address">
-            </p>
-
-            <p>
-                <label for="contact_address_line_2">Address Line 2:</label>
-                <input type="text" id="contact_address_line_2" name="contactInformation.address.addressLine2"
-                       class="address">
-            </p>
-
-            <p>
-                <label for="address_city">City:</label>
-                <input type="text" id="address_city" name="contactInformation.address.city">
-
-                <label for="address_state">State:</label>
-                <input type="text" id="address_state" name="contactInformation.address.state">
-
-                <label for="address_zip">ZipCode: </label>
-                <input type="text" id="address_zip" name="contactInformation.address.zip.zip">
-            </p>
-
-
-            <div style="display: flex; justify-content: center;">
-                <ol id="new_appt_list">
-                    <select name="menu-items" id="menu_items">
-                        <option th:each="mi : ${menu_items}" th:value="${mi.item}">[[${mi.item}]]</option>
-                        <!--                        <option value="other">Other</option>-->
-                    </select>
-                    <button type="button" id="add_menu_button">+</button>
-                </ol>
-            </div>
-
-
-            <p>
-                <label for="total_time">Estimated Time Blocks:</label>
-                <input type="number" name="total_blocks" id="total_time">
-                <input type="hidden" id="appt_end_dt" name="endDateTime">
-            </p>
-            <div class="button-container" style="justify-content: end">
-                <button type="submit">Submit</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-
-<script th:inline="javascript">
-    let smis = [[${menu_items}]],
-        advisors = [[${advisors}]]
-    clist = document.getElementById("new_appt_list"),
-        apptBlocks = document.getElementsByClassName("appt-block"),
-        selectMenu = document.getElementById("menu_items"),
-        totalTime = document.getElementById("total_time"),
-        advisorName = document.getElementById("advisor_name"),
-        newDate = document.getElementById("new_date"),
-        modal = document.querySelector(".job-modal"),
-        span = document.querySelector(".close-new-appt"),
-        newStart = document.getElementById("advisor_start_time"),
-        startTime = document.getElementById("start_time"),
-        contactName = document.getElementById("contact_name"),
-        contactPhone = document.getElementById("contact_phone"),
-        contactEmail = document.getElementById("contact_email"),
-        contactAdd1 = document.getElementById("contact_address_line_1"),
-        contactAdd2 = document.getElementById("contact_address_line_2"),
-        contactCity = document.getElementById("address_city"),
-        contactState = document.getElementById("address_state"),
-        contactZip = document.getElementById("address_zip"),
-        newEndDT = document.getElementById("appt_end_dt"),
-        newStartDT = document.getElementById("start_DT"),
-        menuButton = document.getElementById("add_menu_button"),
-        newApptId = document.getElementById("appt_id")
-
-
-    // click handler for adding menu items to new appointments
-    menuButton.addEventListener("click", e => {
-        e.preventDefault()
-
-        // create new input for new concern / menu item
-        let input = document.createElement("input")
-        let smi = smis.find(s => s.item == selectMenu.value)
-        let isOther = selectMenu.value == "OTHER"
-        input.name = "concerns"
-
-
-        // sets new input's value with selected menu item or placeholder
-        if (isOther) {
-            input.placeholder = "NEW CONCERN"
-        } else {
-            input.value = smi.item
+        .new-appt * {
+            margin: 10px;
         }
 
-        // calculate estimated endtime
-        newEndDT.value = addTimeBlocksToDTString(!newEndDT.value ? newStartDT.value : newEndDT.value, smi.blocks, 15)
-        changeInputValue(totalTime, smi.blocks)
+        .new-appt p {
+            display: table-row;
+        }
 
-        // create list item to hold new input
-        let li = document.createElement("li")
-        li.appendChild(input)
+        .new-appt input {
+            display: table-cell;
+        }
 
-        // delete concern button
-        let span = document.createElement("span")
-        span.classList.add("del-apt-item")
-        span.innerText = "X"
 
-        span.addEventListener("click", evt => {
-            evt.preventDefault()
-            newEndDT.value = addTimeBlocksToDTString(newEndDT.value, smi.blocks * -1, 15)
-            changeInputValue(totalTime, smi.blocks * -1)
-            li.remove()
+        @media screen and (min-device-width: 750px) {
+            .new-appt {
+                border: 2px solid black;
+                width: 60%;
+                margin: auto;
+            }
+        }
+
+
+        .address {
+            width: 100%;
+        }
+
+        .advisor-back {
+            grid-row: 2 / -1;
+            opacity: 0.5;
+            z-index: 1;
+            padding: 15px;
+        }
+
+        .advisor-back:nth-child(odd) {
+            background-color: deepskyblue;
+        }
+
+        .advisor-back:nth-child(even) {
+            background-color: yellowgreen;
+        }
+
+        .close-new-appt:hover,
+        .close-new-appt:focus {
+            cursor: pointer;
+            transform: scale(1.02);
+        }
+
+        .close-new-appt {
+            color: #000;
+            text-decoration: none;
+            box-shadow: 3px 3px lightslategrey;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            border: 1px solid black;
+            background-color: lightpink;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        #new_date, #total_time, #advisor_name {
+            background: rgba(215, 215, 215, 0.66);
+            pointer-events: none;
+        }
+    </style>
+
+
+    <h1 class="center-text">APPOINTMENTS for [[${{date}}]]</h1>
+    <!-- date changer-->
+    <div>
+        <hr>
+        <div class="date-change">
+            <form action="" id="date_changer">
+                <label for="date">Change Date: </label>
+                <input type="date" id="date" name="date">
+                <button type="submit">Submit</button>
+            </form>
+
+        </div>
+        <hr>
+    </div>
+
+    <!--schedule-->
+    <div class="schedule" th:style="${columns}">
+
+        <!--  advisor-info(top  row)-->
+        <span th:each="a : ${advisors}" class="advisor-slot" aria-hidden="true" th:style="|grid-column: advisor${a.id};|">[[${a.getName()}]]</span>
+
+        <!--    time slot column values-->
+        <h4 th:each="block : ${blocks}" th:if="${block.advisor.id} == ${advisors.get(0).id}" class="dtime"
+            th:style="|grid-row: t${block.startTimeCleanString()};|">[[${{block.startDateTime.toLocalTime()}}]]</h4>
+
+        <!--  alternating colored backing for each advisor column-->
+        <div th:each="advisor: ${advisors}" class="advisor-back" th:style="|grid-column: advisor${advisor.id};|"></div>
+
+        <!--  open appointment blocks-->
+        <div th:each="ab : ${blocks}" th:if="${ab.isAvailable()}"
+             th:id="|${ab.advisor?.id}_${ab.startDateTime.toLocalTime()}_${ab.startDateTime}|" class="appt-block"
+             th:style="|grid-column: advisor${ab.advisor.id}; grid-row:t${ab.startTimeCleanString()} / t${ab.endTimeCleanString()};|">
+            <h4 class="appt-block-time">[[${{ab.startDateTime.toLocalTime()}}]]</h4>
+        </div>
+
+
+        <!--  saved appointments-->
+        <div th:each="appt : ${appointments}" class="appointment" th:id="|appt_${appt.id}|"
+             th:style="|grid-column: advisor${appt.advisor.id}; grid-row: t${appt.startTimeCleanString()} / t${appt.endTimeCleanString()};|">
+
+            <h3 th:id="|appt_${appt.id}_name|">[[${appt.contactInformation.contactName}]]</h3>
+            <p th:id="|appt_${appt.id}_phone|">[[${appt.contactInformation.primaryPhone.number}]]</p>
+            <p th:each="c : ${appt.concerns}" th:id="|appt_${appt.id}_concern_${cStat.count}|"
+               th:class="|appt_${appt.id}_concerns|">[[${{c}}]]</p>
+            <form action="#" th:action="@{/appointments/delete}" class="appt-del-button-form" method="post">
+                <input type="hidden" th:id="|appt_${appt.id}_id|" th:value="${appt.id}" name="appt_id">
+                <button type="submit" class="appt-del-button">DELETE APPT</button>
+            </form>
+            <input type="hidden" th:id="|appt_${appt.id}_date|" th:value="${appt.startDateTime.toLocalDate()}">
+            <input type="hidden" th:id="|appt_${appt.id}_start|" th:value="${appt.startDateTime.toLocalTime()}">
+            <input type="hidden" th:id="|appt_${appt.id}_startDT|" th:value="${appt.startDateTime}">
+            <input type="hidden" th:id="|appt_${appt.id}_endDT|" th:value="${appt.endDateTime}">
+            <input type="hidden" th:id="|appt_${appt.id}_advisor|" th:value="${appt.advisor.id}">
+            <input type="hidden" th:id="|appt_${appt.id}_email|" th:value="${appt.contactInformation.contactEmail}">
+            <input type="hidden" th:id="|appt_${appt.id}_address1|"
+                   th:value="${appt.contactInformation.address.addressLine1}">
+            <input type="hidden" th:id="|appt_${appt.id}_address2|"
+                   th:value="${appt.contactInformation.address.addressLine2}">
+            <input type="hidden" th:id="|appt_${appt.id}_city|" th:value="${appt.contactInformation.address.city}">
+            <input type="hidden" th:id="|appt_${appt.id}_state|" th:value="${appt.contactInformation.address.state}">
+            <input type="hidden" th:id="|appt_${appt.id}_zip|" th:value="${appt.contactInformation.address.zip.zip}">
+        </div>
+
+
+    </div>
+
+
+    <!--  appointment form modal-->
+    <div class="job-modal">
+        <div class="new-appt job-modal-content">
+            <form action="#" th:action="@{/appointments/create}" method="post">
+                <span class="close-new-appt">&times;</span>
+                <p>
+                    <label for="new_date">Date: </label>
+                    <input type="date" id="new_date" name="date" th:value="${date}">
+                    <input type="hidden" id="appt_id" value="0" name="id">
+                </p>
+
+                <p>
+                    <label for="advisor_start_time">Appointment Time:</label>
+                    <select name="advisor_start_time" id="advisor_start_time">
+                        <option th:each="ab : ${blocks}"
+                                th:disabled="!${ab.isAvailable}"
+                                value=""
+                                th:value="|${ab.advisor.id}_${ab.startDateTime.toLocalTime()}|">
+                            [[${{ab.startDateTime.toLocalTime()}}]] [[${ab.advisor?.getName()}]]
+                        </option>
+                    </select>
+                    <input type="hidden" id="start_time" name="start_time">
+                    <input type="hidden" id="start_DT" name="startDateTime">
+
+                    <label for="advisor_name">Advisor: </label>
+                    <input type="text" id="advisor_name" th:value="${advisors[0].getName()}">
+                    <input type="hidden" id="advisor_id" name="advisor.id" th:value="${advisors[0].id}">
+                </p>
+
+
+                <p style="display: flex; justify-content: space-between">
+                    <label for="contact_name">Contact Name:</label>
+                    <input type="text" id="contact_name" name="contactInformation.contactName">
+
+                    <label for="contact_phone">Phone:</label>
+                    <input type="text" id="contact_phone" name="contactInformation.primaryPhone.number">
+                </p>
+
+                <p>
+                    <label for="contact_email">Email Address:</label>
+                    <input type="text" id="contact_email" name="contactInformation.contactEmail" class="address">
+                </p>
+
+                <p>
+                    <label for="contact_address_line_1">Address Line 1:</label>
+                    <input type="text" id="contact_address_line_1" name="contactInformation.address.addressLine1"
+                           class="address">
+                </p>
+
+                <p>
+                    <label for="contact_address_line_2">Address Line 2:</label>
+                    <input type="text" id="contact_address_line_2" name="contactInformation.address.addressLine2"
+                           class="address">
+                </p>
+
+                <p>
+                    <label for="address_city">City:</label>
+                    <input type="text" id="address_city" name="contactInformation.address.city">
+
+                    <label for="address_state">State:</label>
+                    <input type="text" id="address_state" name="contactInformation.address.state">
+
+                    <label for="address_zip">ZipCode: </label>
+                    <input type="text" id="address_zip" name="contactInformation.address.zip.zip">
+                </p>
+
+
+                <div style="display: flex; justify-content: center;">
+                    <ol id="new_appt_list">
+                        <select name="menu-items" id="menu_items">
+                            <option th:each="mi : ${menu_items}" th:value="${mi.item}">[[${mi.item}]]</option>
+                            <!--                        <option value="other">Other</option>-->
+                        </select>
+                        <button type="button" id="add_menu_button">+</button>
+                    </ol>
+                </div>
+
+
+                <p>
+                    <label for="total_time">Estimated Time Blocks:</label>
+                    <input type="number" name="total_blocks" id="total_time">
+                    <input type="hidden" id="appt_end_dt" name="endDateTime">
+                </p>
+                <div class="button-container" style="justify-content: end">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        let smis = [[${menu_items}]],
+            advisors = [[${advisors}]]
+        clist = document.getElementById("new_appt_list"),
+            apptBlocks = document.getElementsByClassName("appt-block"),
+            selectMenu = document.getElementById("menu_items"),
+            totalTime = document.getElementById("total_time"),
+            advisorName = document.getElementById("advisor_name"),
+            newDate = document.getElementById("new_date"),
+            modal = document.querySelector(".job-modal"),
+            span = document.querySelector(".close-new-appt"),
+            newStart = document.getElementById("advisor_start_time"),
+            startTime = document.getElementById("start_time"),
+            contactName = document.getElementById("contact_name"),
+            contactPhone = document.getElementById("contact_phone"),
+            contactEmail = document.getElementById("contact_email"),
+            contactAdd1 = document.getElementById("contact_address_line_1"),
+            contactAdd2 = document.getElementById("contact_address_line_2"),
+            contactCity = document.getElementById("address_city"),
+            contactState = document.getElementById("address_state"),
+            contactZip = document.getElementById("address_zip"),
+            newEndDT = document.getElementById("appt_end_dt"),
+            newStartDT = document.getElementById("start_DT"),
+            menuButton = document.getElementById("add_menu_button"),
+            newApptId = document.getElementById("appt_id")
+
+
+        // click handler for adding menu items to new appointments
+        menuButton.addEventListener("click", e => {
+            e.preventDefault()
+
+            // create new input for new concern / menu item
+            let input = document.createElement("input")
+            let smi = smis.find(s => s.item == selectMenu.value)
+            let isOther = selectMenu.value == "OTHER"
+            input.name = "concerns"
+
+
+            // sets new input's value with selected menu item or placeholder
+            if (isOther) {
+                input.placeholder = "NEW CONCERN"
+            } else {
+                input.value = smi.item
+            }
+
+            // calculate estimated endtime
+            newEndDT.value = addTimeBlocksToDTString(!newEndDT.value ? newStartDT.value : newEndDT.value, smi.blocks, 15)
+            changeInputValue(totalTime, smi.blocks)
+
+            // create list item to hold new input
+            let li = document.createElement("li")
+            li.appendChild(input)
+
+            // delete concern button
+            let span = document.createElement("span")
+            span.classList.add("del-apt-item")
+            span.innerText = "X"
+
+            span.addEventListener("click", evt => {
+                evt.preventDefault()
+                newEndDT.value = addTimeBlocksToDTString(newEndDT.value, smi.blocks * -1, 15)
+                changeInputValue(totalTime, smi.blocks * -1)
+                li.remove()
+            })
+
+            // add concern delete button to list item
+            li.appendChild(span)
+
+            // add list item to concern list
+            clist.appendChild(li)
+
+            // change select value to null
+            selectMenu.value = null
         })
 
-        // add concern delete button to list item
-        li.appendChild(span)
 
-        // add list item to concern list
-        clist.appendChild(li)
+        // click handler for open appointment blocks
+        Array.from(apptBlocks).forEach(b => {
+            b.addEventListener("click", e => {
+                // show modal
+                modal.style.display = "block"
 
-        // change select value to null
-        selectMenu.value = null
-    })
+                // get appointment info embedded in id
+                let elId = e.target.id;
 
+                let strings = elId.split("_")
+                let advisorId = strings[0]
+                let time = strings[1]
+                let dateTime = strings[2]
 
-    // click handler for open appointment blocks
-    Array.from(apptBlocks).forEach(b => {
-        b.addEventListener("click", e => {
-            // show modal
-            modal.style.display = "block"
+                // set advisor in new appt form
+                document.getElementById("advisor_id").value = advisorId
+                let adv = advisors.find(ad => ad.id == advisorId)
+                advisorName.value = `${adv.preferredName} ${adv.lastName}`
 
-            // get appointment info embedded in id
-            let elId = e.target.id;
+                // set start time & date, clear any old form data that may be hanging around
+                newStart.value = `${advisorId}_${time}`
+                startTime.value = time
+                newStartDT.value = dateTime
+                contactName.value = null
+                contactPhone.value = null
+                contactEmail.value = null
+                contactAdd1.value = null
+                contactAdd2.value = null
+                contactCity.value = null
+                contactState.value = null
+                contactZip.value = null
+                newEndDT.value = null
+                totalTime.value = null
+                clist.innerHTML = ""
+                clist.appendChild(selectMenu)
+                clist.appendChild(menuButton)
+            })
+        })
 
-            let strings = elId.split("_")
-            let advisorId = strings[0]
+        // onChange handler for new appt time selector
+        newStart.onchange = e => {
+            // get time info from event target
+            let adTime = e.target.value
+            let strings = adTime.split("_")
+            let id = strings[0]
             let time = strings[1]
-            let dateTime = strings[2]
 
-            // set advisor in new appt form
-            document.getElementById("advisor_id").value = advisorId
-            let adv = advisors.find(ad => ad.id == advisorId)
-            advisorName.value = `${adv.preferredName} ${adv.lastName}`
-
-            // set start time & date, clear any old form data that may be hanging around
-            newStart.value = `${advisorId}_${time}`
+            // set updated advisor & datetime info in new appt form
+            document.getElementById("advisor_id").value = id
+            let ad = advisors.find(a => a.id == id)
+            advisorName.value = `${ad.preferredName} ${ad.lastName}`
+            newStart.value = `${id}_${time}`
             startTime.value = time
-            newStartDT.value = dateTime
-            contactName.value = null
-            contactPhone.value = null
-            contactEmail.value = null
-            contactAdd1.value = null
-            contactAdd2.value = null
-            contactCity.value = null
-            contactState.value = null
-            contactZip.value = null
-            newEndDT.value = null
-            totalTime.value = null
-            clist.innerHTML = ""
-            clist.appendChild(selectMenu)
-            clist.appendChild(menuButton)
-        })
-    })
+            newStartDT.value = `${newDate.value}T${startTime.value}`
+            newEndDT.value = addTimeBlocksToDTString(newStartDT.value, totalTime.value, 15)
+        }
 
-    // onChange handler for new appt time selector
-    newStart.onchange = e => {
-        // get time info from event target
-        let adTime = e.target.value
-        let strings = adTime.split("_")
-        let id = strings[0]
-        let time = strings[1]
-
-        // set updated advisor & datetime info in new appt form
-        document.getElementById("advisor_id").value = id
-        let ad = advisors.find(a => a.id == id)
-        advisorName.value = `${ad.preferredName} ${ad.lastName}`
-        newStart.value = `${id}_${time}`
-        startTime.value = time
-        newStartDT.value = `${newDate.value}T${startTime.value}`
-        newEndDT.value = addTimeBlocksToDTString(newStartDT.value, totalTime.value, 15)
-    }
-
-    // close modal button
-    span.onclick = function () {
-        modal.style.display = "none"
-    }
-
-    // close modal if user clicks outside of modal
-    window.onclick = function (event) {
-        if (event.target == modal) {
+        // close modal button
+        span.onclick = function () {
             modal.style.display = "none"
         }
-    }
 
-    // existing appointment click handlers
-    Array.from(document.getElementsByClassName("appointment")).forEach(a => {
-        a.addEventListener("click", e => {
-            // get info embedded in id
-            let elId = e.target.id;
-            let strings = elId.split("_")
-            let apptId = strings[1]
-            let aAdvisorId = document.getElementById(`${strings[0]}_${strings[1]}_advisor`).value
-            let aAdvisor = advisors.find(ad => ad.id == aAdvisorId)
-
-            // show modal
-            modal.style.display = "block"
-
-            // get all of exisitng appointment infp
-            let aName = document.getElementById(`${strings[0]}_${strings[1]}_name`).innerText,
-                aPhone = document.getElementById(`${strings[0]}_${strings[1]}_phone`).innerText,
-                aDate = document.getElementById(`${strings[0]}_${strings[1]}_date`).value,
-                aStart = document.getElementById(`${strings[0]}_${strings[1]}_start`).value,
-                aEndDT = document.getElementById(`${strings[0]}_${strings[1]}_endDT`).value,
-                aStartDT = document.getElementById(`${strings[0]}_${strings[1]}_startDT`).value,
-                aEmail = document.getElementById(`${strings[0]}_${strings[1]}_email`).value,
-                aAddress1 = document.getElementById(`${strings[0]}_${strings[1]}_address1`).value,
-                aAddress2 = document.getElementById(`${strings[0]}_${strings[1]}_address2`).value,
-                aCity = document.getElementById(`${strings[0]}_${strings[1]}_city`).value,
-                aState = document.getElementById(`${strings[0]}_${strings[1]}_state`).value,
-                aZip = document.getElementById(`${strings[0]}_${strings[1]}_zip`).value,
-                aConcerns = document.getElementsByClassName(`${strings[0]}_${strings[1]}_concerns`)
-
-            // set form values to existing appointment info
-            newApptId = apptId
-            newDate.value = aDate
-            document.getElementById("appt_id").value = apptId
-            newStart.value = `${aAdvisorId}_${aStart}`
-            startTime.value = aStart
-            newStartDT.value = aStartDT
-            advisorName.value = `${aAdvisor.preferredName} ${aAdvisor.lastName}`
-            contactName.value = aName
-            contactPhone.value = aPhone
-            contactEmail.value = aEmail
-            contactAdd1.value = aAddress1
-            contactAdd2.value = aAddress2
-            contactCity.value = aCity
-            contactState.value = aState
-            contactZip.value = aZip
-            newEndDT.value = aEndDT
-
-            // for each appt concern create & add concern input
-            Array.from(aConcerns).forEach(el => {
-                    let smi = smis.find(smi => smi.item == el.innerText)
-                    if (smi === undefined) {
-                        smi = {id: 0, item: "OTHER", blocks: 4}
-                    }
-
-                    // set estimated ending time for concern
-                    newEndDT.value = addTimeBlocksToDTString(newEndDT, smi.blocks, 15)
-                    changeInputValue(totalTime, smi.blocks)
-
-
-                    let input = document.createElement("input")
-                    input.name = "concerns"
-                    input.value = el.innerText
-                    let li = document.createElement("li")
-                    li.appendChild(input)
-                    let span = document.createElement("span")
-                    span.classList.add("del-apt-item")
-                    span.innerText = "X"
-
-                    span.addEventListener("click", evt => {
-                        newEndDT.value = addTimeBlocksToDTString(newEndDT, smi.blocks * -1, 15)
-                        changeInputValue(totalTime, smi.blocks * -1)
-                        li.remove()
-                    })
-
-                    li.appendChild(span)
-                    clist.appendChild(li)
-                }
-            )
-        })
-    })
-
-
-    // get all delete appointment buttons
-    let delBUtts = document.getElementsByClassName("appt-del-button")
-
-    // delete button click handlers
-    Array.from(delBUtts).forEach(b => {
-        b.addEventListener("click", e => {
-            e.stopPropagation()
-        })
-    })
-
-    // helper functions
-    function changeInputValue(input, value) {
-        let val = parseInt(input.value)
-        if (!isNaN(val)) {
-            input.value = val + value
-        } else {
-            input.value = value
+        // close modal if user clicks outside of modal
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none"
+            }
         }
-    }
 
-    function addTimeBlocksToDTString(dateTimeString, numOfBlocks, blockInterval) {
-        let sd = new Date(dateTimeString)
-        let ed = new Date(sd.getTime() + ((numOfBlocks * blockInterval) * 60000))
-        let hours = ed.getHours() < 10 ? "0" + ed.getHours() : ed.getHours(),
-            minutes = ed.getMinutes() < 10 ? "0" + ed.getMinutes() : ed.getMinutes()
-        return `${newDate.value}T${hours}:${minutes}`
-    }
-</script>
+        // existing appointment click handlers
+        Array.from(document.getElementsByClassName("appointment")).forEach(a => {
+            a.addEventListener("click", e => {
+                // get info embedded in id
+                let elId = e.target.id;
+                let strings = elId.split("_")
+                let apptId = strings[1]
+                let aAdvisorId = document.getElementById(`${strings[0]}_${strings[1]}_advisor`).value
+                let aAdvisor = advisors.find(ad => ad.id == aAdvisorId)
 
-<footer th:insert="~{fragments::foot}"></footer>
+                // show modal
+                modal.style.display = "block"
+
+                // get all of exisitng appointment infp
+                let aName = document.getElementById(`${strings[0]}_${strings[1]}_name`).innerText,
+                    aPhone = document.getElementById(`${strings[0]}_${strings[1]}_phone`).innerText,
+                    aDate = document.getElementById(`${strings[0]}_${strings[1]}_date`).value,
+                    aStart = document.getElementById(`${strings[0]}_${strings[1]}_start`).value,
+                    aEndDT = document.getElementById(`${strings[0]}_${strings[1]}_endDT`).value,
+                    aStartDT = document.getElementById(`${strings[0]}_${strings[1]}_startDT`).value,
+                    aEmail = document.getElementById(`${strings[0]}_${strings[1]}_email`).value,
+                    aAddress1 = document.getElementById(`${strings[0]}_${strings[1]}_address1`).value,
+                    aAddress2 = document.getElementById(`${strings[0]}_${strings[1]}_address2`).value,
+                    aCity = document.getElementById(`${strings[0]}_${strings[1]}_city`).value,
+                    aState = document.getElementById(`${strings[0]}_${strings[1]}_state`).value,
+                    aZip = document.getElementById(`${strings[0]}_${strings[1]}_zip`).value,
+                    aConcerns = document.getElementsByClassName(`${strings[0]}_${strings[1]}_concerns`)
+
+                // set form values to existing appointment info
+                newApptId = apptId
+                newDate.value = aDate
+                document.getElementById("appt_id").value = apptId
+                newStart.value = `${aAdvisorId}_${aStart}`
+                startTime.value = aStart
+                newStartDT.value = aStartDT
+                advisorName.value = `${aAdvisor.preferredName} ${aAdvisor.lastName}`
+                contactName.value = aName
+                contactPhone.value = aPhone
+                contactEmail.value = aEmail
+                contactAdd1.value = aAddress1
+                contactAdd2.value = aAddress2
+                contactCity.value = aCity
+                contactState.value = aState
+                contactZip.value = aZip
+                newEndDT.value = aEndDT
+
+                // for each appt concern create & add concern input
+                Array.from(aConcerns).forEach(el => {
+                        let smi = smis.find(smi => smi.item == el.innerText)
+                        if (smi === undefined) {
+                            smi = {id: 0, item: "OTHER", blocks: 4}
+                        }
+
+                        // set estimated ending time for concern
+                        newEndDT.value = addTimeBlocksToDTString(newEndDT, smi.blocks, 15)
+                        changeInputValue(totalTime, smi.blocks)
+
+
+                        let input = document.createElement("input")
+                        input.name = "concerns"
+                        input.value = el.innerText
+                        let li = document.createElement("li")
+                        li.appendChild(input)
+                        let span = document.createElement("span")
+                        span.classList.add("del-apt-item")
+                        span.innerText = "X"
+
+                        span.addEventListener("click", evt => {
+                            newEndDT.value = addTimeBlocksToDTString(newEndDT, smi.blocks * -1, 15)
+                            changeInputValue(totalTime, smi.blocks * -1)
+                            li.remove()
+                        })
+
+                        li.appendChild(span)
+                        clist.appendChild(li)
+                    }
+                )
+            })
+        })
+
+
+        // get all delete appointment buttons
+        let delBUtts = document.getElementsByClassName("appt-del-button")
+
+        // delete button click handlers
+        Array.from(delBUtts).forEach(b => {
+            b.addEventListener("click", e => {
+                e.stopPropagation()
+            })
+        })
+
+        // helper functions
+        function changeInputValue(input, value) {
+            let val = parseInt(input.value)
+            if (!isNaN(val)) {
+                input.value = val + value
+            } else {
+                input.value = value
+            }
+        }
+
+        function addTimeBlocksToDTString(dateTimeString, numOfBlocks, blockInterval) {
+            let sd = new Date(dateTimeString)
+            let ed = new Date(sd.getTime() + ((numOfBlocks * blockInterval) * 60000))
+            let hours = ed.getHours() < 10 ? "0" + ed.getHours() : ed.getHours(),
+                minutes = ed.getMinutes() < 10 ? "0" + ed.getMinutes() : ed.getMinutes()
+            return `${newDate.value}T${hours}:${minutes}`
+        }
+    </script>
+
+    <footer th:insert="~{fragments::foot}"></footer>
+</div>
 </body>
 </html>
