@@ -2,39 +2,41 @@
 <html lang="en">
 <head th:replace="~{fragments::head (page_title='Vehicles')}"></head>
 <body>
-<header th:insert="~{fragments::header-top (username=${username})}"></header>
-<style>
+<div class="page-wrapper">
+    <header th:insert="~{fragments::header-top (username=${username})}"></header>
+    <style>
 
-    form {
-        display: table;
-    }
+        form {
+            display: table;
+        }
 
-    p {
-        display: table-row;
-    }
+        p {
+            display: table-row;
+        }
 
-    label {
-        display: table-cell;
-    }
+        label {
+            display: table-cell;
+        }
 
-    input {
-        display: table-cell;
-    }
-</style>
-<div>
-    <h1>VEHICLE HOME!</h1>
-    <div th:replace="~{fragments::vehicle-list (vehicles=${vehicles})}"></div>
+        input {
+            display: table-cell;
+        }
+    </style>
+    <div>
+        <h1>VEHICLE HOME!</h1>
+        <div th:replace="~{fragments::vehicle-list (vehicles=${vehicles})}"></div>
+    </div>
+
+    <div class="result-buttons-wrapper">
+        <a class="clean-link" href="javascript:window.history.back()">
+            <button>Back</button>
+        </a>
+        <button>Search</button>
+        <button>Create New</button>
+        <button>Select</button>
+    </div>
+
+    <footer th:insert="~{fragments::foot}"></footer>
 </div>
-
-<div class="result-buttons-wrapper">
-    <a class="clean-link" href="javascript:window.history.back()">
-        <button>Back</button>
-    </a>
-    <button>Search</button>
-    <button>Create New</button>
-    <button>Select</button>
-</div>
-
-<footer th:insert="~{fragments::foot}"></footer>
 </body>
 </html>

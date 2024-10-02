@@ -2,134 +2,136 @@
 <html lang="en">
 <head th:replace="~{fragments::head (page_title='Customer Details')}"></head>
 <body>
-<header th:insert="~{fragments::header-top (username=${username})}"></header>
-<div th:replace="~{fragments::forward-back}"></div>
+<div class="page-wrapper">
+    <header th:insert="~{fragments::header-top (username=${username})}"></header>
+    <div th:replace="~{fragments::forward-back}"></div>
 
-<div class="flex" th:fragment="customer-details (customer, editable, action, hide_buttons)">
-    <div class="detail-image-wrapper">
-        <div class="user-avatar-display-wrapper">
-            <img src="/defaults/default_user.svg" alt="user_default">
-            <button>Change Photo</button>
+    <div class="flex" th:fragment="customer-details (customer, editable, action, hide_buttons)">
+        <div class="detail-image-wrapper">
+            <div class="user-avatar-display-wrapper">
+                <img src="/defaults/default_user.svg" alt="user_default">
+                <button>Change Photo</button>
+            </div>
         </div>
+        <form action="#" class="detail-wrapper" th:fragment="customer-form (customer, editable, action, hide_buttons)"
+              th:action="${action}" name="customer" method="post">
+            <div class="edit-button-wrapper">
+                <div class="detail-input-wrapper">
+                    <label for="id_edit">ID:</label>
+                    <input type="text" id="id_edit" name="id" value="60120" th:value="${customer?.id}" disabled>
+                </div>
+                <button th:unless="${hide_buttons}" type="button" th:disabled="${editable}" onclick="getEditable()">EDIT
+                </button>
+            </div>
+            <div class="input-label-wrapper">
+
+                <div class="detail-input-wrapper">
+                    <label for="fname">First Name:</label>
+                    <input type="text" id="fname" name="firstName" value="John" th:value="${customer?.firstName}"
+                           th:disabled="!${editable}">
+                </div>
+                <div class="detail-input-wrapper">
+                    <label for="lname">Last Name:</label>
+                    <input type="text" id="lname" name="lastName" value="Smith" th:value="${customer?.lastName}"
+                           th:disabled="!${editable}">
+                </div>
+            </div>
+
+            <div class="detail-input-wrapper">
+                <label for="address_line_1">Address Line 1:</label>
+                <input type="text" id="address_line_1" name="address.addressLine1" value="95687 Fake Ln"
+                       th:value="${customer?.address?.addressLine1}" th:disabled="!${editable}">
+            </div>
+            <div class="detail-input-wrapper">
+                <label for="address_line_2">Address Line 2:</label>
+                <input type="text" id="address_line_2" value="unit 406" name="address.addressLine2"
+                       th:value="${customer?.address?.addressLine2}" th:disabled="!${editable}">
+            </div>
+
+            <div class="input-label-wrapper">
+                <div class="detail-input-wrapper">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" value="Jacksonville" name="address.city"
+                           th:value="${customer?.address?.city}" th:disabled="!${editable}">
+                </div>
+                <div class="detail-input-wrapper">
+                    <label for="state">State:</label>
+                    <input type="text" id="state" value="FL" name="address.state" th:value="${customer?.address?.state}"
+                           th:disabled="!${editable}">
+                </div>
+                <div id="zip-wrapper" class="detail-input-wrapper zip">
+                    <label for="zip">Zip:</label>
+                    <input type="text" id="zip" value="555555" name="address.zip.zip"
+                           th:value="${customer?.address?.zip?.zip}" th:disabled="!${editable}">
+                </div>
+                <div id="plus4-wrapper" class="detail-input-wrapper">
+                    <label for="plus4">+4</label>
+                    <input type="text" id="plus4" value="5555" name="address.zip.plus4"
+                           th:value="${customer?.address?.zip?.plus4}" th:disabled="!${editable}">
+                </div>
+            </div>
+            <!--            Contact start - phone & email      -->
+            <div class="input-label-wrapper">
+                <div class="detail-input-wrapper">
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" value="cool.email@mails.com" name="email" th:value="${customer?.email}"
+                           th:disabled="!${editable}">
+                </div>
+                <div class="detail-input-wrapper">
+                    <label for="primary_phone">Phone:</label>
+                    <input type="text" id="primary_phone" name="contactInformation.primaryPhone.number"
+                           value="(555) 555-5555" th:value="${customer?.contactInformation?.primaryPhone?.number}"
+                           th:disabled="!${editable}">
+                </div>
+            </div>
+            <div class="input-label-wrapper">
+                <div class="detail-input-wrapper">
+                    <label for="alt_phone_1">Alternate Phone1:</label>
+                    <input type="text" id="alt_phone_1" value="(555) 601-2054" name="contactInformation.altPhone1.number"
+                           th:value="${customer?.contactInformation?.altPhone1?.number}" th:disabled="!${editable}">
+                </div>
+                <div class="detail-input-wrapper">
+                    <label for="alt_phone_2">Alternate Phone2:</label>
+                    <input type="text" id="alt_phone_2" value="(555) 857-9548" name="contactInformation.altPhone2.number"
+                           th:value="${customer?.contactInformation?.altPhone2?.number}" th:disabled="!${editable}">
+                </div>
+            </div>
+
+            <div th:unless="${hide_buttons}" th:if="${editable}" class="hidden-submit">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
     </div>
-    <form action="#" class="detail-wrapper" th:fragment="customer-form (customer, editable, action, hide_buttons)"
-          th:action="${action}" name="customer" method="post">
-        <div class="edit-button-wrapper">
-            <div class="detail-input-wrapper">
-                <label for="id_edit">ID:</label>
-                <input type="text" id="id_edit" name="id" value="60120" th:value="${customer?.id}" disabled>
-            </div>
-            <button th:unless="${hide_buttons}" type="button" th:disabled="${editable}" onclick="getEditable()">EDIT
-            </button>
-        </div>
-        <div class="input-label-wrapper">
 
-            <div class="detail-input-wrapper">
-                <label for="fname">First Name:</label>
-                <input type="text" id="fname" name="firstName" value="John" th:value="${customer?.firstName}"
-                       th:disabled="!${editable}">
-            </div>
-            <div class="detail-input-wrapper">
-                <label for="lname">Last Name:</label>
-                <input type="text" id="lname" name="lastName" value="Smith" th:value="${customer?.lastName}"
-                       th:disabled="!${editable}">
-            </div>
-        </div>
+    <hr>
 
-        <div class="detail-input-wrapper">
-            <label for="address_line_1">Address Line 1:</label>
-            <input type="text" id="address_line_1" name="address.addressLine1" value="95687 Fake Ln"
-                   th:value="${customer?.address?.addressLine1}" th:disabled="!${editable}">
-        </div>
-        <div class="detail-input-wrapper">
-            <label for="address_line_2">Address Line 2:</label>
-            <input type="text" id="address_line_2" value="unit 406" name="address.addressLine2"
-                   th:value="${customer?.address?.addressLine2}" th:disabled="!${editable}">
-        </div>
 
-        <div class="input-label-wrapper">
-            <div class="detail-input-wrapper">
-                <label for="city">City:</label>
-                <input type="text" id="city" value="Jacksonville" name="address.city"
-                       th:value="${customer?.address?.city}" th:disabled="!${editable}">
-            </div>
-            <div class="detail-input-wrapper">
-                <label for="state">State:</label>
-                <input type="text" id="state" value="FL" name="address.state" th:value="${customer?.address?.state}"
-                       th:disabled="!${editable}">
-            </div>
-            <div id="zip-wrapper" class="detail-input-wrapper zip">
-                <label for="zip">Zip:</label>
-                <input type="text" id="zip" value="555555" name="address.zip.zip"
-                       th:value="${customer?.address?.zip?.zip}" th:disabled="!${editable}">
-            </div>
-            <div id="plus4-wrapper" class="detail-input-wrapper">
-                <label for="plus4">+4</label>
-                <input type="text" id="plus4" value="5555" name="address.zip.plus4"
-                       th:value="${customer?.address?.zip?.plus4}" th:disabled="!${editable}">
-            </div>
-        </div>
-        <!--            Contact start - phone & email      -->
-        <div class="input-label-wrapper">
-            <div class="detail-input-wrapper">
-                <label for="email">Email:</label>
-                <input type="text" id="email" value="cool.email@mails.com" name="email" th:value="${customer?.email}"
-                       th:disabled="!${editable}">
-            </div>
-            <div class="detail-input-wrapper">
-                <label for="primary_phone">Phone:</label>
-                <input type="text" id="primary_phone" name="contactInformation.primaryPhone.number"
-                       value="(555) 555-5555" th:value="${customer?.contactInformation?.primaryPhone?.number}"
-                       th:disabled="!${editable}">
-            </div>
-        </div>
-        <div class="input-label-wrapper">
-            <div class="detail-input-wrapper">
-                <label for="alt_phone_1">Alternate Phone1:</label>
-                <input type="text" id="alt_phone_1" value="(555) 601-2054" name="contactInformation.altPhone1.number"
-                       th:value="${customer?.contactInformation?.altPhone1?.number}" th:disabled="!${editable}">
-            </div>
-            <div class="detail-input-wrapper">
-                <label for="alt_phone_2">Alternate Phone2:</label>
-                <input type="text" id="alt_phone_2" value="(555) 857-9548" name="contactInformation.altPhone2.number"
-                       th:value="${customer?.contactInformation?.altPhone2?.number}" th:disabled="!${editable}">
-            </div>
-        </div>
+    <div class="button-container">
+        <button type="button" id="open_vin_search_modal">ADD NEW VEHICLE</button>
+        <button th:disabled="${editable}">Service History</button>
+        <button th:disabled="${editable}">Interested Sale Leads</button>
+        <button th:disabled="${editable}">Appointments</button>
+    </div>
 
-        <div th:unless="${hide_buttons}" th:if="${editable}" class="hidden-submit">
-            <button type="submit">Submit</button>
-        </div>
-    </form>
+    <div th:replace="~{search::vin-search (action='/vehicles/customer/new', searching_customer_id=${customer.id})}"></div>
+
+
+    <hr>
+    <div th:insert="~{fragments::vehicle-list (vehicles=${customer.vehicles})}"></div>
+
+
+    <script>
+        function getEditable() {
+            currentURL = window.location.href
+            window.location = currentURL + "&editable=true"
+        }
+
+        function enableIdField() {
+            document.getElementById("id_edit").disabled = false;
+        }
+    </script>
+
+    <footer th:insert="~{fragments::foot}"></footer>
 </div>
-
-<hr>
-
-
-<div class="button-container">
-    <button type="button" id="open_vin_search_modal">ADD NEW VEHICLE</button>
-    <button th:disabled="${editable}">Service History</button>
-    <button th:disabled="${editable}">Interested Sale Leads</button>
-    <button th:disabled="${editable}">Appointments</button>
-</div>
-
-<div th:replace="~{search::vin-search (action='/vehicles/customer/new', searching_customer_id=${customer.id})}"></div>
-
-
-<hr>
-<div th:insert="~{fragments::vehicle-list (vehicles=${customer.vehicles})}"></div>
-
-
-<script>
-    function getEditable() {
-        currentURL = window.location.href
-        window.location = currentURL + "&editable=true"
-    }
-
-    function enableIdField() {
-        document.getElementById("id_edit").disabled = false;
-    }
-</script>
-
-<footer th:insert="~{fragments::foot}"></footer>
 </body>
 </html>

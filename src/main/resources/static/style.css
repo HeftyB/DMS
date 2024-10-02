@@ -2,8 +2,25 @@
 /*    border: 1px black solid;*/
 /*}*/
 
-.body {
-    /*background-color: cornflowerblue;*/
+:root {
+    --color1: #75dfff;
+    --color2: #bfa488;
+    --color3: #ffbb76;
+    --color4: #87a2aa;
+    --color5: #80756b;
+    --color6: #394e55;
+}
+
+body {
+    background-color: var(--color6);
+}
+
+.page-wrapper {
+    width: 80%;
+    margin: 0 auto;
+    background-color: var(--color1);
+    padding: 10px;
+    position: sticky;
 }
 
 
@@ -91,10 +108,13 @@
     position: absolute;
     border: 1px black solid;
     width: 150px;
+    background-color: #f4f4f4;
+    cursor: pointer;
 }
 
 .nav-user-button {
     position: relative;
+    cursor: pointer;
 }
 
 
@@ -104,6 +124,7 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    background-color: #FFFFFF;
 }
 
 td, th {
