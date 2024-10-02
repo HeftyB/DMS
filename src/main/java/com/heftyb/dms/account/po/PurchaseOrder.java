@@ -17,7 +17,7 @@ import java.util.List;
 public class PurchaseOrder extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Temporal(TemporalType.DATE)

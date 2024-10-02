@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class InterestCharge extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne

@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class POItem extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String description;
@@ -18,7 +18,7 @@ public class POItem extends Auditable {
     private double totalCost;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id", nullable = false)
+    @JoinColumn(name = "po_id", nullable = false)
     private PurchaseOrder purchaseOrder;
 
     public POItem() {

@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 @Table(name = "taxCharges")
 public class TaxCharge extends Auditable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private FeeType type = FeeType.PERCENTAGE;

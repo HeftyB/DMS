@@ -10,10 +10,11 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "payPeriods")
 public class PayPeriod extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String period = Period.ofWeeks(2).toString();

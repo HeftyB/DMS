@@ -1,6 +1,7 @@
 package com.heftyb.dms.timekeeping;
 
 import com.heftyb.dms.account.PayPeriod;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,10 +10,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "timeSheets")
-public class TimeSheet {
+public class TimeSheet extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne

@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "federalTaxes")
 public class FederalTax extends Auditable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Enumerated

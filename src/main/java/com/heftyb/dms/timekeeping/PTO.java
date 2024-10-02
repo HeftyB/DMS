@@ -1,16 +1,17 @@
 package com.heftyb.dms.timekeeping;
 
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "paidTimeOff")
-public class PTO {
+public class PTO extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne

@@ -1,5 +1,6 @@
 package com.heftyb.dms.crm;
 
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -8,10 +9,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "saleLeads")
-public class SaleLead {
+public class SaleLead extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Embedded

@@ -1,15 +1,16 @@
 package com.heftyb.dms.repairorder;
 
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 
 
 @Entity
 @Table(name = "technicianFlatRateHours")
-public class TechnicianFlatRateHour {
+public class TechnicianFlatRateHour extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne()

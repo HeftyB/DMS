@@ -13,7 +13,7 @@ import java.util.Date;
 public class TimeClockPunchSet extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Temporal(TemporalType.DATE)
