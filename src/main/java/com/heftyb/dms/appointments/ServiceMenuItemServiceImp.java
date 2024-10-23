@@ -38,6 +38,10 @@ public class ServiceMenuItemServiceImp implements ServiceMenuItemService{
 
         i.setItem(item.getItem());
         i.setBlocks(item.getBlocks());
+        i.setPrice(item.getPrice());
+        i.setDescription(item.getDescription());
+        i.setSpecial(item.isSpecial());
+        i.setImgUrl(item.getImgUrl());
 
         return itemRepo.save(i);
     }
