@@ -269,8 +269,8 @@ public class Vehicle extends Auditable {
     }
 
     public String getVehicleInfo() {
-        return String.format("%s-%s-%s  %s  %s",
-                modelYear, make, model, color, vin);
+        return String.format("%s-%s-%s (%s)",
+                modelYear, make, model, color);
     }
 
     @Override

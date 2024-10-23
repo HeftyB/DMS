@@ -18,16 +18,16 @@ public class WorkOrderJobServiceImp implements WorkOrderJobService {
 
     private final WorkOrderJobRepository jobRepo;
     private final RepairOrderService roService;
-    private final TimeClockService timeClockService;
+//    private final TimeClockService timeClockService;
     private final TechnicianFlatRateHourService technicianFlatRateHourService;
 
     public WorkOrderJobServiceImp(final WorkOrderJobRepository workOrderJobRepository,
                                   final RepairOrderService repairOrderService,
-                                  final TimeClockService timeClockService,
+//                                  final TimeClockService timeClockService,
                                   final TechnicianFlatRateHourService technicianFlatRateHourService) {
         jobRepo = workOrderJobRepository;
         roService = repairOrderService;
-        this.timeClockService = timeClockService;
+//        this.timeClockService = timeClockService;
         this.technicianFlatRateHourService = technicianFlatRateHourService;
     }
 
@@ -84,11 +84,11 @@ public class WorkOrderJobServiceImp implements WorkOrderJobService {
             j.getParts().add(part);
         }
 
-        for (JobTimePunchSet punchSet : job.getTimeClockPunchSets()) {
-            JobTimePunchSet ps = timeClockService.findJobTimePunchSetById(punchSet.getId());
-            ps.setJob(j);
-            j.getTimeClockPunchSets().add(ps);
-        }
+//        for (JobTimePunchSet punchSet : job.getTimeClockPunchSets()) {
+//            JobTimePunchSet ps = timeClockService.findJobTimePunchSetById(punchSet.getId());
+//            ps.setJob(j);
+//            j.getTimeClockPunchSets().add(ps);
+//        }
 
         for (TechnicianFlatRateHour flatRateHour : job.getLabor()) {
             TechnicianFlatRateHour frh = technicianFlatRateHourService.findById(flatRateHour.getId());
