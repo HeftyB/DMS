@@ -1,6 +1,5 @@
 package com.heftyb.dms.appointments;
 
-import com.heftyb.dms.crm.ContactInformation;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.crm.services.EmployeeService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,10 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,8 +60,6 @@ public class AppointmentController {
 
     @PostMapping({"/create", "/create/"})
     public String create(Appointment appointment, HttpServletRequest request) {
-        Appointment apt = new Appointment();
-
         appointmentService.saveAppointment(appointment);
 
         String refURL = request.getHeader("Referer");
