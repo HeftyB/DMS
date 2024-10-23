@@ -7,6 +7,7 @@ import com.heftyb.dms.timekeeping.TimePunchCode;
 import com.heftyb.dms.timekeeping.services.TimeClockService;
 import com.heftyb.dms.users.User;
 import com.heftyb.dms.users.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,9 +92,9 @@ public class TimeClockController {
     @GetMapping({"/punches", "/punches/"})
     public String getDatesPunches(@RequestParam String date, Principal principal, ModelMap model) throws ParseException {
         User u = userService.findUserByUsername(principal.getName());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
         List<TimeClockPunchSet> punchSets = timeClockService
-                .findCurrentUsersTimeClockPunchSetsByDate(principal.getName(), sdf.parse(date));
+                .findCurrentUsersTimeClockPunchSetsByDate(principal.getName(), LocalDate.parse(date));
 
 
         model = addTimeClockAttributes(model, punchSets,
@@ -105,5 +106,14 @@ public class TimeClockController {
 
         return "time_home";
 
+    }
+
+    @PostMapping({"/jtime_punch", "/jtime_punch/"})
+    public String JobTimePunch(Principal principal, @RequestParam String jobId, HttpServletRequest request) {
+        long id = Long.parseLong(jobId);
+        timeClockService.jobTimePunch(principal.getName(), id);
+
+        String refURL = request.getHeader("Referer");
+        return "redirect:" + refURL;
     }
 }
