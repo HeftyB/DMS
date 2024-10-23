@@ -3,6 +3,7 @@ package com.heftyb.dms.repairorder.controllers;
 import com.heftyb.dms.crm.Customer;
 import com.heftyb.dms.crm.services.CustomerService;
 import com.heftyb.dms.repairorder.RepairOrder;
+import com.heftyb.dms.repairorder.WorkOrderJob;
 import com.heftyb.dms.repairorder.services.RepairOrderService;
 import com.heftyb.dms.repairorder.services.WorkOrderJobService;
 import com.heftyb.dms.vehicles.Vehicle;
@@ -98,6 +99,16 @@ public class RepairOrderController {
         }
 
         return roIdRedirectString(newId);
+    }
+    
+    @GetMapping({"/ro_job", "/ro_job"})
+    public String jobDetail(Principal principal, ModelMap map, @RequestParam String jobId) {
+        map.addAttribute("username", principal.getName());
+        WorkOrderJob job = workOrderJobService.findById(Long.parseLong(jobId));
+        map.addAttribute("job", job);
+
+
+        return "technician_job_detail";
     }
 
     private String roIdRedirectString(long id) {
