@@ -4,6 +4,7 @@ import com.heftyb.dms.account.PayPeriod;
 import com.heftyb.dms.timekeeping.*;
 import com.heftyb.dms.users.User;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public interface TimeClockService {
 
     List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSets(String username);
 
-    List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSetsByDate(String username, Date date);
+    List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSetsByDate(String username, LocalDate date);
 
     List<TimeClockPunchSet> findCurrentUsersPunchSetsByPayPeriod(User user, PayPeriod period);
 
@@ -54,4 +55,6 @@ public interface TimeClockService {
     JobTimePunchSet saveJobTimePunchSet(JobTimePunchSet jobTimePunchSet);
 
     void deleteJobTimePunchSet(long id);
+
+    JobTimePunchSet jobTimePunch(String username, long jobId);
 }

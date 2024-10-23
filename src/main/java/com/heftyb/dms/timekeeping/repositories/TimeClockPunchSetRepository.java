@@ -5,6 +5,7 @@ import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.timekeeping.TimeClockPunchSet;
 import org.springframework.data.repository.CrudRepository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface TimeClockPunchSetRepository extends CrudRepository<TimeClockPun
 
     List<TimeClockPunchSet> findByEmployeeAndPayPeriod(Employee employee, PayPeriod period);
 
-    List<TimeClockPunchSet> findByEmployeeAndDate(Employee employee, Date date);
+    List<TimeClockPunchSet> findByEmployeeAndDate(Employee employee, LocalDate date);
 }

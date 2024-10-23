@@ -4,8 +4,11 @@ import com.heftyb.dms.account.PayPeriod;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -16,11 +19,10 @@ public class TimeClockPunchSet extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
     @OneToOne
-//    @NotNull
+    @NotNull
     @JoinColumn
     private TimePunchIn in;
 
@@ -30,6 +32,7 @@ public class TimeClockPunchSet extends Auditable {
 
     @ManyToOne
     @JoinColumn(name = "employeeId", referencedColumnName = "id")
+    @NotNull
     private Employee employee;
 
     @ManyToOne
@@ -43,7 +46,7 @@ public class TimeClockPunchSet extends Auditable {
     public TimeClockPunchSet() {
     }
 
-    public TimeClockPunchSet(Date date, TimePunchIn in, Employee employee, PayPeriod period) {
+    public TimeClockPunchSet(LocalDate date, TimePunchIn in, Employee employee, PayPeriod period) {
         this.date = date;
         this.in = in;
         this.employee = employee;
@@ -62,11 +65,11 @@ public class TimeClockPunchSet extends Auditable {
         this.id = id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -110,12 +113,12 @@ public class TimeClockPunchSet extends Auditable {
         this.payPeriod = payPeriod;
     }
 
-    public Date getInPunchTime() {
+    public LocalDateTime getInPunchTime() {
         return in.getTime();
     }
 
     public long hoursBetweenPunches() {
-        Duration d = Duration.between(in.getTime().toInstant(), out.getTime().toInstant());
+        Duration d = Duration.between(in.getTime(), out.getTime());
         return d.toMinutes() / 60;
     }
 
