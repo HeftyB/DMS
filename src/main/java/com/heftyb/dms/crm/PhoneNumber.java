@@ -27,6 +27,10 @@ public class PhoneNumber {
         return ext != null;
     }
 
+    public String getPhoneNumber() {
+        return String.format("%s %s", number, ext);
+    }
+
     @Override
     public String toString() {
         return "PhoneNumber{" +
