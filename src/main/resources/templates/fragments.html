@@ -9,7 +9,7 @@
 </head>
 <body>
 <!--horizontal navigation bar - inserted into a header-->
-<nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header-top (username)">
+<nav class="navbar navbar-inverse navbar-fixed-top print-hide" th:fragment="header-top (username)">
     <div class="container">
         <ul class="nav-list">
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#" th:href="@{/}">Home</a></li>
@@ -41,7 +41,7 @@
 </nav>
 
 <div th:fragment="forward-back">
-    <a class="clean-link back-button" href="javascript:window.history.back();">
+    <a class="clean-link back-button print-hide" href="javascript:window.history.back();">
         <button type="button">Back</button>
     </a>
     <!--    <a href="javascript:window.history.forward();">></a>-->
