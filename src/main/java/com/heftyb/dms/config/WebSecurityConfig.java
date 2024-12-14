@@ -26,7 +26,7 @@ public class WebSecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         .requestMatchers("/admin/**")
                         .hasRole("ADMIN")
-                        .requestMatchers("/", "/style.css", "/oil.jpg")
+                        .requestMatchers("/", "/css/**", "/services", "/oil.jpg")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

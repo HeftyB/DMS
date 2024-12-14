@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Heftys Auto Service</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/open.css}">
+</head>
+
+<body class="bg-img">
+
+<div class="services-title">
+    <div class="services-links">
+        <a class="clean-link" th:href="@{/}">HOME</a>
+        <a class="clean-link" th:href="@{/appointments}">BOOK AN APPOINTMENT</a>
+    </div>
+</div>
+<h1 class="s-title">Services: </h1>
+<div class="service-cards" th:fragment="service_cards">
+    <div th:each="item : ${items}" th:if="${item.item} != 'OTHER'" class="service-card">
+        <img src="" th:src="${item.imgUrl}" alt="icon">
+        <h2>[[${item.item}]]</h2>
+        <p class="price">[[${item.price}]]</p>
+        <p>[[${item.description}]]</p>
+    </div>
+</div>
+</body>
+</html>

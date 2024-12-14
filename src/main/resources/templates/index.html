@@ -1,14 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{fragments::head (page_title='Home')}"></head>
-<body>
-<div class="page-wrapper">
-    <header th:insert="~{fragments::header-top (username=${username})}"></header>
-    <div>
-        <h1>Welcome to Hefty's dealer management software suite</h1>
-        Welcome [(${principal})]!
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Heftys Auto Service</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/open.css}">
+</head>
+
+<body class="bg-img">
+
+<div class="info-wrapper">
+    <h1 class="info-title">Hefty's Auto Service</h1>
+    <p class="info-slogan">"WHERE THE CARS GO!"</p>
+    <hr>
+
+    <div class="landing-buttons">
+        <a class="l-link clean-link" href="tel:555-555-5555">Call <br><span>xxx-xxx-xxxx</span></a>
+        <a class="l-link clean-link" href="" th:href="@{/services}">Services </a>
+        <a class="l-link clean-link" href="#">Schedule online <br><span>(COMING SOON!)</span> </a>
     </div>
+
+    <div class="info-details">
+        <h3 class="center-text">Specials: </h3>
+        <div class="special">
+            <h4>Brake Jobs - </h4>
+            <p class="special-detail">
+                We will help you source the best parts for your vehicle
+                <span class="small-text">(usually online)</span>
+                and perform the installation! <br>
+                <span class="bold-text">labor cost: </span>
+                <span class="special-price">$150.00</span> - pads;
+                <span class="special-price">$200.00</span> pads & rotors
+                <span class="bold-text">( per axle )</span>
+            </p>
+        </div>
+        <div class="special">
+            <h4>Brake fluid flush - </h4>
+            <p class="special-detail"><span class="special-price">$99.00</span></p>
+        </div>
+    </div>
+
+    <p  class="temp">*** We are currently working out of a temporary facility while we work on expanding! ***</p>
+
 </div>
-<footer th:replace="~{fragments::foot}"></footer>
 </body>
 </html>
