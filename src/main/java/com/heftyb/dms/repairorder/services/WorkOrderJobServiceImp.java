@@ -5,6 +5,7 @@ import com.heftyb.dms.inventory.WorkOrderJobPart;
 import com.heftyb.dms.repairorder.RepairOrder;
 import com.heftyb.dms.repairorder.TechnicianFlatRateHour;
 import com.heftyb.dms.repairorder.WorkOrderJob;
+import com.heftyb.dms.repairorder.WorkOrderStatus;
 import com.heftyb.dms.repairorder.repositories.WorkOrderJobRepository;
 import com.heftyb.dms.timekeeping.JobTimePunchSet;
 import com.heftyb.dms.timekeeping.services.TimeClockService;
@@ -73,32 +74,56 @@ public class WorkOrderJobServiceImp implements WorkOrderJobService {
     public WorkOrderJob update(WorkOrderJob job) {
         WorkOrderJob j = findById(job.getId());
 
-        j.setConcern(job.getConcern());
-        j.setCause(job.getCause());
-        j.setCorrection(job.getCorrection());
+        if (!job.getConcern().isBlank()) j.setConcern(job.getConcern());
+        if (!job.getCause().isBlank()) j.setCause(job.getCause());
+        if (!job.getCorrection().isBlank()) j.setCorrection(job.getCorrection());
 
-        j.setRepairOrder(roService.findById(job.getRepairOrder().getId()));
+        j.setStatus(job.getStatus());
 
-        for (WorkOrderJobPart part : job.getParts()) {
-            part.setJob(j);
-            j.getParts().add(part);
-        }
+        // updated through parts service
+//        for (WorkOrderJobPart part : job.getParts()) {
+//            part.setJob(j);
+//            j.getParts().add(part);
+//        }
 
+        // updated through timeservice
 //        for (JobTimePunchSet punchSet : job.getTimeClockPunchSets()) {
 //            JobTimePunchSet ps = timeClockService.findJobTimePunchSetById(punchSet.getId());
 //            ps.setJob(j);
 //            j.getTimeClockPunchSets().add(ps);
 //        }
 
-        for (TechnicianFlatRateHour flatRateHour : job.getLabor()) {
-            TechnicianFlatRateHour frh = technicianFlatRateHourService.findById(flatRateHour.getId());
-            frh.setJob(j);
-            j.getLabor().add(frh);
-        }
+        // updated through pay service
+//        for (TechnicianFlatRateHour flatRateHour : job.getLabor()) {
+//            TechnicianFlatRateHour frh = technicianFlatRateHourService.findById(flatRateHour.getId());
+//            frh.setJob(j);
+//            j.getLabor().add(frh);
+//        }
 
         j.setMiscItems(job.getMiscItems());
 
         return jobRepo.save(j);
+    }
+
+    @Override
+    public WorkOrderJob updateCause(long jobId, String cause) {
+        WorkOrderJob job = findById(jobId);
+        job.setCause(cause);
+        return jobRepo.save(job);
+    }
+
+    @Override
+    public WorkOrderJob updateCorrection(long jobId, String correction) {
+        WorkOrderJob job = findById(jobId);
+        job.setCorrection(correction);
+        return jobRepo.save(job);
+    }
+
+    @Override
+    public WorkOrderJob updateStatus(long jobId, WorkOrderStatus status) {
+        WorkOrderJob job = findById(jobId);
+        job.setStatus(status);
+        return jobRepo.save(job);
     }
 
     @Override

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments::head (page_title='WorkOrder Details')}"></head>
+<body>
+<header th:insert="~{fragments::header-top (username=${username})}"></header>
+
+
+
+<div class="page-wrapper">
+<!--    work-order info fragment-->
+    <div class="info-container" th:fragment="wo-info (wo)">
+        <div class="wo-info">
+            <p><span class="wo-info-label">WO #: </span>[[${wo.id}]]</p>
+            <p><span class="wo-info-label">ADVISOR: </span>[[${wo.advisor.getName()}]]</p>
+            <p><span class="wo-info-label">OPENED: </span>[[${wo.openDate}]]</p>
+        </div>
+
+        <div class="wo-info">
+            <p><span class="wo-info-label">VEHICLE INFO: </span>[[${wo.vehicle.getVehicleInfo()}]]</p>
+            <p><span class="wo-info-label">VIN: </span>[[${wo.vehicle.vin}]]</p>
+            <p><span class="wo-info-label">MILEAGE IN/OUT: </span>
+                <span>[[${wo.mileageIn}]]</span>
+                &nbsp;
+                /
+                &nbsp;
+                <span>[[${wo.mileageOut}]]</span>
+            </p>
+        </div>
+
+        <div class="wo-info">
+            <p><span class="wo-info-label">NAME: </span>[[${wo.customer.getName()}]]</p>
+            <p><span class="wo-info-label wo-address-info">ADDRESS: </span>
+                [[${wo.customer.address.addressLine1}]]
+                <br>
+                [[${wo.customer.address.addressLine2}]]
+                <br>
+                [[${wo.customer.address.city}]] [[${wo.customer.address.state}]], [[${wo.customer.address.zip.zip}]]
+            </p>
+            <p><span class="wo-info-label">PHONE: </span>[[${wo.customer.contactInformation.primaryPhone.getPhoneNumber()}]]</p>
+            <p><span class="wo-info-label">EMAIL: </span>[[${wo.customer.email}]]</p>
+        </div>
+
+    </div>
+
+<!--    work-order jobs-->
+    <div>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Concern</th>
+                <th>Status</th>
+            </tr>
+
+            <tr th:each="j : ${wo.jobs}">
+                <td>
+                    <a href="" th:href="@{/two/job(jobId=${j.id})}">[[${j.id}]]</a>
+                </td>
+                <td>
+                    <a href="" th:href="@{/two/job(jobId=${j.id})}">[[${j.concern}]]</a>
+                </td>
+                <td>
+                    <a href="" th:href="@{/two/job(jobId=${j.id})}">[[${j.status}]]</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="~{fragments::foot}"></footer>
+</body>
+</html>

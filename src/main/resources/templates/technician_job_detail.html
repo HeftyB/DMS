@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments::head (page_title='Job Details')}"></head>
+<body>
+
+<div class="page-wrapper">
+
+    <div class="flex-start">
+        <a class="clean-link wo-nav-button" href="" th:href="@{/two/wo(woId=${job.repairOrder.id})}">WO JOBS</a>
+        <a class="clean-link wo-nav-button" href="" th:href="@{/two}">MY QUEUE</a>
+    </div>
+    <div th:replace="~{technician_workorder::wo-info (wo=${job.repairOrder})}"></div>
+
+    <div class="job-info">
+        <form action="#" th:action="@{/two/status}" method="post" class="tech-job-form">
+
+            <div class="editable-job-detail">
+
+                <div id="status_text" class="show">
+                    <h4>Current Status:</h4>
+                    <p class="ccc-text">
+                        <span>[[${job.status}]]</span>
+                    </p>
+                </div>
+                <div id="status_edit" class="hide">
+                    <label for="status" class="wo-status-edit">Update Status:</label>
+                    <select name="status" id="status" class="ccc-text">
+                        <option value="HOLD_FOR_APPROVAL">HOLD FOR APPROVAL</option>
+                        <option value="HOLD_FOR_PARTS">HOLD FOR PARTS</option>
+                        <option value="WORKING">WORKING</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                    </select>
+
+                    <button type="submit">Submit</button>
+                </div>
+
+
+
+                <button id="show_status_edit" type="button">
+                    <div th:replace="~{technician_job_detail::edit-button-img}"></div>
+                </button>
+            </div>
+
+
+
+        </form>
+
+        <div class="border">
+            <h4>Concern: </h4>
+            <div>
+                <p class="ccc-text">[[${job.concern}]]</p>
+            </div>
+        </div>
+
+
+        <form action="#" th:action="@{/two/cause}" method="post" class="tech-job-form border">
+            <div class="editable-job-detail">
+                <h4>Cause:</h4>
+                <button id="show_cause_edit" type="button">
+                    <img th:fragment="edit-button-img" src="https://www.svgrepo.com/show/522527/edit-3.svg" style="height: auto; width: 15px;" alt="EDIT">
+                </button>
+            </div>
+            <p id="cause_text" class="ccc-text show">
+                [[${job.cause}]]
+            </p>
+            <div class="ccc-input-wrapper hide" id="cause_edit">
+                <textarea name="cause" id="cause" class="ccc-text">[[${job.cause}]]</textarea>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+
+        <form action="#" th:action="@{/two/correction}" method="post" class="tech-job-form border">
+            <div class="editable-job-detail">
+                <h4>Correction:</h4>
+                <button id="show_correction_edit" type="button">
+                    <div th:replace="~{technician_job_detail::edit-button-img}"></div>
+                </button>
+            </div>
+
+            <p id="correction_text" class="ccc-text show">
+                [[${job.correction}]]
+            </p>
+            <div class="ccc-input-wrapper hide" id="correction_edit">
+                <textarea name="correction" id="correction" class="ccc-text">[[${job.correction}]]</textarea>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+
+        <table class="wo-time-table">
+            <tr>
+                <th>DATE</th>
+                <th>TECHNICIAN</th>
+                <th>TIME - IN</th>
+                <th>TIME - OUT</th>
+            </tr>
+            <tr th:each="ts : ${job.timeClockPunchSets}">
+                <td>[[${ts.date}]]</td>
+                <td>[[${ts.employee.getName()}]]</td>
+                <td>[[${{ts.in.time.toLocalTime()}}]]</td>
+                <td>[[${ts.out} ? ${{ts.out.time.toLocalTime()}} : '-']]</td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>Total hours:</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        </table>
+
+        <form action="#" th:action="@{/timeclock/jtime_punch}" method="post">
+            <input type="hidden" th:value="${job.id}" name="jobId">
+
+            <div class="flex-end w-100">
+                <button class="punch-button" type="submit">START / FINISH WORK-TIME</button>
+            </div>
+        </form>
+
+        <script th:inline="javascript">
+
+            let jobId = [[${job.id}]]
+
+            Array.from(document.getElementsByClassName("tech-job-form")).forEach(el => {
+                let input = document.createElement("input")
+                input.type = "hidden"
+                input.name = "jobId"
+                input.value = jobId
+                el.appendChild(input)
+            })
+
+            document.getElementById("show_cause_edit").addEventListener("click", e => {
+                toggleEdit("cause_edit", "cause_text")
+            })
+
+            document.getElementById("show_correction_edit").addEventListener("click", e => {
+                toggleEdit("correction_edit", "correction_text")
+            })
+
+            document.getElementById("show_status_edit").addEventListener("click", e => {
+                toggleEdit("status_edit", "status_text")
+            })
+
+            function toggleEdit(editId, textId) {
+                let edit = document.getElementById(editId)
+                let text = document.getElementById(textId)
+                edit.classList.toggle("show")
+                text.classList.toggle("show")
+                edit.classList.toggle("hide")
+                text.classList.toggle("hide")
+            }
+
+        </script>
+    </div>
+</div>
+
+
+
+</body>
+</html>

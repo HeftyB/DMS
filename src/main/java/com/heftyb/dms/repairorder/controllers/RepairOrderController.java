@@ -100,16 +100,6 @@ public class RepairOrderController {
 
         return roIdRedirectString(newId);
     }
-    
-    @GetMapping({"/ro_job", "/ro_job"})
-    public String jobDetail(Principal principal, ModelMap map, @RequestParam String jobId) {
-        map.addAttribute("username", principal.getName());
-        WorkOrderJob job = workOrderJobService.findById(Long.parseLong(jobId));
-        map.addAttribute("job", job);
-
-
-        return "technician_job_detail";
-    }
 
     private String roIdRedirectString(long id) {
         return String.format("redirect:/repair_orders/repair_order?id=%s", id);

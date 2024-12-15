@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments::head (page_title='Tchnician WorkOrder')}"></head>
+<body>
+<header th:insert="~{fragments::header-top (username=${username})}"></header>
+
+<div class="page-wrapper">
+    <div class="flex">
+        <form action="" th:action="@{/two/wo}">
+            <label for="woId">WorkOrder #</label>
+            <input type="text" name="woId" id="woId" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="~{fragments::foot}"></footer>
+</body>
+</html>

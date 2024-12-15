@@ -21,6 +21,8 @@
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#" th:href="@{/vehicles}">Vehicles</a></li>
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Parts</a></li>
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Support</a></li>
+
+            <li th:if="" class="no-bullet-list nav-item"><a class="clean-link" th:href="@{/two}">Work-Orders</a></li>
             <!--            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">User</a></li>-->
             <li sec:authorize="hasRole('ROLE_ADMIN')" class="no-bullet-list nav-item"><a class="clean-link" href="#"
                                                                                          th:href="@{/admin}">Admin</a>
