@@ -5,6 +5,8 @@ import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.repairorder.WorkOrderJob;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -15,8 +17,7 @@ public class JobTimePunchSet extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
     @OneToOne
     @JoinColumn()
@@ -45,11 +46,11 @@ public class JobTimePunchSet extends Auditable {
         this.id = id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -83,5 +84,9 @@ public class JobTimePunchSet extends Auditable {
 
     public void setJob(WorkOrderJob job) {
         this.job = job;
+    }
+    
+    public LocalDateTime getInPunchTime() {
+        return in.getTime();
     }
 }

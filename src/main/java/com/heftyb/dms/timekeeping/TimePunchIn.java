@@ -3,7 +3,9 @@ package com.heftyb.dms.timekeeping;
 import com.heftyb.dms.crm.Employee;
 import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -18,15 +20,15 @@ public class TimePunchIn extends Auditable {
     @JoinColumn(referencedColumnName = "id")
     private Employee employee;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date time;
+    @NotNull
+    private LocalDateTime time;
 
     private TimePunchCode code;
 
     public TimePunchIn() {
     }
 
-    public TimePunchIn(Employee employee, Date time, TimePunchCode code) {
+    public TimePunchIn(Employee employee, LocalDateTime time, TimePunchCode code) {
         this.employee = employee;
         this.time = time;
         this.code = code;
@@ -48,11 +50,11 @@ public class TimePunchIn extends Auditable {
         this.employee = employee;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 

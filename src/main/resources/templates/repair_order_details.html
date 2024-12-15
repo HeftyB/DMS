@@ -11,12 +11,30 @@
 
 
         <div class="ro-top">
+            <div class="company-info">
+                <div class="wrench-wrapper">
+                    <h4>Hefty's Auto Service</h4>
+                    <div>
+                        <img class="wrench-icon" src="https://www.svgrepo.com/show/20710/wrench.svg" alt="wrench">
+                    </div>
+                </div>
+                <div class="text-small">
+                    <p>Eiffel Cir W</p>
+                    <p>Jacksonville, Fl 32210</p>
+                </div>
+                <div class="ro-company-contact">
+                    <span class="text-small">(904) 416-7757</span>
+                    <span class="text-small">Service Manager: Andrew Shields</span>
+                </div>
+            </div>
             <div class="top-wrapper">
-                <div class="address top-info">
-                    <h3>CUSTOMER:</h3>
-                    <h4 th:text="${ro.customer.getName()}">John Smith</h4>
+
+
+                <div class="top-info">
+<!--                    <h3>CUSTOMER:</h3>-->
+                    <p th:text="${ro.customer.getName()}">John Smith</p>
                     <p th:text="${ro.customer.address.addressLine1}">1234 Fake Ln</p>
-                    <p if="${ro.customer.address.addressLine2}} != null" th:text="${ro.customer.address.addressLine2}"></p>
+                    <p if="${ro.customer.address.addressLine2} != null" th:text="${ro.customer.address.addressLine2}"></p>
                     <p>
                         <span th:text="${ro.customer.address.city}">Jacksonville</span> <span th:text="${ro.customer.address.state}">Fl</span> <span th:text="${ro.customer.address.zip.zip}">35555</span>
                     </p>
@@ -25,6 +43,7 @@
                     <p>email@mail.com</p>
                 </div>
                 <div class="order-info top-info">
+
                     <h1 th:text="'RO: ' + ${ro.id}">RO: 200354</h1>
                     <h3 th:text="'STATUS :' + ${ro.status}">STATUS: OPEN</h3>
                     <h4 th:text="'OPENED BY: ' + ${ro.advisor.lastName}">OPENED BY: Burrito-60120</h4>
@@ -60,7 +79,7 @@
                     <H2>JOBS:</H2>
                     <div>
 
-                        <button id="myBtn">+</button>
+                        <button id="myBtn" class="print-hide">+</button>
                     </div>
                 </div>
 
@@ -201,7 +220,9 @@
 
         <div th:replace="~{new_wo_job::new-wo-job (ro=${ro})}"></div>
 
-
+        <div class="print-only">
+            <input type="text" class="signature">
+        </div>
 
     </div>
 

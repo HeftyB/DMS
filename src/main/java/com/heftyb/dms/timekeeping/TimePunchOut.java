@@ -5,6 +5,7 @@ import com.heftyb.dms.dao.Auditable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -20,8 +21,7 @@ public class TimePunchOut extends Auditable {
     private Employee employee;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date time;
+    private LocalDateTime time;
 
     @NotNull
     private TimePunchCode code;
@@ -29,7 +29,7 @@ public class TimePunchOut extends Auditable {
     public TimePunchOut() {
     }
 
-    public TimePunchOut(Employee employee, Date time, TimePunchCode code) {
+    public TimePunchOut(Employee employee, LocalDateTime time, TimePunchCode code) {
         this.employee = employee;
         this.time = time;
         this.code = code;
@@ -51,11 +51,11 @@ public class TimePunchOut extends Auditable {
         this.employee = employee;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 

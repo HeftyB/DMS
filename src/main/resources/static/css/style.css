@@ -3,6 +3,7 @@
 /*}*/
 
 :root {
+    --pageWhite: #f4f4f4;
     --color1: #75dfff;
     --color2: #bfa488;
     --color3: #ffbb76;
@@ -18,9 +19,58 @@ body {
 .page-wrapper {
     width: 80%;
     margin: 0 auto;
-    background-color: var(--color1);
+    background-color: var(--pageWhite);
     padding: 10px;
     position: sticky;
+}
+
+.company-info {
+    border: 1px double black;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.wrench-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.wrench-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ro-company-contact {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    justify-content: center;
+    text-align: end;
+}
+
+.text-small {
+    font-size: small;
+    font-weight: bold;
+}
+
+.signature {
+    border: 0;
+    border-bottom: 1px solid #000;
+}
+
+.print-only {
+    display: none;
+}
+
+@media print {
+    .print-only {
+        display: block;
+    }
+
+    .print-hide {
+        display: none;
+    }
 }
 
 
@@ -228,7 +278,7 @@ td a {
 .search-form {
     display: flex;
     flex-direction: column;
-    display: table;
+    /*display: table;*/
 }
 
 .input-wrapper {
@@ -361,7 +411,7 @@ td a {
 
 .button-container button {
     padding: 10px 25px;
-    box-shadow: 10px 10px #dddddd;
+    box-shadow: 3px 3px #dddddd;
 }
 
 .hidden-submit {
@@ -415,7 +465,6 @@ td a {
     display: none;
     position: fixed;
     z-index: 10;
-    padding-top: 100px;
     left: 0;
     top: 0;
     width: 100%;
@@ -428,7 +477,7 @@ td a {
 .job-modal-content {
     position: relative;
     background-color: #fefefe;
-    margin: auto;
+    margin: 15vh auto;
     padding: 0;
     border: 1px solid #888;
     width: 50%;
@@ -625,4 +674,140 @@ td a {
 
 .step.finish {
     background-color: #04AA6D;
+}
+
+
+
+/*technician work-order*/
+
+.ccc-input-wrapper {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ccc-input-wrapper input, .ccc-input-wrapper textarea {
+    width: 100%;
+}
+
+.border {
+    border: 1px solid black;
+    margin: auto;
+}
+
+.ccc-text {
+    margin-left: 100px;
+    /*height: 60px;*/
+    /*line-height: 20px;*/
+    /*overflow: hidden;*/
+    /*text-decoration: underline;*/
+    /*text-underline: black;*/
+}
+
+
+.editable-job-detail button {
+    height: 20px;
+    margin: auto 5px;
+}
+
+.editable-job-detail {
+    display: flex;
+    justify-content: space-between;
+}
+
+#status_edit * {
+    margin: 0 5px;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+    content: none;
+}
+
+.info-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin: 20px;
+    border: 2px solid black;
+}
+
+.border {
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.tech-job-form {
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.wo-status-edit {
+    display: block;
+    font-weight: bold;
+}
+
+.flex-start {
+    display: flex;
+    justify-content: start;
+}
+
+.flex-start button {
+    margin: 0 5px;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: end;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.punch-button {
+    margin: 5px;
+    padding: 10px;
+    background-color: rgba(255, 0, 0, .5);
+    border-radius: 15px;
+}
+
+.wo-info {
+    margin: auto;
+    /*padding 20px;*/
+}
+.wo-info p {
+    font-weight: bold;
+}
+
+.wo-info-label {
+    font-size: xx-small;
+    font-weight: lighter;
+    width: 50px;
+    display: inline-block;
+}
+
+.wo-time-table {
+    margin: 100px 0;
+}
+
+.wo-nav-button {
+    color: black;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: rgba(0, 255, 0, 0.5);
+    margin: 5px;
+}
+
+.wo-address-info {
+    /*height: 60px;*/
+    /*line-height: 20px;*/
+    /*overflow: hidden;*/
+    /*text-decoration: underline;*/
+    /*text-underline: black;*/
 }

@@ -67,7 +67,8 @@ public class AppointmentServiceImp implements AppointmentService {
     public List<Appointment> findByContactInfo(ContactInformation contactInformation) {
         List<Appointment> appointments = new ArrayList<>();
         apptRepo.findAll().iterator().forEachRemaining(appointments::add);
-        appointments.stream().filter(a -> a.getContactInformation().containsMatchingContactInformation(contactInformation));
+        appointments = appointments.stream().filter(a -> a.getContactInformation().containsMatchingContactInformation(contactInformation))
+        .collect(Collectors.toList());
 
         return appointments;
     }
@@ -95,6 +96,12 @@ public class AppointmentServiceImp implements AppointmentService {
         Employee e = employeeService.findById(appointment.getAdvisor().getId());
         a.setAdvisor(e);
         a.setConcerns(appointment.getConcerns());
+
+        a.setYear(appointment.getYear());
+        a.setMake(appointment.getMake());
+        a.setModel(appointment.getModel());
+        a.setVin(appointment.getVin());
+
         ArrayList<Employee> employees = new ArrayList<>();
         employees.add(e);
 
@@ -122,7 +129,7 @@ public class AppointmentServiceImp implements AppointmentService {
     @Override
     public void deleteAppointment(long id) {
         Appointment a = findAppointmentById(id);
-        a.getBlocks().stream().forEach(this::freeAdvisorBlock);
+        a.getBlocks().forEach(this::freeAdvisorBlock);
         apptRepo.deleteById(id);
     }
 

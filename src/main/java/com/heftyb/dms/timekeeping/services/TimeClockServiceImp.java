@@ -7,7 +7,9 @@ import com.heftyb.dms.crm.services.EmployeeService;
 import com.heftyb.dms.exceptions.DataNotFoundException;
 import com.heftyb.dms.exceptions.TimeClockException;
 import com.heftyb.dms.exceptions.UserNotFoundException;
+import com.heftyb.dms.repairorder.WorkOrderJob;
 import com.heftyb.dms.repairorder.services.RepairOrderService;
+import com.heftyb.dms.repairorder.services.WorkOrderJobService;
 import com.heftyb.dms.timekeeping.*;
 import com.heftyb.dms.timekeeping.repositories.JobTimePunchSetRepository;
 import com.heftyb.dms.timekeeping.repositories.TimeClockPunchSetRepository;
@@ -19,6 +21,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,6 +38,7 @@ public class TimeClockServiceImp implements TimeClockService {
     private final RepairOrderService repairOrderService;
     private final UserService userService;
     private final PayPeriodService payPeriodService;
+    private final WorkOrderJobService jobService;
 
 
     public TimeClockServiceImp(
@@ -44,7 +49,8 @@ public class TimeClockServiceImp implements TimeClockService {
             final EmployeeService employeeService,
             final RepairOrderService repairOrderService,
             final UserService userService,
-            final PayPeriodService payPeriodService
+            final PayPeriodService payPeriodService,
+            final WorkOrderJobService jobService
     ) {
         inRepo = timePunchInRepository;
         outRepo = timePunchOutRepository;
@@ -54,6 +60,7 @@ public class TimeClockServiceImp implements TimeClockService {
         this.repairOrderService = repairOrderService;
         this.userService = userService;
         this.payPeriodService = payPeriodService;
+        this.jobService = jobService;
     }
 
 
@@ -191,7 +198,7 @@ public class TimeClockServiceImp implements TimeClockService {
     }
 
     @Override
-    public List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSetsByDate(String username, Date date) {
+    public List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSetsByDate(String username, LocalDate date) {
         User u = userService.findUserByUsername(username);
         return timeClockPunchRepo.findByEmployeeAndDate(u.getEmployee(), date);
     }
@@ -209,7 +216,7 @@ public class TimeClockServiceImp implements TimeClockService {
                 ));
         List<TimeClockPunchSet> punchSets = timeClockPunchRepo.findByEmployee(u.getEmployee())
                 .stream().filter(
-                        ps -> isToday(ps.getDate())
+                        ps -> isToday(Date.from(Instant.from(ps.getDate())))
                 )
                 .collect(Collectors.toList());
         punchSets.sort(Comparator.comparing(TimeClockPunchSet::getInPunchTime).reversed());
@@ -219,7 +226,7 @@ public class TimeClockServiceImp implements TimeClockService {
         } else {
             TimeClockPunchSet timeClockPunchSet = new TimeClockPunchSet();
             timeClockPunchSet.setEmployee(u.getEmployee());
-            timeClockPunchSet.setDate(Date.from(Instant.now()));
+            timeClockPunchSet.setDate(LocalDate.now());
             return timeClockPunchSet;
         }
     }
@@ -227,10 +234,10 @@ public class TimeClockServiceImp implements TimeClockService {
     @Override
     public void clockIn(String username, TimePunchCode code) {
         User user = userService.findUserByUsername(username);
-        TimePunchIn punchIn = new TimePunchIn(user.getEmployee(), Date.from(Instant.now()), code);
+        TimePunchIn punchIn = new TimePunchIn(user.getEmployee(), LocalDateTime.now(), code);
         punchIn = saveTimePunchIn(punchIn);
 
-        TimeClockPunchSet punchSet = new TimeClockPunchSet(punchIn.getTime(), punchIn, user.getEmployee(), payPeriodService.getCurrentPayPeriod());
+        TimeClockPunchSet punchSet = new TimeClockPunchSet(punchIn.getTime().toLocalDate(), punchIn, user.getEmployee(), payPeriodService.getCurrentPayPeriod());
         saveTimeClockPunchSet(punchSet);
         employeeService.setEmployeeClockedIn(user.getEmployee().getId(), true);
     }
@@ -238,7 +245,7 @@ public class TimeClockServiceImp implements TimeClockService {
     @Override
     public void clockOut(String username, TimePunchCode code) {
         User user = userService.findUserByUsername(username);
-        TimePunchOut punchOut = new TimePunchOut(user.getEmployee(), Date.from(Instant.now()), code);
+        TimePunchOut punchOut = new TimePunchOut(user.getEmployee(), LocalDateTime.now(), code);
 
         TimeClockPunchSet punchSet = findCurrentTimeClockPunchSetByUser(user);
 
@@ -284,6 +291,37 @@ public class TimeClockServiceImp implements TimeClockService {
     public void deleteJobTimePunchSet(long id) {
         findJobTimePunchSetById(id);
         jobTimeRepo.deleteById(id);
+    }
+
+    @Override
+    public JobTimePunchSet jobTimePunch(String username, long jobId) {
+
+        User u = userService.findUserByUsername(username);
+        WorkOrderJob j = jobService.findById(jobId);
+
+        List<JobTimePunchSet> jtps = j.getTimeClockPunchSets().stream().filter(
+                ps -> ps.getEmployee().getId() == u.getEmployee().getId()
+        ).sorted(Comparator.comparing(JobTimePunchSet::getInPunchTime).reversed())
+                .collect(Collectors.toList());
+
+        JobTimePunchSet punchSet;
+
+        if (jtps.isEmpty() || jtps.getFirst().getOut() != null) {
+            punchSet = new JobTimePunchSet();
+            punchSet.setJob(j);
+            punchSet.setDate(LocalDate.now());
+            punchSet.setEmployee(u.getEmployee());
+            TimePunchIn in = new TimePunchIn(u.getEmployee(), LocalDateTime.now(), TimePunchCode.IN);
+            in = inRepo.save(in);
+            punchSet.setIn(in);
+        } else {
+            punchSet = jtps.getFirst();
+            TimePunchOut out = new TimePunchOut(u.getEmployee(), LocalDateTime.now(), TimePunchCode.OUT);
+            out = outRepo.save(out);
+            punchSet.setOut(out);
+        }
+
+        return jobTimeRepo.save(punchSet);
     }
 
     private String errorString(String name, long id) {
