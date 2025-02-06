@@ -4,57 +4,649 @@
 <body class="body">
 <div class="page-wrapper">
 
-    <nav th:insert="~{fragments::header-top (username=${username})}"></nav>
+<!--    <nav th:insert="~{fragments::header-top (username=${username})}"></nav>-->
 
-    <h1 class="center-title">HR Administrator</h1>
-    <hr>
+    <style>
+
+        .dash-tab-buttons {
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            width: 30%;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .dash-tab-buttons button {
+            background-color: inherit;
+            color: black;
+            padding: 22px 16px;
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dash-tab-buttons button:hover {
+            background-color: #ddd;
+        }
+
+        .dash-tab-buttons button.active {
+            background-color: #ccc;
+        }
+
+        .tab {
+            /*display: none;*/
+        }
+
+
+        .admin-data {
+            padding: 10px;
+        }
+
+        .dash-grid {
+            display: grid;
+            grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+            grid-gap: 20px;
+            height: 100vh;
+            width: 100%;
+            padding 5px;
+            border: 1px dot-dash black;
+        }
+
+        #dash-1 {
+            grid-column: 1;
+            grid-row: 1;
+            /*background-color: red;*/
+        }
+
+        #dash-2 {
+            grid-column: 2/ span 2;
+            grid-row: 1;
+            /*background-color: blue;*/
+        }
+
+        #dash-3 {
+            grid-column: 1/ span 2;
+            grid-row: 2;
+            /*background-color: lightgrey;*/
+        }
+
+        #dash-4 {
+            grid-column: 3;
+            grid-row: 2;
+            /*background-color: yellow;*/
+        }
+
+        .cww-grid {
+            display: grid;
+            grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+            grid-gap: 15px;
+        }
+
+
+        #cww-1 {
+            grid-column: 1;
+            grid-row: 1 / span 2;
+            /*background-color: lightyellow;*/
+        }
+
+        #cww-2 {
+            grid-column: 2;
+            grid-row: 1;
+
+            /*background-color: lightseagreen;*/
+        }
+
+        #cww-3 {
+            grid-column: 3;
+            grid-row: 1;
+            /*background-color: lightblue;*/
+        }
+
+        #cww-4 {
+            grid-column: 2 / span 2;
+            grid-row: 2;
+            /*background-color: lightpink;*/
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+        }
+        .employee-grid {
+            display: grid;
+            grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+            grid-gap: 20px;
+        }
+
+        .grid-button {
+            min-height: 200px;
+            min-width: 200px;
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 6px;
+            background-color: lemonchiffon;
+        }
+
+        .grid-button:hover {
+            transform: scale(1.10);
+        }
+
+        #emp_1{
+            grid-column: 1 / span 3;
+            grid-row: 1;
+            /*background-color: blue;*/
+        }
+
+        #emp_2{
+            grid-column: 1;
+            grid-row: 2 / span 2;
+            /*background-color: brown;*/
+        }
+
+        #emp_3{
+            grid-column: 2;
+            grid-row: 2;
+            background-color: lemonchiffon;
+        }
+
+        #emp_4{
+            grid-column: 3;
+            grid-row: 2;
+            background-color: yellow;
+        }
+
+        #emp_5{
+            grid-column: 2;
+            grid-row: 3;
+            /*background-color: green;*/
+        }
+
+        #emp_6{
+            grid-column: 3;
+            grid-row: 3;
+            background-color: beige;
+        }
+
+        .ext {
+            width: 75px;
+            margin-left: 10px;
+        }
+
+        #add_employee label {
+            font-size: x-small;
+            width: 100px;
+        }
+
+        .zip {
+            width: 65px;
+        }
+
+        .p4 {
+            width: 50px;
+        }
+
+        .flex-around {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .submit {
+            margin: 50px;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: rgba(26, 255, 1, 1);
+        }
+
+        .submit:hover, .cancel:hover {
+            transform: scale(1.1);
+            transition: 1s linear none;
+        }
+
+        .cancel {
+            background-color: rgba(255, 20, 20, 0.8);
+            border-radius: 15px;
+            padding: 10px;
+            margin: auto 0;
+        }
+
+        .hdate {
+            min-width: 150px;
+            margin: auto;
+        }
+
+
+    </style>
     <div class="admin_main">
-        <nav class="side-navbar-open">
-            <ul class="no-bullet-list side-navbar">
-                <li><a href="#" class="nav_item">Dashboard</a></li>
-                <li><a href="#" class="nav_item">Current work week</a></li>
-                <li><a href="#" class="nav_item">Employee Management</a></li>
-                <li><a href="#" class="nav_item">User Management</a></li>
-                <li><a href="#" class="nav_item">Reports & Data</a></li>
-                <li><a href="#" class="nav_item">Sales</a></li>
-                <li><a href="#" class="nav_item">Service</a></li>
-                <li><a href="#" class="nav_item">Parts</a></li>
-            </ul>
-        </nav>
-        <div class="admin-data">
-            <div>
-                <h3>Active Employees</h3>
-                <a href="#" th:href="@{/admin/create_employee}"></a>
-                <button type="button">+</button>
-            </div>
-            <ul class="no-bullet-list" th:each="user : ${users}">
-                <li class="employee-card">
-                    <div>
-                        <p th:text="${user.username}"></p>
-                        <img src="" th:src="@{/defaults/default_user.svg}" alt="userPhoto" class="user-photo">
-                        <p th:text="${user.employee.firstName}"></p>
-                        <p th:text="${user.employee.lastName}"></p>
-                        <p th:text="${user.roles.role}"></p>
-                        <p th:text="${user.employee.jobTitle}"></p>
-                        <p th:text="${user.employee.hiredDate}"></p>
-                    </div>
-                </li>
-            </ul>
+<!--        <nav class="side-navbar-open">-->
+<!--            <ul class="no-bullet-list side-navbar">-->
+<!--                <li><a href="" th:href="@{/admin/}" class="sidebar-link nav-item clean-link">Dashboard</a></li>-->
+<!--                <li><a href="" th:href="@{/admin/}" class="nav-item clean-link">Current work week</a></li>-->
+<!--                <li><a href="" th:href="@{/admin/employees}" class="nav-item clean-link">Employee Management</a></li>-->
+<!--                <li><a href="" th:href="@{/admin/users}" class="nav-item clean-link">User Management</a></li>-->
+<!--                <li><a href="" th:href="@{/admin/roles}" class="nav-item clean-link">Role Management</a></li>-->
+<!--                <li><a href="" th:href="@{/admin/rd}" class="nav-item clean-link">Reports & Data</a></li>-->
+<!--                <li><a href="" th:href="@{/admin/vendors}" class="nav-item clean-link">Vendors</a></li>-->
+<!--                <li><a href="" th:href="@{/admin/accounts}" class="nav-item clean-link">Accounts</a></li>-->
+<!--            </ul>-->
+<!--        </nav>-->
 
-            <ul>
-                <li>
-                    <p th:text="'username: ' + ${user1.username}"></p>
-                    <p th:text="'password: ' + ${user1.password}"></p>
-                    <p th:text="'roles: ' + ${user1.roles}"></p>
-                </li>
-            </ul>
-            <table>
-            </table>
+        <div class="dash-tab-buttons">
+            <button id="dashboard_button" class="tab-button active">Dashboard</button>
+            <button id="cww_button" class="tab-button">Current Work Week</button>
+            <button id="employee_button" class="tab-button">Employee Management</button>
+            <button id="user_button" class="tab-button">User Management</button>
+            <button id="role_button" class="tab-button">Role Management</button>
+            <button id="rd_button" class="tab-button">Reports & Data</button>
+            <button id="vendor_button" class="tab-button">Vendors</button>
+            <button id="account_button" class="tab-button" >Accounts</button>
+        </div>
+
+
+        <div class="admin-data">
+
+
+            <div class="tab show" id="dashboard_tab">
+                <h1>Dashboard</h1>
+                <div class="dash-grid">
+
+                    <div id="dash-1" class="grid-button">
+                        <h2 class="center-text">TO-DOs</h2>
+                        <ul>
+                            <li>Employee compliance</li>
+                            <li>Training material</li>
+                            <li>Onboarding presentation</li>
+                            <li>Annual benefits review</li>
+                            <li>Company Town Hall</li>
+                        </ul>
+                    </div>
+                    <div id="dash-2" class="grid-button">
+                        <h2 class="center-text">Hefty's Auto Service</h2>
+                        <p>Total active employees - <b>50</b></p>
+
+                    </div>
+                    <div id="dash-3" class="grid-button">
+                        <h2 class="center-text">
+                            Charts & Graphs
+                        </h2>
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <div id="dash-4" class="grid-button">
+                        <canvas id="myChart2"></canvas>
+                    </div>
+<!--                    <div id="dash-1"></div>-->
+
+
+                </div>
+            </div>
+
+            <div class="tab hide" id="cww_tab">
+                <h1>Current Week</h1>
+                <div class="cww-grid">
+                    <div id="cww-1" class="grid-button">
+                        <canvas id="cww_chart1"></canvas>
+                    </div>
+                    <div id="cww-2" class="grid-button">
+                        <canvas id="cww_chart2"></canvas>
+                    </div>
+                    <div id="cww-3" class="grid-button">
+                        <canvas id="cww_chart3"></canvas>
+                    </div>
+                    <div id="cww-4" class="grid-button">
+                        <canvas id="cww_chart4"></canvas>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab hide" id="employee_tab">
+                <div class="border tab-wrapper">
+                    <p>Employees</p>
+                    <div class="flex-between">
+                        <form action="#">
+                            <label for="name">Search Name:</label>
+                            <input type="text" name="name" id="name">
+                            <input type="submit">
+                        </form>
+                        <button id="add_employee_butt" type="button">+</button>
+                    </div>
+
+                    <div class="hide" id="add_employee">
+                        <form th:action="@{/admin/create_employee}" method="post">
+                            <h2>Create New Employee</h2>
+                            <div class="flex-between">
+                                <div class="flex-col">
+                                    <label for="fname">First Name:</label>
+                                    <input type="text" id="fname" name="firstName" required>
+                                </div>
+                                <div class="flex-col">
+                                    <label for="lname">Last Name:</label>
+                                    <input type="text" id="lname" name="lastName" required>
+                                </div>
+                                <div class="flex-col">
+                                    <label for="pname">Preferred Name:</label>
+                                    <input type="text" id="pname" name="preferredName">
+                                </div>
+                            </div>
+
+                            <h3>Address:</h3>
+                            <div th:replace="~{fragments::address-inputs}"></div>
+                            <hr>
+                            <h3>Contact Information:</h3>
+                            <div th:replace="~{fragments::contact-info-inputs}"></div>
+
+
+                            <hr>
+                            <h3>HR Information</h3>
+                            <div class="flex-around">
+                                <div class="flex-col">
+                                    <label for="taxid">Tax ID:</label>
+                                    <input type="text" name="taxId" id="taxid" required>
+                                </div>
+
+                                <div class="flex-col">
+                                    <label for="title">Job Title:</label>
+                                    <select name="jobTitle" id="title" required>
+                                        <option th:each="t : ${jobTitles}" th:value="${t}">[[${t}]]</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex-col">
+                                <div class="flex-col hdate">
+                                    <label for="hdate">Hire Date:</label>
+                                    <input type="datetime-local" name="hiredDate" id="hdate">
+                                </div>
+
+                                <div class="flex-around">
+                                    <button type="button" class="cancel">Cancel</button>
+                                    <button type="submit" class="submit">Submit</button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="flex-between">
+                        <button>By Dept</button>
+                        <button>All</button>
+                        <button>Inactive</button>
+                    </div>
+                </div>
+
+                <div class="employee-grid">
+                    <div id="emp_1" class="grid-button flex-col just-cent">
+                        <h1 class="center-text">PAYROLL</h1>
+                    </div>
+                    <div id="emp_2" class="grid-button flex-col just-cent">
+                        <h1 class="center-text">BENEFITS</h1>
+                    </div>
+                    <div id="emp_3" class="grid-button flex-col just-cent">
+                        <h2 class="center-text">PTO</h2>
+                    </div>
+                    <div id="emp_4" class="grid-button flex-col just-cent">
+                        <h2 class="center-text">LIABILITIES</h2>
+                    </div>
+                    <div id="emp_5" class="grid-button flex-col just-cent">
+                        <h2 class="center-text">EXPENSES</h2>
+                    </div>
+                    <div id="emp_6" class="grid-button flex-col just-cent">
+                        <h2 class="center-text">REPORTS</h2>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="tab hide" id="user_tab">
+                <h2>users</h2>
+                <ul class="no-bullet-list" th:each="user : ${users}">
+                    <li class="employee-card">
+                        <div>
+                            <p th:text="${user.username}"></p>
+                            <img src="" th:src="@{/defaults/default_user.svg}" alt="userPhoto" class="user-photo">
+                            <p th:text="${user.employee.firstName}"></p>
+                            <p th:text="${user.employee.lastName}"></p>
+                            <p th:each="ro : ${user.roles}">
+                                [[${ro.role}]]
+                            </p>
+                            <p th:text="${user.employee.jobTitle}"></p>
+                            <p th:text="${user.employee.hiredDate}"></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab hide" id="role_tab">
+                <h2>Roles:</h2>
+
+
+                <div class="flex-end">
+                    <button id="create_role_button">Create New</button>
+                    <button id="delete_role_button">Delete</button>
+                    <button>Cool Button</button>
+                </div>
+
+                <div id="create_role" class="hide">
+                    <form th:action="@{/roles/create}" method="post">
+                        <label for="role">Role:</label>
+                        <input type="text" id="role" name="role">
+                        <label for="new_role_dep_sel">Dept:</label>
+                        <select name="department" id="new_role_dep_sel">
+                            <option th:each="rol : ${deptRoles}" th:value="${rol}">[[${rol}]]</option>
+                        </select>
+                        <input type="hidden" name="id" value="0">
+                        <input type="submit">
+                    </form>
+                </div>
+
+                <table class="role-table">
+                    <tr>
+                        <th>Role Name</th>
+                        <th>Dept</th>
+                        <th># of Employees</th>
+                    </tr>
+
+                    <tr th:each="role : ${roles}">
+                        <td>
+                            <h4>[[${role.role}]]</h4>
+                            <form th:action="@{/roles/delete}" class="del-role-form hide" method="post">
+                                <input type="hidden" th:value="${role.id}" name="roleId">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                        <th>[[${role.department}]]</th>
+                        <td>[[${role.users.size()}]]</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="tab hide" id="rd_tab">
+                Reports & Data
+            </div>
+
+            <div class="tab hide" id="vendor_tab">
+                Vendors
+            </div>
+
+            <div class="tab hide" id="account_tab">
+                Accounts
+            </div>
+
+
+
         </div>
 
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        document.getElementById("create_role_button").addEventListener("click", ev => {
+            document.getElementById("create_role").classList.toggle("show")
+            document.getElementById("create_role").classList.toggle("hide")
+        })
+
+        document.getElementById("delete_role_button").addEventListener("click", ev => {
+            Array.from(document.getElementsByClassName("del-role-form")).forEach(el => {
+                el.classList.toggle("show")
+                el.classList.toggle("hide")
+            })
+        })
+
+        let buttons = document.getElementsByClassName("tab-button")
+        let tabs = document.getElementsByClassName("tab")
+
+        Array.from(buttons).forEach(el => {
+                el.addEventListener("click", e => {
+                    e.preventDefault();
+                    let id = e.target.id
+                    let tab = id.replace("_button", "")
+
+                    Array.from(buttons).forEach(be => {
+                        if (be.id == id) {
+                            be.classList.add("active")
+                        } else {
+                            be.classList.remove("active")
+                        }
+                    })
+
+
+                    Array.from(tabs).forEach(t => {
+                        if (t.id == tab + "_tab") {
+                            t.classList.add("show")
+                            t.classList.remove("hide")
+                        } else {
+                            t.classList.remove("show")
+                            t.classList.add("hide")
+                        }
+                    })
+                })
+            }
+        )
+
+        let addEmpForm = document.getElementById("add_employee")
+
+        document.getElementById("add_employee_butt").addEventListener("click", e => {
+            e.preventDefault()
+            addEmpForm.classList.toggle("show")
+            addEmpForm.classList.toggle("hide")
+        })
+
+        document.querySelector(".cancel").addEventListener("click", e => {
+            addEmpForm.classList.toggle("show")
+            addEmpForm.classList.toggle("hide")
+        })
+
+
+
+        const ctx = document.getElementById('myChart');
+        const ctx2 = document.getElementById('myChart2');
+
+        const cww1 = document.getElementById("cww_chart1")
+        const cww2 = document.getElementById("cww_chart2")
+        const cww3 = document.getElementById("cww_chart3")
+        const cww4 = document.getElementById("cww_chart4")
+
+
+
+        new Chart (ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ["In compliance", "Required items needed"],
+                datasets: [{
+                    label: "Employee compliance",
+                    data: [45, 5],
+                    borderWidth: 1
+                }]
+            }
+        })
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        new Chart(cww1, {
+            type: "pie",
+            data: {
+                labels: ["label-1", "label-2", "label-3", "label-4"],
+                datasets : [
+                    {
+                        label: "Data-1",
+                        data: getRandomArbitrary(4, 100, 1000)
+                    }
+                ]
+            }
+        })
+
+
+        new Chart(cww2, {
+            type: "line",
+            data: {
+                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                datasets: [
+                    {
+                    label: 'Dataset 1',
+                    data: getRandomArbitrary(7, 100, 20000)
+                },
+                    {
+                    label: "Revenue",
+                    data: [8657.00, 21567.21, 19437.78, 23541.12, 17134.95, 30932.32, 21879.66]
+                }, {
+                    label: "Expenses",
+                    data: [2376.28, 3691.01, 9521.87, 13596.84, 5799.59, 15832.44, 3336.99]
+                }]
+            },
+            options: {}
+        })
+
+        new Chart(cww3, {
+            type: "bar",
+            data: {
+                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                datasets: [{
+                    label: "Time Compliance",
+                    data: getRandomArbitrary(7, 1, 50)
+                }]
+            }
+        })
+
+
+        function getRandomArbitrary(numOfItems, min, max) {
+            ret = []
+            for(let i=0; i<numOfItems; i++) {
+                ret.push(Math.random() * (max - min) + min)
+            }
+            return ret
+        }
+    </script>
 </div>
 
-<footer th:replace="~{fragments::foot}"></footer>
+<!--<footer th:replace="~{fragments::foot}"></footer>-->
 </body>
 </html>

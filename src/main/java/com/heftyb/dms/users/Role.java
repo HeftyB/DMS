@@ -15,6 +15,8 @@ public class Role {
 
     private String role;
 
+    @Enumerated(EnumType.STRING)
+    private RoleDepartment department;
 
     @OneToMany(mappedBy = "role",
             cascade = CascadeType.ALL,
@@ -58,11 +60,20 @@ public class Role {
         this.users = users;
     }
 
+    public RoleDepartment getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(RoleDepartment department) {
+        this.department = department;
+    }
+
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
                 ", role='" + role + '\'' +
+                ", department=" + department +
                 '}';
     }
 }

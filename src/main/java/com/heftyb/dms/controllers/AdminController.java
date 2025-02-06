@@ -1,10 +1,15 @@
 package com.heftyb.dms.controllers;
 
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.crm.JobTitle;
 import com.heftyb.dms.crm.services.EmployeeService;
+import com.heftyb.dms.users.RoleDepartment;
 import com.heftyb.dms.users.User;
+import com.heftyb.dms.users.services.RoleService;
 import com.heftyb.dms.users.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -17,15 +22,19 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 
     private final UserService userService;
     private final EmployeeService employeeService;
+    private final RoleService roleService;
 
     public AdminController(final UserService userService,
-                           final EmployeeService employeeService) {
+                           final EmployeeService employeeService,
+                           final RoleService roleService) {
         this.userService = userService;
         this.employeeService = employeeService;
+        this.roleService = roleService;
     }
 
     @GetMapping({"/", ""})
@@ -36,6 +45,9 @@ public class AdminController {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
         model.addAttribute("username", principal.getName());
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("deptRoles", RoleDepartment.values());
+        model.addAttribute("jobTitles", JobTitle.values());
         return "hr_administrator";
     }
 
@@ -47,7 +59,7 @@ public class AdminController {
     }
 
     @PostMapping({"/create_employee", "/create_employee/"})
-    public String create_employee(Employee employee) {
+    public String create_employee(@Valid Employee employee) {
 
 
         employeeService.save(employee);
