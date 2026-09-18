@@ -22,7 +22,7 @@
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Parts</a></li>
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Support</a></li>
 
-            <li th:if="" class="no-bullet-list nav-item"><a class="clean-link" th:href="@{/two}">Work-Orders</a></li>
+            <li class="no-bullet-list nav-item"><a class="clean-link" th:href="@{/two}">Work-Orders</a></li>
             <!--            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">User</a></li>-->
             <li sec:authorize="hasRole('ROLE_ADMIN')" class="no-bullet-list nav-item"><a class="clean-link" href="#"
                                                                                          th:href="@{/admin}">Admin</a>
@@ -118,6 +118,151 @@
             </td>
         </tr>
     </table>
+</div>
+
+<div th:fragment="contact-info-inputs">
+    <div class="flex-between">
+        <div class="flex-col">
+            <label for="cname">Contact Name:</label>
+            <input type="text" name="contactInformation.contactName" id="cname">
+        </div>
+
+
+        <div class="flex-col">
+            <label for="cemail">Contact Email:</label>
+            <input type="text" name="contactInformation.contactEmail" id="cemail">
+        </div>
+    </div>
+
+    <div>
+        <div class="flex-col">
+            <label for="contact_addline1">Address Line 1:</label>
+            <input type="text" name="contactInformation.address.addressLine1" id="contact_addline1">
+        </div>
+
+        <div class="flex-col">
+            <label for="contact_addline2">Address Line 2:</label>
+            <input type="text" name="contactInformation.address.addressLine2" id="contact_addline2">
+        </div>
+
+        <div class="flex-between">
+            <div class="flex-col">
+                <label for="contact_city">City:</label>
+                <input type="text" name="contactInformation.address.city" id="contact_city">
+            </div>
+
+            <div class="flex-col">
+                <label for="contact_state">State:</label>
+                <input type="text" name="contactInformation.address.state" id="contact_state">
+            </div>
+
+            <div class="flex">
+                <div class="flex-col">
+                    <label for="contact_zip">Zipcode:</label>
+                    <input type="text" name="contactInformation.address.zip.zip" id="contact_zip" class="zip">
+                </div>
+
+                <div class="flex-col">
+                    <label for="contact_plus4" class="p4">+4:</label>
+                    <input type="text" name="contactInformation.address.zip.plus4" id="contact_plus4" class="p4">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="flex-between">
+            <div class="flex">
+                <div class="flex-col">
+                    <label for="pphone">Primary Phone:</label>
+                    <input type="text" name="contactInformation.primaryPhone.number" id="pphone" required>
+                </div>
+                <div class="flex-col">
+                    <label for="pphoneext" class="ext">Ext:</label>
+                    <input type="text" id="pphoneext" name="contactInformation.primaryPhone.ext" class="ext">
+                </div>
+            </div>
+
+            <div class="flex">
+                <div class="flex-col">
+                    <label for="aphone1">Alt Phone:</label>
+                    <input type="text" name="contactInformation.altPhone1.number" id="aphone1">
+                </div>
+
+                <div class="flex-col">
+                    <label for="aphone1ext" class="ext">Ext:</label>
+                    <input type="text" id="aphone1ext" name="contactInformation.altPhone.ext" class="ext">
+                </div>
+            </div>
+        </div>
+        <div class="flex-between">
+            <div class="flex">
+                <div class="flex-col">
+                    <label for="aphone2">2nd Alt Phone:</label>
+                    <input type="text" name="contactInformation.altPhone2.number" id="aphone2">
+                </div>
+
+                <div class="flex-col">
+                    <label for="aphone2ext" class="ext">Ext:</label>
+                    <input type="text" id="aphone2ext" name="contactInformation.altPhone2.ext" class="ext">
+                </div>
+            </div>
+
+            <div class="flex">
+                <div class="flex-col">
+                    <label for="fax">Fax:</label>
+                    <input type="text" name="contactInformation.fax.number" id="fax">
+                </div>
+
+                <div class="flex-col">
+                    <label for="faxext" class="ext">Ext:</label>
+                    <input type="text" id="faxext" name="contactInformation.fax.ext" class="ext">
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-col">
+            <label for="notes">Notes:</label>
+            <textarea name="contactInformation.notes" id="notes" cols="100" rows="4"></textarea>
+        </div>
+
+    </div>
+</div>
+
+<div th:fragment="address-inputs">
+    <div class="flex-col">
+        <label for="addline1">Address Line 1:</label>
+        <input type="text" name="address.addressLine1" id="addline1" required>
+    </div>
+
+    <div class="flex-col">
+        <label for="addline2">Address Line 2:</label>
+        <input type="text" name="address.addressLine2" id="addline2">
+    </div>
+
+    <div class="flex-between">
+        <div class="flex-col">
+            <label for="city">City:</label>
+            <input type="text" name="address.city" id="city" required>
+        </div>
+
+        <div class="flex-col">
+            <label for="state">State:</label>
+            <input type="text" name="address.state" id="state" required>
+        </div>
+
+        <div class="flex">
+            <div class="flex-col">
+                <label for="zip">Zipcode:</label>
+                <input type="text" name="address.zip.zip" id="zip" class="zip" required>
+            </div>
+
+            <div class="flex-col">
+                <label for="plus4" class="p4">+4:</label>
+                <input type="text" name="address.zip.plus4" id="plus4" class="p4">
+            </div>
+        </div>
+    </div>
 </div>
 
 

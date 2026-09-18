@@ -11,7 +11,6 @@ import com.heftyb.dms.vehicles.Vehicle;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -68,8 +67,7 @@ public class RepairOrder extends Auditable {
     private boolean isActive;
 
     @NotNull
-    @Size(max = 1)
-    @Pattern(regexp = "/([0-9])+/g")
+    @Pattern(regexp = "[0-9]")
     private String priority = "0";
 
 

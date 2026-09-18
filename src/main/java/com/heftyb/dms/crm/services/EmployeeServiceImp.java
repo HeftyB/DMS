@@ -37,7 +37,13 @@ public class EmployeeServiceImp implements EmployeeService {
 
     @Override
     public Employee save(Employee employee) {
-        Employee e = new Employee();
+        Employee e;
+        if (employee.getId() != 0) {
+            e = findById(employee.getId());
+        } else  {
+            e = new Employee();
+        }
+        e.setActive(employee.isActive());
         e.setFirstName(employee.getFirstName());
         e.setLastName(employee.getLastName());
         e.setPreferredName(employee.getPreferredName());

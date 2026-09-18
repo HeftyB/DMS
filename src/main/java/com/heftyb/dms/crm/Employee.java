@@ -5,7 +5,10 @@ import com.heftyb.dms.dao.Auditable;
 import com.heftyb.dms.users.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -19,9 +22,11 @@ public class Employee extends Auditable {
     private boolean isActive = true;
 
     @NotNull
+    @Size(min = 1)
     private String firstName;
 
     @NotNull
+    @Size(min = 1)
     private String lastName;
 
     @NotNull
@@ -46,7 +51,7 @@ public class Employee extends Auditable {
 
     private JobTitle jobTitle;
 
-    private Date hiredDate;
+    private LocalDateTime hiredDate;
 
 
 //    private Employee manager;
@@ -83,7 +88,7 @@ public class Employee extends Auditable {
         jobInProgress = false;
     }
 
-    public Employee(String firstName, String lastName, String preferredName, Address address, ContactInformation contactInformation, String taxId, JobTitle jobTitle, Date hiredDate) {
+    public Employee(String firstName, String lastName, String preferredName, Address address, ContactInformation contactInformation, String taxId, JobTitle jobTitle, LocalDateTime hiredDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.preferredName = preferredName;
@@ -174,11 +179,11 @@ public class Employee extends Auditable {
         this.jobTitle = jobTitle;
     }
 
-    public Date getHiredDate() {
+    public LocalDateTime getHiredDate() {
         return hiredDate;
     }
 
-    public void setHiredDate(Date hiredDate) {
+    public void setHiredDate(LocalDateTime hiredDate) {
         this.hiredDate = hiredDate;
     }
 

@@ -46,12 +46,12 @@ public class RoleServiceImp implements RoleService {
         }
         Role r = new Role();
         r.setRole(role.getRole());
-
+        r.setDepartment(role.getDepartment());
         return roleRepo.save(r);
     }
 
     @Override
-    public void Delete(long id) {
+    public void delete(long id) {
         findById(id);
         roleRepo.deleteById(id);
     }
