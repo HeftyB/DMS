@@ -50,8 +50,7 @@ public class UserServiceImp implements UserService {
 
 
     private boolean emailExist(String email) {
-        List<User> matchingEmails = userRepo.findByEmailContainingIgnoreCase(email);
-        return !matchingEmails.isEmpty();
+        return userRepo.findByEmailIgnoreCase(email).isPresent();
     }
 
     @Override
@@ -80,7 +79,9 @@ public class UserServiceImp implements UserService {
     @Override
     public User getUser(String verificationToken) {
         VerificationToken token = verificationTokenRepo.findByToken(verificationToken)
-                .orElseThrow(() -> new DataNotFoundException(String.format("", verificationToken)));
+                .orElseThrow(() -> new DataNotFoundException(String.format(
+                        "Cannot find VerificationToken %s", verificationToken
+                )));
         return token.getUser();
     }
 
@@ -132,7 +133,7 @@ public class UserServiceImp implements UserService {
     public VerificationToken generateNewVerificationToken(String token) {
         VerificationToken newToken = verificationTokenRepo.findByToken(token).orElseThrow(
                 () -> new DataNotFoundException(String.format(
-                        "VerificationToken %s can't be found!"
+                        "VerificationToken %s can't be found!", token
                 ))
         );
         newToken.updateToken(UUID.randomUUID().toString());
@@ -177,7 +178,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public Optional<User> getUserByPasswordResetToken(String token) {
-        return Optional.ofNullable(passResetRepo.findByToken(token).get().getUser());
+        return passResetRepo.findByToken(token).map(PasswordResetToken::getUser);
     }
 
     @Override
@@ -198,7 +199,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public boolean checkIfValidOldPassword(User user, String password) {
-        return passwordEncoder.matches(user.getPassword(), password);
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
     @Override
