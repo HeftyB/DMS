@@ -17,7 +17,7 @@
                 <label for="service_tag">Service Tag:</label>
                 <input type="number" id="service_tag" name="serviceTag">
                 <label for="priority">Priority#</label>
-                <input type="text" id="priority" name="priority" value="5">
+                <input type="number" id="priority" name="priority" value="5" min="0" max="9" required>
             </div>
 
             <div class="tab" th:if="${vehicle.customer}">
