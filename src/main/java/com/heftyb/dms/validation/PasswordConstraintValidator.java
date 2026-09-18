@@ -15,6 +15,11 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
     @Override
     public boolean isValid(final String password, final ConstraintValidatorContext context) {
+        // null is left to @NotNull, per the Bean Validation convention
+        if (password == null) {
+            return true;
+        }
+
         // @formatter:off
         final PasswordValidator validator = new PasswordValidator(Arrays.asList(
                 new LengthRule(8, 30),
@@ -29,8 +34,9 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         if (result.isValid()) {
             return true;
         }
-//        context.disableDefaultConstraintViolation();
-//        context.buildConstraintViolationWithTemplate(Joiner.on(",").join(validator.getMessages(result))).addConstraintViolation();
+        context.disableDefaultConstraintViolation();
+        context.buildConstraintViolationWithTemplate(String.join(" ", validator.getMessages(result)))
+                .addConstraintViolation();
         return false;
     }
 
