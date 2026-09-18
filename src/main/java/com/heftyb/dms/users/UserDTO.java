@@ -1,12 +1,17 @@
 package com.heftyb.dms.users;
 
 import com.heftyb.dms.crm.Employee;
+import com.heftyb.dms.validation.ValidPassword;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * User data transfer object, used for mapping data from the request.
  */
 public class UserDTO {
     private String username;
+
+    @NotNull
+    @ValidPassword
     private String password;
     private String matchingPassword;
     private String email;
