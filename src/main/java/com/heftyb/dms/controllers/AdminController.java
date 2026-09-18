@@ -22,7 +22,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
     private final UserService userService;

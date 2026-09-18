@@ -437,7 +437,7 @@
                 </div>
 
                 <div id="create_role" class="hide">
-                    <form th:action="@{/roles/create}" method="post">
+                    <form th:action="@{/admin/roles/create}" method="post">
                         <label for="role">Role:</label>
                         <input type="text" id="role" name="role">
                         <label for="new_role_dep_sel">Dept:</label>
@@ -459,7 +459,7 @@
                     <tr th:each="role : ${roles}">
                         <td>
                             <h4>[[${role.role}]]</h4>
-                            <form th:action="@{/roles/delete}" class="del-role-form hide" method="post">
+                            <form th:action="@{/admin/roles/delete}" class="del-role-form hide" method="post">
                                 <input type="hidden" th:value="${role.id}" name="roleId">
                                 <button type="submit">Delete</button>
                             </form>

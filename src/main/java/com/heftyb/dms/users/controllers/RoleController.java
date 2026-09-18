@@ -3,18 +3,15 @@ package com.heftyb.dms.users.controllers;
 import com.heftyb.dms.users.Role;
 import com.heftyb.dms.users.RoleDepartment;
 import com.heftyb.dms.users.services.RoleService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/roles")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+@RequestMapping("/admin/roles")
+@PreAuthorize("hasRole('ADMIN')")
 public class RoleController {
 
     private final RoleService roleService;
@@ -23,32 +20,20 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-
-    @GetMapping({"/", ""})
-    public String getAllRoles(ModelMap map) {
-        List<Role> roles = roleService.findAll();
-
-        map.addAttribute("roles", roles);
-
-        return "role_home";
-    }
-
     @PostMapping({"/create", "/create/"})
-    public String createNewRole(String role, String department, HttpServletRequest request) {
+    public String createNewRole(@RequestParam String role, @RequestParam RoleDepartment department) {
         Role r = new Role();
         r.setRole(role);
-        r.setDepartment(RoleDepartment.valueOf(department));
+        r.setDepartment(department);
         roleService.save(r);
 
-        String refURL = request.getHeader("Referer");
-        return "redirect:" + refURL;
+        return "redirect:/admin";
     }
 
     @PostMapping({"/delete", "/delete/"})
-    public String deleteRole(@RequestParam String roleId, HttpServletRequest request) {
-        roleService.delete(Long.parseLong(roleId));
+    public String deleteRole(@RequestParam long roleId) {
+        roleService.delete(roleId);
 
-        String refURL = request.getHeader("Referer");
-        return "redirect:" + refURL;
+        return "redirect:/admin";
     }
 }
