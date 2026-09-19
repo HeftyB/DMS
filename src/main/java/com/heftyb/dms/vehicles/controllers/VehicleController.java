@@ -42,7 +42,7 @@ public class VehicleController {
     public String vin_search(Principal principal, ModelMap map, @RequestParam String vin) {
         map.addAttribute("username", principal.getName());
         if (vin.isBlank()) {
-            return "add_new_vehicle";
+            return "redirect:/vehicles";
         }
 
         List<Vehicle> vehicles = vehicleService.findByVin(vin);
