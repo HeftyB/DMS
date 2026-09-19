@@ -20,7 +20,6 @@ import com.heftyb.dms.users.services.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -176,16 +175,6 @@ public class TimeClockServiceImp implements TimeClockService {
         timeClockPunchRepo.deleteById(id);
     }
 
-    public boolean isToday(Date date) {
-        Calendar t = Calendar.getInstance();
-        Calendar d = Calendar.getInstance();
-        d.setTime(date);
-
-        return t.get(Calendar.DAY_OF_MONTH) == d.get(Calendar.DAY_OF_MONTH) &&
-                t.get(Calendar.MONTH) == d.get(Calendar.MONTH) &&
-                t.get(Calendar.YEAR) == d.get(Calendar.YEAR);
-    }
-
     @Override
     public List<TimeClockPunchSet> findCurrentUsersTimeClockPunchSets(User user) {
         return timeClockPunchRepo.findByEmployee(user.getEmployee());
@@ -214,11 +203,8 @@ public class TimeClockServiceImp implements TimeClockService {
                 .orElseThrow(() -> new UserNotFoundException(
                         String.format("Error: could not find user: %s", user.getId())
                 ));
-        List<TimeClockPunchSet> punchSets = timeClockPunchRepo.findByEmployee(u.getEmployee())
-                .stream().filter(
-                        ps -> isToday(Date.from(Instant.from(ps.getDate())))
-                )
-                .collect(Collectors.toList());
+        List<TimeClockPunchSet> punchSets = new ArrayList<>(
+                timeClockPunchRepo.findByEmployeeAndDate(u.getEmployee(), LocalDate.now()));
         punchSets.sort(Comparator.comparing(TimeClockPunchSet::getInPunchTime).reversed());
 
         if (!punchSets.isEmpty() && punchSets.get(0).getOut() == null) {
@@ -243,20 +229,30 @@ public class TimeClockServiceImp implements TimeClockService {
     }
 
     @Override
+    public List<TimeClockPunchSet> findOpenTimeClockPunchSets() {
+        return timeClockPunchRepo.findByOutIsNull();
+    }
+
+    @Override
     public void clockOut(String username, TimePunchCode code) {
         User user = userService.findUserByUsername(username);
-        TimePunchOut punchOut = new TimePunchOut(user.getEmployee(), LocalDateTime.now(), code);
-
         TimeClockPunchSet punchSet = findCurrentTimeClockPunchSetByUser(user);
 
         if (punchSet.getIn() == null || punchSet.getOut() != null) {
-            throw new TimeClockException(String.format("Error: Could not clock out, no matching TimeClockPunchSet was found!"));
-        } else {
-            punchOut = saveTimePunchOut(punchOut);
-            punchSet.setOut(punchOut);
-            saveTimeClockPunchSet(punchSet);
-            employeeService.setEmployeeClockedIn(user.getEmployee().getId(), false);
+            throw new TimeClockException("Error: Could not clock out, no matching TimeClockPunchSet was found!");
         }
+        closeTimeClockPunchSet(punchSet, code);
+    }
+
+    @Transactional
+    @Override
+    public void closeTimeClockPunchSet(TimeClockPunchSet punchSet, TimePunchCode code) {
+        Employee employee = punchSet.getEmployee();
+        TimePunchOut punchOut = saveTimePunchOut(new TimePunchOut(employee, LocalDateTime.now(), code));
+
+        punchSet.setOut(punchOut);
+        saveTimeClockPunchSet(punchSet);
+        employeeService.setEmployeeClockedIn(employee.getId(), false);
     }
 
     @Override

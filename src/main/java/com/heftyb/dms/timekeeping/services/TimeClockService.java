@@ -44,9 +44,13 @@ public interface TimeClockService {
 
     TimeClockPunchSet findCurrentTimeClockPunchSetByUser(User u);
 
+    List<TimeClockPunchSet> findOpenTimeClockPunchSets();
+
     void clockIn(String username, TimePunchCode code);
 
     void clockOut(String username, TimePunchCode code);
+
+    void closeTimeClockPunchSet(TimeClockPunchSet punchSet, TimePunchCode code);
 
     List<JobTimePunchSet> findAllJobTimePunchSets();
 

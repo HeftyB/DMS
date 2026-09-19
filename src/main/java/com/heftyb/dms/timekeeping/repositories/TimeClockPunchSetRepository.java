@@ -15,4 +15,6 @@ public interface TimeClockPunchSetRepository extends CrudRepository<TimeClockPun
     List<TimeClockPunchSet> findByEmployeeAndPayPeriod(Employee employee, PayPeriod period);
 
     List<TimeClockPunchSet> findByEmployeeAndDate(Employee employee, LocalDate date);
+
+    List<TimeClockPunchSet> findByOutIsNull();
 }
