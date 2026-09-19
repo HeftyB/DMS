@@ -32,7 +32,6 @@ public class SearchController {
     public String results(Principal principal,
                           ModelMap map,
                           @RequestParam(required = false) long custId,
-                          @RequestParam(required = false) boolean isCool,
                           @RequestParam(required = false) String fname,
                           @RequestParam(required = false) String lname,
                           @RequestParam(required = false) String phone,
@@ -51,10 +50,6 @@ public class SearchController {
             if (vehicleSearch) {
                 c.getVehicles().iterator().forEachRemaining(vehicles::add);
             }
-        }
-
-        if (isCool) {
-            System.out.println("You're Cool!");
         }
 
         if (!fname.isEmpty() && !lname.isEmpty()) {
