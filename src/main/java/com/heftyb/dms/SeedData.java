@@ -352,8 +352,8 @@ public class SeedData implements CommandLineRunner {
 
         UserDTO u = new UserDTO();
         u.setUsername("hefty");
-        u.setPassword("burrito");
-        u.setMatchingPassword("burrito");
+        u.setPassword("hefty-demo-pass");
+        u.setMatchingPassword("hefty-demo-pass");
         u.setEmail("heftyb@heftyb.com");
         u.setEmployee(e);
         User user = userService.registerNewUserAccount(u);
@@ -363,8 +363,8 @@ public class SeedData implements CommandLineRunner {
 
         UserDTO u4 = new UserDTO();
         u4.setUsername("advisor");
-        u4.setPassword("advisor");
-        u4.setMatchingPassword("advisor");
+        u4.setPassword("advisor-demo-pass");
+        u4.setMatchingPassword("advisor-demo-pass");
         u4.setEmail("advisor@heftyb.com");
         u4.setEmployee(e4);
         User user4 = userService.registerNewUserAccount(u4);
@@ -374,8 +374,8 @@ public class SeedData implements CommandLineRunner {
 
         UserDTO u5 = new UserDTO();
         u5.setUsername("writer");
-        u5.setPassword("writer");
-        u5.setMatchingPassword("writer");
+        u5.setPassword("writer-demo-pass");
+        u5.setMatchingPassword("writer-demo-pass");
         u5.setEmail("writer@heftyb.com");
         u5.setEmployee(e5);
         User user5 = userService.registerNewUserAccount(u5);
@@ -388,24 +388,24 @@ public class SeedData implements CommandLineRunner {
 
         UserDTO u1 = new UserDTO();
         u1.setUsername("taco");
-        u1.setPassword("taco");
-        u1.setMatchingPassword("taco");
+        u1.setPassword("taco-demo-pass");
+        u1.setMatchingPassword("taco-demo-pass");
         u1.setEmail("heftytaco@b.com");
         u1.setEmployee(e1);
         User user1 = userService.registerNewUserAccount(u1);
 
         UserDTO u2 = new UserDTO();
         u2.setUsername("system");
-        u2.setPassword("system");
-        u2.setMatchingPassword("system");
+        u2.setPassword("system-demo-pass");
+        u2.setMatchingPassword("system-demo-pass");
         u2.setEmail("heftysystem@b.com");
         u2.setEmployee(e2);
         User user2 = userService.registerNewUserAccount(u2);
 
         UserDTO u3 = new UserDTO();
         u3.setUsername("user");
-        u3.setPassword("user");
-        u3.setMatchingPassword("user");
+        u3.setPassword("user-demo-pass");
+        u3.setMatchingPassword("user-demo-pass");
         u3.setEmail("heftyuser@b.com");
         u3.setEmployee(e3);
         User user3 = userService.registerNewUserAccount(u3);
