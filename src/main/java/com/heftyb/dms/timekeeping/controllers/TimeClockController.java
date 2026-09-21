@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -92,7 +91,6 @@ public class TimeClockController {
     @GetMapping({"/punches", "/punches/"})
     public String getDatesPunches(@RequestParam String date, Principal principal, ModelMap model) throws ParseException {
         User u = userService.findUserByUsername(principal.getName());
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
         List<TimeClockPunchSet> punchSets = timeClockService
                 .findCurrentUsersTimeClockPunchSetsByDate(principal.getName(), LocalDate.parse(date));
 

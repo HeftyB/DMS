@@ -109,28 +109,6 @@ public class StatementItem extends Auditable {
         this.status = status;
     }
 
-//    private int numberOfDaysInvoiceIsPastDue() {
-//        return (int) Duration.between(Date, ZonedDateTime.now()).toDaysPart();
-//    }
-
-//    private double calculateFinanceFee() {
-//
-//        int pastDue = numberOfDaysInvoiceIsPastDue();
-//
-//        StatementStatusRate statusRate = pastDue < 180 ? invoice.getTerms().getStatusRates().stream().filter(r -> r.getStatus() == StatementRateType.MONTHLY).collect(Collectors.toList()).getFirst() :
-//                invoice.getTerms().getStatusRates().stream().filter(r -> r.getStatus() == StatementRateType.ANNUAL).collect(Collectors.toList()).getFirst();
-//
-//        if ( statusRate.getStatus() == StatementRateType.MONTHLY ) {
-//            int months due
-//        } else {
-//
-//        }
-
-    /**
-     *
-     *
-     * TODO: calculate finance charge per interval
-     */
-//        return null;
-//    }
+    // TODO: calculate the finance charge per interval, from the days the invoice is past due and
+    //  the invoice terms' status rates: the monthly rate under 180 days, the annual rate after.
 }

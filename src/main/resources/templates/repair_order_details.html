@@ -31,7 +31,6 @@
 
 
                 <div class="top-info">
-<!--                    <h3>CUSTOMER:</h3>-->
                     <p th:text="${ro.customer.getName()}">John Smith</p>
                     <p th:text="${ro.customer.address.addressLine1}">1234 Fake Ln</p>
                     <p if="${ro.customer.address.addressLine2} != null" th:text="${ro.customer.address.addressLine2}"></p>
@@ -66,13 +65,6 @@
             </div>
         </div>
         <div>
-    <!--        <hr>-->
-    <!--        <div class="ro-button-wrapper">-->
-    <!--            <button>Customer</button>-->
-    <!--            <button>Vehicle History</button>-->
-    <!--            <button>Cool Button</button>-->
-    <!--            <button>Change priority</button>-->
-    <!--        </div>-->
             <hr>
             <div>
                 <div class="jobs-title">
@@ -126,7 +118,6 @@
 
                             <div class="content">
                                 <section>
-        <!--                            <hr>-->
                                     <h5>Parts:</h5>
                                     <table>
                                         <tr>

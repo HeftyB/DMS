@@ -19,16 +19,13 @@ public class WorkOrderJobServiceImp implements WorkOrderJobService {
 
     private final WorkOrderJobRepository jobRepo;
     private final RepairOrderService roService;
-//    private final TimeClockService timeClockService;
     private final TechnicianFlatRateHourService technicianFlatRateHourService;
 
     public WorkOrderJobServiceImp(final WorkOrderJobRepository workOrderJobRepository,
                                   final RepairOrderService repairOrderService,
-//                                  final TimeClockService timeClockService,
                                   final TechnicianFlatRateHourService technicianFlatRateHourService) {
         jobRepo = workOrderJobRepository;
         roService = repairOrderService;
-//        this.timeClockService = timeClockService;
         this.technicianFlatRateHourService = technicianFlatRateHourService;
     }
 
@@ -80,26 +77,7 @@ public class WorkOrderJobServiceImp implements WorkOrderJobService {
 
         j.setStatus(job.getStatus());
 
-        // updated through parts service
-//        for (WorkOrderJobPart part : job.getParts()) {
-//            part.setJob(j);
-//            j.getParts().add(part);
-//        }
-
-        // updated through timeservice
-//        for (JobTimePunchSet punchSet : job.getTimeClockPunchSets()) {
-//            JobTimePunchSet ps = timeClockService.findJobTimePunchSetById(punchSet.getId());
-//            ps.setJob(j);
-//            j.getTimeClockPunchSets().add(ps);
-//        }
-
-        // updated through pay service
-//        for (TechnicianFlatRateHour flatRateHour : job.getLabor()) {
-//            TechnicianFlatRateHour frh = technicianFlatRateHourService.findById(flatRateHour.getId());
-//            frh.setJob(j);
-//            j.getLabor().add(frh);
-//        }
-
+        // parts, job time punches and labor hours are updated through their own services
         j.setMiscItems(job.getMiscItems());
 
         return jobRepo.save(j);

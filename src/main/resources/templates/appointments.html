@@ -3,7 +3,6 @@
 <head th:replace="~{fragments::head (page_title='Appointments')}"></head>
 <body>
 <div class="page-wrapper">
-<!--    <header th:insert="~{fragments::header-top (username = username)}"></header>-->
     <style th:inline="css">
 
         .schedule {
@@ -325,13 +324,6 @@
                 <input type="hidden" th:id="|appt_${appt.id}_vin|" th:value="${appt.vin}">
 
 
-<!--                <input type="hidden" th:id="|appt_${appt.id}_address1|"-->
-<!--                       th:value="${appt.contactInformation.address.addressLine1}">-->
-<!--                <input type="hidden" th:id="|appt_${appt.id}_address2|"-->
-<!--                       th:value="${appt.contactInformation.address.addressLine2}">-->
-<!--                <input type="hidden" th:id="|appt_${appt.id}_city|" th:value="${appt.contactInformation.address.city}">-->
-<!--                <input type="hidden" th:id="|appt_${appt.id}_state|" th:value="${appt.contactInformation.address.state}">-->
-<!--                <input type="hidden" th:id="|appt_${appt.id}_zip|" th:value="${appt.contactInformation.address.zip.zip}">-->
             </div>
         </div>
 
@@ -366,7 +358,6 @@
                         <input type="hidden" id="start_time" name="start_time">
                         <input type="hidden" id="start_DT" name="startDateTime">
 
-                        <!--                    <label for="advisor_name">Advisor: </label>-->
                         <input type="hidden" id="advisor_name" th:value="${advisors[0].getName()}">
                         <input type="hidden" id="advisor_id" name="advisor.id" th:value="${advisors[0].id}">
                     </div>
@@ -390,33 +381,11 @@
                     <input type="text" id="contact_email" name="contactInformation.contactEmail" class="address">
                 </div>
 
-<!--                <p>-->
-<!--                    <label for="contact_address_line_1">Address Line 1:</label>-->
-<!--                    <input type="text" id="contact_address_line_1" name="contactInformation.address.addressLine1"-->
-<!--                           class="address">-->
-<!--                </p>-->
-
-<!--                <p>-->
-<!--                    <label for="contact_address_line_2">Address Line 2:</label>-->
-<!--                    <input type="text" id="contact_address_line_2" name="contactInformation.address.addressLine2"-->
-<!--                           class="address">-->
-<!--                </p>-->
-
-<!--                <p>-->
 
 
-<!--                    <label for="address_city">City:</label>-->
-<!--                    <input type="text" id="address_city" name="contactInformation.address.city">-->
-<!--                </p>-->
-<!--                <p>-->
-<!--                    <label for="address_state">State:</label>-->
-<!--                    <input type="text" id="address_state" name="contactInformation.address.state">-->
-<!--                </p>-->
 
-<!--                <p>-->
-<!--                    <label for="address_zip">ZipCode: </label>-->
-<!--                    <input type="text" id="address_zip" name="contactInformation.address.zip.zip">-->
-<!--                </p>-->
+
+
 
 
                 <div class="appt-vehicle-info">
@@ -449,7 +418,6 @@
                         <label for="menu_items">New Items</label>
                         <select name="menu-items" id="menu_items">
                             <option th:each="mi : ${menu_items}" th:value="${mi.item}">[[${mi.item}]]</option>
-                            <!--                        <option value="other">Other</option>-->
                         </select>
                         <button type="button" id="add_menu_button">+</button>
                     </div>
@@ -457,7 +425,6 @@
 
 
                 <p>
-<!--                    <label for="total_time">Estimated Time Blocks:</label>-->
                     <input type="hidden" name="total_blocks" id="total_time">
                     <input type="hidden" id="appt_end_dt" name="endDateTime">
                 </p>
@@ -743,7 +710,6 @@
         }
     </script>
 
-<!--    <footer th:insert="~{fragments::foot}"></footer>-->
 </div>
 </body>
 </html>

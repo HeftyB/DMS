@@ -23,7 +23,6 @@
             <li class="no-bullet-list nav-item"><a class="clean-link" href="#">Support</a></li>
 
             <li class="no-bullet-list nav-item"><a class="clean-link" th:href="@{/two}">Work-Orders</a></li>
-            <!--            <li class="no-bullet-list nav-item"><a class="clean-link" href="#">User</a></li>-->
             <li sec:authorize="hasRole('ROLE_ADMIN')" class="no-bullet-list nav-item"><a class="clean-link" href="#"
                                                                                          th:href="@{/admin}">Admin</a>
             </li>
@@ -46,7 +45,6 @@
     <a class="clean-link back-button print-hide" href="javascript:window.history.back();">
         <button type="button">Back</button>
     </a>
-    <!--    <a href="javascript:window.history.forward();">></a>-->
 </div>
 
 <div th:fragment="customer-list (customers)">
