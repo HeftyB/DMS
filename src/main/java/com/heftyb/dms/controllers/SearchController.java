@@ -57,7 +57,6 @@ public class SearchController {
 
             if (custSearch) c.iterator().forEachRemaining(customers::add);
             if (vehicleSearch) {
-//                c.stream().map(cust -> cust.getVehicles().iterator().forEachRemaining(vehicles::add));
                 final List<Vehicle> finalVehicles = vehicles;
                 c.stream().forEach(cust -> {
                     cust.getVehicles().iterator().forEachRemaining(finalVehicles::add);
@@ -65,9 +64,6 @@ public class SearchController {
                 finalVehicles.iterator().forEachRemaining(vehicles::add);
             }
         } else if (!lname.isEmpty()) {
-//            customerService.findByLastName(lname)
-//                    .iterator().forEachRemaining(customers::add);
-//
             List<Customer> c = customerService.findByLastName(lname);
 
             if (custSearch) c.iterator().forEachRemaining(customers::add);
@@ -77,10 +73,8 @@ public class SearchController {
                     cust.getVehicles().iterator().forEachRemaining(finalVehicles::add);
                 });
                 vehicles = finalVehicles;
-//                finalVehicles.iterator().forEachRemaining(vehicles::add);
             }
         } else if (!fname.isEmpty()) {
-//            customerService.findByFirstName(fname).iterator().forEachRemaining(customers::add);
             List<Customer> c = customerService.findByFirstName(fname);
 
             if (custSearch) c.iterator().forEachRemaining(customers::add);
@@ -88,7 +82,6 @@ public class SearchController {
             c.stream().forEach(cust -> {
                 cust.getVehicles().iterator().forEachRemaining(finalVehicles::add);
             });
-//                finalVehicles.iterator().forEachRemaining(vehicles::add);
             vehicles = finalVehicles;
         }
 
