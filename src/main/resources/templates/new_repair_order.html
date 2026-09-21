@@ -32,7 +32,6 @@
             </div>
 
 
-            <!--        <div class="tab" th:unless="${vehicle.customer}" th:insert="~{customer_details::customer-form (customer=null, editable=true, action='/customers/customer/create')}"></div>-->
             <div class="tab" th:unless="${vehicle.customer}">
                 <a href="#" th:href="@{/vehicles/vehicle(id=${vehicle.id})}">Add REQUIRED customer before starting repair
                     order</a>

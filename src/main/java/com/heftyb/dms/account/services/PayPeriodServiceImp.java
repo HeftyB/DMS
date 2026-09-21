@@ -71,14 +71,6 @@ public class PayPeriodServiceImp implements PayPeriodService {
         d.setTime(date);
         d.add(Calendar.DAY_OF_MONTH, amount);
         return d.getTime();
-
-//        return Date.from(
-//                date
-//                    .toInstant()
-//                    .atZone(ZoneId.systemDefault())
-//                    .plus(period)
-//                    .toInstant()
-//        );
     }
 
     private Date subtractDays(Date date, int amount) {
@@ -88,14 +80,6 @@ public class PayPeriodServiceImp implements PayPeriodService {
         d.add(Calendar.DAY_OF_MONTH, amount * -1);
 
         return d.getTime();
-
-//        return Date.from(
-//                date
-//                    .toInstant()
-//                    .atZone(ZoneId.systemDefault())
-//                    .minus(period)
-//                    .toInstant()
-//        );
     }
 
     @Override
@@ -106,11 +90,6 @@ public class PayPeriodServiceImp implements PayPeriodService {
                 .filter(p -> isPayPeriodCurrent(p))
                 .collect(Collectors.toList());
 
-//        System.out.println(String.format("periods before: %s", periods));
-
-//        periods = periods.stream().filter(p -> isPayPeriodCurrent(p)).collect(Collectors.toList());
-
-//        System.out.println(String.format("periods after: %s", periods));
         if (periods.size() < 1) {
             throw new ResourceFoundException("Error: Could not get current PayPeriod!");
         }

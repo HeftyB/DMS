@@ -66,12 +66,6 @@ public class VendorServiceImp implements VendorService {
         if (vendor.getTaxId() != null) v.setTaxId(vendor.getTaxId());
         if (vendor.getPaymentMethod() != null) v.setPaymentMethod(vendor.getPaymentMethod());
 
-//        if (vendor.getSentPurchaseOrders() != null
-//                || vendor.getReceivedPurchaseOrders() != null
-//                || vendor.getInvoices() != null) {
-//            throw new ResourceFoundException("Error: Could not update vendor!");
-//        }
-
         return vendorRepository.save(v);
     }
 
