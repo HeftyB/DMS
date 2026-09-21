@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
@@ -38,11 +39,12 @@ public class VehicleController {
         return "vehicle_details";
     }
 
-    @GetMapping({"/search", "/search/"})
+    // The shared vin-search fragment submits with POST, so this accepts both methods.
+    @RequestMapping(value = {"/search", "/search/"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String vin_search(Principal principal, ModelMap map, @RequestParam String vin) {
         map.addAttribute("username", principal.getName());
         if (vin.isBlank()) {
-            return "add_new_vehicle";
+            return "redirect:/vehicles";
         }
 
         List<Vehicle> vehicles = vehicleService.findByVin(vin);

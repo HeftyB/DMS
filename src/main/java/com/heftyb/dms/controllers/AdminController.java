@@ -12,7 +12,6 @@ import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,13 +48,6 @@ public class AdminController {
         model.addAttribute("deptRoles", RoleDepartment.values());
         model.addAttribute("jobTitles", JobTitle.values());
         return "hr_administrator";
-    }
-
-    @GetMapping({"/create_employee", "/create_employee/"})
-    public String create_employee_form(Principal principal, ModelMap map) {
-        map.addAttribute("username", principal.getName());
-
-        return "employee_form";
     }
 
     @PostMapping({"/create_employee", "/create_employee/"})
