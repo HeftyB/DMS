@@ -31,13 +31,12 @@ public class SearchController {
     @GetMapping({"/", ""})
     public String results(Principal principal,
                           ModelMap map,
-                          @RequestParam(required = false) long custId,
-                          @RequestParam(required = false) boolean isCool,
-                          @RequestParam(required = false) String fname,
-                          @RequestParam(required = false) String lname,
-                          @RequestParam(required = false) String phone,
-                          @RequestParam(required = false) String email,
-                          @RequestParam(required = false) String vin,
+                          @RequestParam(required = false) Long custId,
+                          @RequestParam(required = false, defaultValue = "") String fname,
+                          @RequestParam(required = false, defaultValue = "") String lname,
+                          @RequestParam(required = false, defaultValue = "") String phone,
+                          @RequestParam(required = false, defaultValue = "") String email,
+                          @RequestParam(required = false, defaultValue = "") String vin,
                           @RequestParam(required = false) boolean custSearch,
                           @RequestParam(required = false) boolean vehicleSearch) {
         map.addAttribute("username", principal.getName());
@@ -45,7 +44,7 @@ public class SearchController {
         List<Customer> customers = new ArrayList<>();
         List<Vehicle> vehicles = new ArrayList<>();
 
-        if (custId != 0) {
+        if (custId != null && custId != 0) {
             Customer c = customerService.findById(custId);
             if (custSearch) customers.add(c);
             if (vehicleSearch) {
@@ -53,16 +52,11 @@ public class SearchController {
             }
         }
 
-        if (isCool) {
-            System.out.println("You're Cool!");
-        }
-
         if (!fname.isEmpty() && !lname.isEmpty()) {
             List<Customer> c = customerService.findByName(fname, lname);
 
             if (custSearch) c.iterator().forEachRemaining(customers::add);
             if (vehicleSearch) {
-//                c.stream().map(cust -> cust.getVehicles().iterator().forEachRemaining(vehicles::add));
                 final List<Vehicle> finalVehicles = vehicles;
                 c.stream().forEach(cust -> {
                     cust.getVehicles().iterator().forEachRemaining(finalVehicles::add);
@@ -70,9 +64,6 @@ public class SearchController {
                 finalVehicles.iterator().forEachRemaining(vehicles::add);
             }
         } else if (!lname.isEmpty()) {
-//            customerService.findByLastName(lname)
-//                    .iterator().forEachRemaining(customers::add);
-//
             List<Customer> c = customerService.findByLastName(lname);
 
             if (custSearch) c.iterator().forEachRemaining(customers::add);
@@ -82,10 +73,8 @@ public class SearchController {
                     cust.getVehicles().iterator().forEachRemaining(finalVehicles::add);
                 });
                 vehicles = finalVehicles;
-//                finalVehicles.iterator().forEachRemaining(vehicles::add);
             }
         } else if (!fname.isEmpty()) {
-//            customerService.findByFirstName(fname).iterator().forEachRemaining(customers::add);
             List<Customer> c = customerService.findByFirstName(fname);
 
             if (custSearch) c.iterator().forEachRemaining(customers::add);
@@ -93,7 +82,6 @@ public class SearchController {
             c.stream().forEach(cust -> {
                 cust.getVehicles().iterator().forEachRemaining(finalVehicles::add);
             });
-//                finalVehicles.iterator().forEachRemaining(vehicles::add);
             vehicles = finalVehicles;
         }
 
