@@ -224,9 +224,6 @@
         // Apply the EventListener
         for (let i = 0; i < coll.length; i++) {
             coll[i].addEventListener("click", function() {
-
-                console.log("l")
-
                 this.classList.toggle("active-job");
                 var content = this.nextElementSibling;
                 if (content.style.maxHeight){
